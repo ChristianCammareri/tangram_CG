@@ -33,9 +33,9 @@ void main() {
 
 //Parameters for Camera
 var cx = 0.0;
-var cy = 0.0;
+var cy = -1.0;
 var cz = 2.0;
-var elevation = 0.0;
+var elevation = 30.0;
 var angle = 0.0;
 
 var lookRadius = 1.0;
@@ -58,11 +58,11 @@ function doMouseMove(event) {
 		var dx = event.pageX - lastMouseX;
 		var dy = lastMouseY - event.pageY;
 		lastMouseX = event.pageX;
-		lastMouseY = event.pageY;
+    lastMouseY = event.pageY;
 		
 		if((dx != 0) || (dy != 0)) {
-			angle = angle + 0.5 * dx;
-			elevation = elevation + 0.5 * dy;
+			cx = cx + dx/500;
+			cy = cy + dy/500;
 		}
 	}
 }
@@ -74,7 +74,7 @@ function doMouseWheel(event) {
 }
 
 function main() {
-  
+
   var program = null;
   var cubeNormalMatrix;
 
@@ -90,13 +90,13 @@ function main() {
               ];
   var directionalLightColor = [1.0, 1.0, 1.0];
 
-  cubeWorldMatrix[0] = utils.MakeWorld( 0.0, 0.0, 0.0, 0.0, 0.0, 225.0, 1.0); //blue
+  /*cubeWorldMatrix[0] = utils.MakeWorld( 0.0, 0.0, 0.0, 0.0, 0.0, 225.0, 1.0); //blue
   cubeWorldMatrix[1] = utils.MakeWorld( 0.0, 0.0, 0.0, 0.0, 0.0, 315.0, 1.0); //green
   cubeWorldMatrix[2] = utils.MakeWorld( 0.0, 0.0, 0.0, 0.0, 0.0, 45.0, 1.0); // yellow
   cubeWorldMatrix[3] = utils.MakeWorld( -Math.sqrt(2)/4, -Math.sqrt(2)/4, 0.0, 0.0, 0.0, 135.0, 1.0);  //pink
   cubeWorldMatrix[4] = utils.MakeWorld( Math.sqrt(2)/2, -Math.sqrt(2)/2, 0.0, 0.0, 0.0, 270.0, 1.0); //orange
   cubeWorldMatrix[5] = utils.MakeWorld(-Math.sqrt(2)/4, -Math.sqrt(2)/4, 0.0, 0.0, 0.0, 45.0, 1.0); //square
-  cubeWorldMatrix[6] = utils.MakeWorld(Math.sqrt(2)/4, Math.sqrt(2)/2, 0.0, 0.0, 0.0, 90.0, 1.0);
+  cubeWorldMatrix[6] = utils.MakeWorld(Math.sqrt(2)/4, Math.sqrt(2)/2, 0.0, 0.0, 0.0, 90.0, 1.0);*/
 
   var canvas = document.getElementById("c");
   
@@ -194,16 +194,17 @@ function main() {
 
   function drawScene() {
 
-    cz = lookRadius * Math.cos(utils.degToRad(-angle)) * Math.cos(utils.degToRad(-elevation));
+    /*cz = lookRadius * Math.cos(utils.degToRad(-angle)) * Math.cos(utils.degToRad(-elevation));
 	  cx = lookRadius * Math.sin(utils.degToRad(-angle)) * Math.cos(utils.degToRad(-elevation));
-	  cy = lookRadius * Math.sin(utils.degToRad(-elevation));
+	  cy = lookRadius * Math.sin(utils.degToRad(-elevation));*/
     viewMatrix = utils.MakeView(cx, cy, cz, elevation, -angle);
         
     var lightDirMatrix = utils.invertMatrix(utils.transposeMatrix(viewMatrix));//viewMatrix;
     var lightDirectionTransformed = utils.multiplyMatrix3Vector3(utils.sub3x3from4x4(lightDirMatrix),directionalLight);
     
       for(i = 0; i < 5; i++){
-      
+
+      cubeWorldMatrix[i] = utils.MakeWorld( initialSetup[i][0], initialSetup[i][1], 0.0, 0.0, 0.0, initialSetup[i][2], 1.0);
       var worldViewMatrix = utils.multiplyMatrices(viewMatrix, cubeWorldMatrix[i]);
       var projectionMatrix = utils.multiplyMatrices(perspectiveMatrix, worldViewMatrix);
 
@@ -230,6 +231,7 @@ function main() {
 
     for(i = 5; i < 7; i++){
       
+      cubeWorldMatrix[i] = utils.MakeWorld( initialSetup[i][0], initialSetup[i][1], 0.0, 0.0, 0.0, initialSetup[i][2], 1.0);
       var worldViewMatrix = utils.multiplyMatrices(viewMatrix, cubeWorldMatrix[i]);
       var projectionMatrix = utils.multiplyMatrices(perspectiveMatrix, worldViewMatrix);
 

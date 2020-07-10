@@ -1,11 +1,22 @@
-const initialSetupSA = [
-        [2, 2, 225.0],
-        [2, 2, 315.0],
-        [2, 2, 45.0],
-        [2, 2, 135.0],
-        [0, 0, 0.0],
+const houseSetup = [
+    [0.25, Math.sqrt(2), 135.0],
+    [0.0, 0.0, 315.0],
+    [-Math.sqrt(2)/4, Math.sqrt(2)/4, 225.0],
+    [-Math.sqrt(2)/4, Math.sqrt(2)/4, 135.0],
+    [Math.sqrt(2)/2, 0.0, 270.0],
+    [-0.25, Math.sqrt(2), 0.0],
+    [-0.25 -Math.sqrt(2)/8, 0.25+Math.sqrt(2)/2, 135.0] // non preciso
+];
+
+
+const swanSetup = [
         [0.0, 0, 45.0],
-        [2, 2, 90.0]
+        [Math.sqrt(2), 0, 225.0],
+        [Math.sqrt(2), 0, 315.0],
+        [-0.5, Math.sqrt(2)/8, 225.0],
+        [0, 0, 135.0],
+        [-0.5, 3*Math.sqrt(2)/8, 45.0],
+        [-0.5 + Math.sqrt(2)/8, 0.0, 90.0] //non preciso
     ];
 
 

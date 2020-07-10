@@ -62,7 +62,9 @@ function doMouseMove(event) {
 		
 		if((dx != 0) || (dy != 0)) {
 			cx = cx + dx/500;
-			cy = cy + dy/500;
+      cy = cy + dy/500;
+      /*angle += dx/2;
+      elevation += dy/2;*/
 		}
 	}
 }

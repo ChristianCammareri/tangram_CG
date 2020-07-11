@@ -19,7 +19,7 @@ var verticesTriangles = [
 	1.0, 0.0, 0.1, 
 	0.0, 1.0, 0.0, 
 	0.0, 1.0, 0.1
-	];
+];
 
 var normalsTriangles = [
 	0.0, 0.0, -1.0, 

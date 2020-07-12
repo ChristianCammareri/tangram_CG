@@ -81,6 +81,7 @@ let assetsData = [
             },
 
             locations: {
+                worldParams: [],
                 // Asset params
                 positionAttributeLocation: [],
                 normalsAttributeLocation: [],
@@ -177,6 +178,7 @@ let assetsData = [
             },
 
             locations: {
+                worldParams: [],
                 // Asset params
                 positionAttributeLocation: [],
                 normalsAttributeLocation: [],
@@ -273,6 +275,7 @@ let assetsData = [
             },
 
             locations: {
+                worldParams: [],
                 // Asset params
                 positionAttributeLocation: [],
                 normalsAttributeLocation: [],
@@ -369,6 +372,7 @@ let assetsData = [
             },
 
             locations: {
+                worldParams: [],
                 // Asset params
                 positionAttributeLocation: [],
                 normalsAttributeLocation: [],
@@ -465,6 +469,7 @@ let assetsData = [
             },
 
             locations: {
+                worldParams: [],
                 // Asset params
                 positionAttributeLocation: [],
                 normalsAttributeLocation: [],
@@ -570,6 +575,7 @@ let assetsData = [
             sigma: defaultSigma,
 
             locations: {
+                worldParams: [],
                 // Asset params
                 positionAttributeLocation: [],
                 normalsAttributeLocation: [],
@@ -689,6 +695,7 @@ let assetsData = [
             sigma: defaultSigma,
 
             locations: {
+                worldParams: [],
                 // Asset params
                 positionAttributeLocation: [],
                 normalsAttributeLocation: [],
@@ -738,6 +745,7 @@ let assetsData = [
             vao: [],
             ambientColor: [0.0, 0.12, 0.5, 1.0],
             locations: {
+                worldParams: [],
                 positionAttributeLocation: [],
                 wvpMatrixLocation: [],
                 ambientColorLocation: [],
@@ -757,6 +765,7 @@ let assetsData = [
             vao: [],
             ambientColor: [0.0, 0.12, 0.5, 1.0],
             locations: {
+                worldParams: [],
                 positionAttributeLocation: [],
                 wvpMatrixLocation: [],
                 ambientColorLocation: [],

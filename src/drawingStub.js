@@ -6,8 +6,8 @@ var mouseState = false;
 var lastMouseX = -100, lastMouseY = -100;
 
 function doMouseDown(event) {
-  console.log(assetsData[0].drawInfo.locations.worldMatrix);
-  checkIntersectionTriangle(event, assetsData, perspectiveMatrix, viewMatrix);
+  //console.log(assetsData[0].drawInfo.locations.worldMatrix);
+  //checkIntersectionTriangle(event, assetsData, perspectiveMatrix, viewMatrix);
 	lastMouseX = event.pageX;
 	lastMouseY = event.pageY;
 	mouseState = true;
@@ -223,7 +223,7 @@ function main() {
 
 
     //floor
-    var worldLocation = assetsData[7].drawInfo.locations.positionAttributeLocation;
+    var worldLocation = assetsData[7].drawInfo.locations.worldParams;
     objectsWorldMatrix[i] = utils.MakeWorld(worldLocation[0], worldLocation[1],  worldLocation[2], worldLocation[3], worldLocation[4], worldLocation[5], worldLocation[6]);
     assetsData[i].drawInfo.locations.worldMatrix = objectsWorldMatrix[i]; //TODO eliminare objects world matrix in futuro
 
@@ -254,12 +254,12 @@ function main() {
 }
 
 function initPosition(){
-  for(i= 0; i < assetsData.length-1; i++){ // TODO LAST ASSET IS THE FLOOR 
+  for(i= 0; i < assetsData.length-2; i++){ // TODO LAST ASSET IS THE FLOOR 
     var asset = assetsData[i];
-    asset.drawInfo.locations.positionAttributeLocation  = [setups[0].positionMatrix[i][0], setups[0].positionMatrix[i][1], 0.0, 0.0, 0.0, setups[0].positionMatrix[i][2], 1.0];
+    asset.drawInfo.locations.worldParams  = [setups[0].positionMatrix[i][0], setups[0].positionMatrix[i][1], 0.0, 0.0, 0.0, setups[0].positionMatrix[i][2], 1.0];
   }
 
-  assetsData[7].drawInfo.locations.positionAttributeLocation  = [0.0, 0.0, -0.1, 0.0, 0.0, 0.0, 1.0];
+  assetsData[7].drawInfo.locations.worldParams  = [0.0, 0.0, -0.1, 0.0, 0.0, 0.0, 1.0];
   
 
 

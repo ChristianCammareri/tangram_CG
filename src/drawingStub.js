@@ -56,14 +56,6 @@ function main() {
               ];
   var directionalLightColor = [1.0, 1.0, 1.0];
 
-  /*cubeWorldMatrix[0] = utils.MakeWorld( 0.0, 0.0, 0.0, 0.0, 0.0, 225.0, 1.0); //blue
-  cubeWorldMatrix[1] = utils.MakeWorld( 0.0, 0.0, 0.0, 0.0, 0.0, 315.0, 1.0); //green
-  cubeWorldMatrix[2] = utils.MakeWorld( 0.0, 0.0, 0.0, 0.0, 0.0, 45.0, 1.0); // yellow
-  cubeWorldMatrix[3] = utils.MakeWorld( -Math.sqrt(2)/4, -Math.sqrt(2)/4, 0.0, 0.0, 0.0, 135.0, 1.0);  //pink
-  cubeWorldMatrix[4] = utils.MakeWorld( Math.sqrt(2)/2, -Math.sqrt(2)/2, 0.0, 0.0, 0.0, 270.0, 1.0); //orange
-  cubeWorldMatrix[5] = utils.MakeWorld(-Math.sqrt(2)/4, -Math.sqrt(2)/4, 0.0, 0.0, 0.0, 45.0, 1.0); //square
-  cubeWorldMatrix[6] = utils.MakeWorld(Math.sqrt(2)/4, Math.sqrt(2)/2, 0.0, 0.0, 0.0, 90.0, 1.0);*/
-
   var canvas = document.getElementById("c");
   
 	canvas.addEventListener("mousedown", doMouseDown, false);
@@ -209,6 +201,7 @@ function main() {
 
       var worldViewMatrix = utils.multiplyMatrices(viewMatrix, objectsWorldMatrix[i]);
       var projectionMatrix = utils.multiplyMatrices(perspectiveMatrix, worldViewMatrix);
+      
 
       gl.uniformMatrix4fv(matrixLocation, gl.FALSE, utils.transposeMatrix(projectionMatrix));
       
@@ -228,6 +221,32 @@ function main() {
       gl.drawElements(gl.TRIANGLES, indicesTriangles.length, gl.UNSIGNED_SHORT, 0 );
     }
 
+
+    //floor
+    var worldLocation = assetsData[7].drawInfo.locations.positionAttributeLocation;
+    objectsWorldMatrix[i] = utils.MakeWorld(worldLocation[0], worldLocation[1],  worldLocation[2], worldLocation[3], worldLocation[4], worldLocation[5], worldLocation[6]);
+    assetsData[i].drawInfo.locations.worldMatrix = objectsWorldMatrix[i]; //TODO eliminare objects world matrix in futuro
+
+    var worldViewMatrix = utils.multiplyMatrices(viewMatrix, objectsWorldMatrix[i]);
+    var projectionMatrix = utils.multiplyMatrices(perspectiveMatrix, worldViewMatrix);
+
+    //stririamo sto quadratino
+    projectionMatrix = utils.multiplyMatrices(projectionMatrix, utils.MakeScaleNuMatrix(30.0, 15.0, 1.0));
+
+    gl.uniformMatrix4fv(matrixLocation, gl.FALSE, utils.transposeMatrix(projectionMatrix));
+    
+    var cubeNormalMatrix = utils.invertMatrix(utils.transposeMatrix(worldViewMatrix));
+    
+    gl.uniformMatrix4fv(normalMatrixPositionHandle, gl.FALSE, utils.transposeMatrix(cubeNormalMatrix));
+
+    gl.uniform3fv(materialDiffColorHandle, [0.27, 0.54, 0.15]);
+    gl.uniform3fv(lightColorHandle,  directionalLightColor);
+    gl.uniform3fv(lightDirectionHandle,  lightDirectionTransformed);
+
+    gl.bindVertexArray(vao1);
+  
+    gl.drawElements(gl.TRIANGLES, indicesTriangles.length, gl.UNSIGNED_SHORT, 0 );
+
     window.requestAnimationFrame(drawScene);
   }
 
@@ -237,8 +256,12 @@ function main() {
 function initPosition(){
   for(i= 0; i < assetsData.length-1; i++){ // TODO LAST ASSET IS THE FLOOR 
     var asset = assetsData[i];
-    asset.drawInfo.locations.positionAttributeLocation  = [initialSetup[i][0], initialSetup[i][1], 0.0, 0.0, 0.0, initialSetup[i][2], 1.0];
+    asset.drawInfo.locations.positionAttributeLocation  = [setups[0].positionMatrix[i][0], setups[0].positionMatrix[i][1], 0.0, 0.0, 0.0, setups[0].positionMatrix[i][2], 1.0];
   }
+
+  assetsData[7].drawInfo.locations.positionAttributeLocation  = [0.0, 0.0, -0.1, 0.0, 0.0, 0.0, 1.0];
+  
+
 
 
 }

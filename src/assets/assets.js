@@ -2,7 +2,8 @@ let AssetType = {
     FLOOR: 0,
     TRIANGLE: 1,
     SQUARE: 2,
-    PARALLELOGRAM: 3
+    PARALLELOGRAM: 3,
+    TRAY: 4
 }
 let defaultSigma = 0;
 let defaultG = 0;
@@ -63,7 +64,7 @@ let assetsData = [
                 16, 15, 14, 
                 15, 16, 17
             ],
-            textures: null
+            textures: []
         },
         drawInfo: {
             program: [],
@@ -724,22 +725,36 @@ let assetsData = [
     },
 
     {
-        type: AssetType.FLOOR,
-        defaultCords: {
-            y: -10,
-            s: 500,
-        },
+        name: "TRAY",
+        type: AssetType.TRAY,
         structInfo: {
-            vertices: [-0.1, 0, -0.1, -0.1, 0, +0.1, +0.1, 0, -0.1, +0.1, 0, +0.1],
-            normals: null,
-            indices: [0, 1, 2, 1, 2, 3],
+            vertices: [],
+            normals: [],
+            indices: [],
         },
         drawInfo: {
             program: [],
             bufferLength: 0,
             vao: [],
-            dayColor: [0.0, 0.18, 0.79, 1.0],
-            nightColor: [0.0, 0.09, 0.37, 1.0],
+            ambientColor: [0.0, 0.12, 0.5, 1.0],
+            locations: {
+                positionAttributeLocation: [],
+                wvpMatrixLocation: [],
+                ambientColorLocation: [],
+            },
+        }
+    },
+    {
+        type: AssetType.FLOOR,
+        structInfo: {
+            vertices: [],
+            normals: [],
+            indices: [],
+        },
+        drawInfo: {
+            program: [],
+            bufferLength: 0,
+            vao: [],
             ambientColor: [0.0, 0.12, 0.5, 1.0],
             locations: {
                 positionAttributeLocation: [],

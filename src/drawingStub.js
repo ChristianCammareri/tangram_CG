@@ -239,7 +239,7 @@ function main() {
     
     gl.uniformMatrix4fv(normalMatrixPositionHandle, gl.FALSE, utils.transposeMatrix(cubeNormalMatrix));
 
-    gl.uniform3fv(materialDiffColorHandle, [0.27, 0.44, 0.28]);
+    gl.uniform3fv(materialDiffColorHandle, [0.27, 0.54, 0.15]);
     gl.uniform3fv(lightColorHandle,  directionalLightColor);
     gl.uniform3fv(lightDirectionHandle,  lightDirectionTransformed);
 

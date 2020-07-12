@@ -8,7 +8,7 @@ const houseSetup = {
     [-0.25, Math.sqrt(2), 0.0],
     [-0.25 - Math.sqrt(2) / 8, 0.25 + Math.sqrt(2) / 2, 135.0] // non preciso
     ],
-    flippedParallelogram: false
+    flippedParallelogram: 0.0
 };
 
 
@@ -22,7 +22,7 @@ const swanSetup = {
         [-0.5, 3 * Math.sqrt(2) / 8, 45.0],
         [-0.5 + Math.sqrt(2) / 8, 0.0, 90.0] //non preciso
     ],
-    flippedParallelogram: false
+    flippedParallelogram: 0.0
 };
 
 
@@ -37,5 +37,5 @@ const initialSetup = {
         [0.0, -Math.sqrt(2) / 4, 45.0],
         [3 * Math.sqrt(2) / 8, Math.sqrt(2) / 8, 90.0]
     ],
-    flippedParallelogram: false
+    flippedParallelogram: 0.0
 };

@@ -1,6 +1,15 @@
-function checkSolution(utentMatrix, solutionMatrix) {
+function checkSolution(solutionSetup) {
 
     var error = 0.1;
+    var utentMatrix;
+    var solutionMatrix = solutionSetup.positionMatrix;
+
+    for (i = 0; i < assetsData.length; i++) {
+
+        utentMatrix[i] = assetsData[i].drawInfo.locations.positionAttributeLocation;
+    }
+
+
 
     var deltaTranX = utentMatrix[4][0] - solutionMatrix[4][0];
     var deltaTranY = utentMatrix[4][1] - solutionMatrix[4][1];
@@ -12,14 +21,19 @@ function checkSolution(utentMatrix, solutionMatrix) {
         utentMatrix[i][0] -= solutionMatrix[i][0];
         utentMatrix[i][1] -= solutionMatrix[i][1];
 
-        utentMatrix[i][2] %= 360;
+        utentMatrix[i][5] %= 360;
+
+        if (i < 6 && utentMatrix[i][3] == 180.0)
+            utentMatrix[i][5] += 180.0;
+        utentMatrix[i][5] %= 360;
+
 
     }
 
-    utentMatrix[5][2] %= 90;
+    utentMatrix[5][5] %= 90;
     solutionMatrix[5][2] %= 90;
 
-    utentMatrix[6][2] %= 180;
+    utentMatrix[6][5] %= 180;
     solutionMatrix[6][2] %= 180;
 
 
@@ -28,7 +42,8 @@ function checkSolution(utentMatrix, solutionMatrix) {
         checkTwoTriangles(utentMatrix[2], utentMatrix[3], 2) &&
         checkSingle(utentMatrix[4]) &&
         checkSingle(utentMatrix[5]) &&
-        checkSingle(utentMatrix[6]);
+        checkSingle(utentMatrix[6]) &&
+        (utentMatrix[6][3] == solutionMatrix.flippedParallelogram);
 
 
 

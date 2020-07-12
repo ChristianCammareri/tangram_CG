@@ -256,7 +256,7 @@ function main() {
 function initPosition(){
   for(i= 0; i < assetsData.length-1; i++){ // TODO LAST ASSET IS THE FLOOR 
     var asset = assetsData[i];
-    asset.drawInfo.locations.positionAttributeLocation  = [initialSetup.positionMatrix[i][0], initialSetup.positionMatrix[i][1], 0.0, 0.0, 0.0, initialSetup.positionMatrix[i][2], 1.0];
+    asset.drawInfo.locations.positionAttributeLocation  = [setups[0].positionMatrix[i][0], setups[0].positionMatrix[i][1], 0.0, 0.0, 0.0, setups[0].positionMatrix[i][2], 1.0];
   }
 
   assetsData[7].drawInfo.locations.positionAttributeLocation  = [0.0, 0.0, -0.1, 0.0, 0.0, 0.0, 1.0];

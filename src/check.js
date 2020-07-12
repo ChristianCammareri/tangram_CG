@@ -1,8 +1,8 @@
-function checkSolution(solutionSetup) {
+function checkSolution(idSetup) {
 
     var error = 0.1;
     var utentMatrix;
-    var solutionMatrix = solutionSetup.positionMatrix;
+    var solutionMatrix = setups[idSetup].positionMatrix;
 
     for (i = 0; i < assetsData.length; i++) {
 

@@ -1,7 +1,7 @@
 
 var perspectiveMatrix = [];
 var viewMatrix = [];
-var objectsWorldMatrix = new Array(7);
+
 var mouseState = false;
 var lastMouseX = -100, lastMouseY = -100;
 
@@ -41,11 +41,6 @@ function doMouseWheel(event) {
 
 function main() {
 
-  var program = null;
-  var cubeNormalMatrix;
-
-  //One world matrix for each cube...
-
   //define directional light
   var dirLightAlpha = -utils.degToRad(60);
   var dirLightBeta = -utils.degToRad(120);
@@ -56,73 +51,25 @@ function main() {
   ];
   var directionalLightColor = [1.0, 1.0, 1.0];
 
-  var canvas = document.getElementById("c");
+  var canvas = getCanvas();
 
   canvas.addEventListener("mousedown", doMouseDown, false);
   canvas.addEventListener("mouseup", doMouseUp, false);
   canvas.addEventListener("mousemove", doMouseMove, false);
   canvas.addEventListener("mousewheel", doMouseWheel, false);
+
   gl = canvas.getContext("webgl2");
-  if (!gl) {
-    document.write("GL context not opened");
-    return;
-  }
-
-  utils.resizeCanvasToDisplaySize(gl.canvas);
-  //window.addEventListener("resize", utils.resizeCanvasToDisplaySize(gl.canvas));
-
-  gl.viewport(0, 0, gl.canvas.width, gl.canvas.height);
-  gl.clearColor(0.85, 0.85, 0.85, 1.0);
-  gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
-  gl.enable(gl.DEPTH_TEST);
-  var program;
-  utils.loadFiles([shadersPath.vs, shadersPath.fs], function (shaderText) {
-    var vertexShader = utils.createShader(gl, gl.VERTEX_SHADER, shaderText[0]);
-    var fragmentShader = utils.createShader(gl, gl.FRAGMENT_SHADER, shaderText[1]);
-    program = utils.createProgram(gl, vertexShader, fragmentShader);
-  });
-  gl.useProgram(program);
-
-
-  var positionAttributeLocation = gl.getAttribLocation(program, "inPosition");
-  var normalAttributeLocation = gl.getAttribLocation(program, "inNormal");
-  var matrixLocation = gl.getUniformLocation(program, "matrix");
-  var materialDiffColorHandle = gl.getUniformLocation(program, 'mDiffColor');
-  var lightDirectionHandle = gl.getUniformLocation(program, 'lightDirection');
-  var lightColorHandle = gl.getUniformLocation(program, 'lightColor');
-  var normalMatrixPositionHandle = gl.getUniformLocation(program, 'nMatrix');
 
   perspectiveMatrix = utils.MakePerspective(90, gl.canvas.width / gl.canvas.height, 0.1, 100.0);
 
-  var vao = new Array(8);
+  var locations = initializeYourProgram(gl);
 
-  for (i = 0; i < assetsData.length; i++) {
-
-    vao[i] = gl.createVertexArray();
-    gl.bindVertexArray(vao[i]);
-
-    gl.bindBuffer(gl.ARRAY_BUFFER, gl.createBuffer());
-    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(assetsData[i].structInfo.vertices), gl.STATIC_DRAW);
-    gl.enableVertexAttribArray(positionAttributeLocation);
-    gl.vertexAttribPointer(positionAttributeLocation, 3, gl.FLOAT, false, 0, 0);
-
-
-    gl.bindBuffer(gl.ARRAY_BUFFER, gl.createBuffer());
-    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(assetsData[i].structInfo.normals), gl.STATIC_DRAW);
-    gl.enableVertexAttribArray(normalAttributeLocation);
-    gl.vertexAttribPointer(normalAttributeLocation, 3, gl.FLOAT, false, 0, 0);
-
-
-    gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, gl.createBuffer());
-    gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(assetsData[i].structInfo.indices), gl.STATIC_DRAW);
-
-  }
-
-  initPosition(); // inizializza la le word matrix 
+  initPosition(); 
   drawScene();
 
   function drawScene() {
 
+    
     /*cz = lookRadius * Math.cos(utils.degToRad(-angle)) * Math.cos(utils.degToRad(-elevation));
 	  cx = lookRadius * Math.sin(utils.degToRad(-angle)) * Math.cos(utils.degToRad(-elevation));
 	  cy = lookRadius * Math.sin(utils.degToRad(-elevation));*/
@@ -134,23 +81,21 @@ function main() {
     for (i = 0; i < assetsData.length; i++) {
       
       var worldLocation = assetsData[i].drawInfo.locations.worldParams;
-      objectsWorldMatrix[i] = utils.MakeWorld(worldLocation[0], worldLocation[1], worldLocation[2], worldLocation[3], worldLocation[4], worldLocation[5], worldLocation[6]);
-      assetsData[i].drawInfo.locations.worldMatrix = objectsWorldMatrix[i]; //TODO eliminare objects world matrix in futuro
+      assetsData[i].drawInfo.locations.worldMatrix = utils.MakeWorld(worldLocation[0], worldLocation[1], worldLocation[2], worldLocation[3], worldLocation[4], worldLocation[5], worldLocation[6]); //TODO eliminare objects world matrix in futuro
 
-      var worldViewMatrix = utils.multiplyMatrices(viewMatrix, objectsWorldMatrix[i]);
+      var worldViewMatrix = utils.multiplyMatrices(viewMatrix, assetsData[i].drawInfo.locations.worldMatrix);
       var projectionMatrix = utils.multiplyMatrices(perspectiveMatrix, worldViewMatrix);
 
-      gl.uniformMatrix4fv(matrixLocation, gl.FALSE, utils.transposeMatrix(projectionMatrix));
-
       var cubeNormalMatrix = utils.invertMatrix(utils.transposeMatrix(worldViewMatrix));
+      
+      gl.uniformMatrix4fv(locations.matrixLocation, gl.FALSE, utils.transposeMatrix(projectionMatrix));
+      gl.uniformMatrix4fv(locations.normalMatrixPositionHandle, gl.FALSE, utils.transposeMatrix(cubeNormalMatrix));
 
-      gl.uniformMatrix4fv(normalMatrixPositionHandle, gl.FALSE, utils.transposeMatrix(cubeNormalMatrix));
+      gl.uniform3fv(locations.materialDiffColorHandle, (colors[i]));
+      gl.uniform3fv(locations.lightColorHandle, directionalLightColor);
+      gl.uniform3fv(locations.lightDirectionHandle, lightDirectionTransformed);
 
-      gl.uniform3fv(materialDiffColorHandle, (colors[i]));
-      gl.uniform3fv(lightColorHandle, directionalLightColor);
-      gl.uniform3fv(lightDirectionHandle, lightDirectionTransformed);
-
-      gl.bindVertexArray(vao[i]);
+      gl.bindVertexArray(assetsData[i].drawInfo.vao);
       gl.drawElements(gl.TRIANGLES, assetsData[i].structInfo.indices.length, gl.UNSIGNED_SHORT, 0);
     }
 
@@ -159,21 +104,6 @@ function main() {
 
 
 }
-
-function initPosition() {
-  for (i = 0; i < assetsData.length - 1; i++) { // TODO LAST ASSET IS THE FLOOR 
-    var asset = assetsData[i];
-    asset.drawInfo.locations.worldParams = [setups[0].positionMatrix[i][0], setups[0].positionMatrix[i][1], 0.0, 0.0, 0.0, setups[0].positionMatrix[i][2], 1.0];
-  }
-
-  assetsData[7].drawInfo.locations.worldParams = [0.0, 0.0, -0.1, 0.0, 0.0, 0.0, 1.0];
-
-
-
-
-}
-
-
 
 window.onload = main;
 

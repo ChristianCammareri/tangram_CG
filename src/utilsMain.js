@@ -49,11 +49,14 @@ function getAttributeAndUniformLocation(gl, program) {
 
     var positionAttributeLocation = gl.getAttribLocation(program, "inPosition");
     var normalAttributeLocation = gl.getAttribLocation(program, "inNormal");
+
     var matrixLocation = gl.getUniformLocation(program, "matrix");
+    var normalMatrixPositionHandle = gl.getUniformLocation(program, 'nMatrix');
+    var vertexMatrixPositionHandle = gl.getUniformLocation(program, 'pMatrix');
+    
     var materialDiffColorHandle = gl.getUniformLocation(program, 'mDiffColor');
     var lightDirectionHandle = gl.getUniformLocation(program, 'lightDirection');
     var lightColorHandle = gl.getUniformLocation(program, 'lightColor');
-    var normalMatrixPositionHandle = gl.getUniformLocation(program, 'nMatrix');
 
     return {
         "positionAttributeLocation": positionAttributeLocation,
@@ -62,7 +65,8 @@ function getAttributeAndUniformLocation(gl, program) {
         "materialDiffColorHandle": materialDiffColorHandle,
         "lightDirectionHandle": lightDirectionHandle,
         "lightColorHandle": lightColorHandle,
-        "normalMatrixPositionHandle": normalMatrixPositionHandle
+        "normalMatrixPositionHandle": normalMatrixPositionHandle,
+        "vertexMatrixPositionHandle": vertexMatrixPositionHandle
     }
 
 }

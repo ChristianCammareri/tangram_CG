@@ -1,4 +1,3 @@
-
 var perspectiveMatrix = [];
 var viewMatrix = [];
 
@@ -49,7 +48,7 @@ function main() {
   Math.sin(dirLightAlpha),
   Math.cos(dirLightAlpha) * Math.sin(dirLightBeta)
   ];
-  var directionalLightColor = [1.0, 1.0, 1.0];
+  var directionalLightColor = [2.0, 2.0, 2.0];
 
   var canvas = getCanvas();
 
@@ -73,9 +72,10 @@ function main() {
     /*cz = lookRadius * Math.cos(utils.degToRad(-angle)) * Math.cos(utils.degToRad(-elevation));
 	  cx = lookRadius * Math.sin(utils.degToRad(-angle)) * Math.cos(utils.degToRad(-elevation));
 	  cy = lookRadius * Math.sin(utils.degToRad(-elevation));*/
-    viewMatrix = utils.MakeView(cx, cy, cz, elevation, -angle);
+    viewMatrix = utils.MakeView(cx, cy, cz, elevation, angle);
 
-    var lightDirMatrix = utils.invertMatrix(utils.transposeMatrix(viewMatrix));//viewMatrix;
+    var lightDirMatrix = utils.invertMatrix(utils.transposeMatrix(viewMatrix));
+
     var lightDirectionTransformed = utils.multiplyMatrix3Vector3(utils.sub3x3from4x4(lightDirMatrix), directionalLight);
 
     for (i = 0; i < assetsData.length; i++) {
@@ -88,15 +88,19 @@ function main() {
 
       var cubeNormalMatrix = utils.invertMatrix(utils.transposeMatrix(worldViewMatrix));
       
+
       gl.uniformMatrix4fv(locations.matrixLocation, gl.FALSE, utils.transposeMatrix(projectionMatrix));
       gl.uniformMatrix4fv(locations.normalMatrixPositionHandle, gl.FALSE, utils.transposeMatrix(cubeNormalMatrix));
+      gl.uniformMatrix4fv(locations.vertexMatrixPositionHandle, gl.FALSE, utils.transposeMatrix(assetsData[i].drawInfo.locations.worldMatrix));
 
       gl.uniform3fv(locations.materialDiffColorHandle, (colors[i]));
       gl.uniform3fv(locations.lightColorHandle, directionalLightColor);
       gl.uniform3fv(locations.lightDirectionHandle, lightDirectionTransformed);
 
+
       gl.bindVertexArray(assetsData[i].drawInfo.vao);
       gl.drawElements(gl.TRIANGLES, assetsData[i].structInfo.indices.length, gl.UNSIGNED_SHORT, 0);
+    
     }
 
     window.requestAnimationFrame(drawScene);

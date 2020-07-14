@@ -566,7 +566,7 @@ createProgram:function(gl, vertexShader, fragmentShader) {
 
 		T =  this.MakeTranslateMatrix(-cx, -cy, -cz);
 		Rx = this.MakeRotateXMatrix(-elev);
-		Ry = this.MakeRotateYMatrix(-ang);
+		Ry = this.MakeRotateZMatrix(-ang);
 
 		tmp = this.multiplyMatrices(Ry, T);
 		out = this.multiplyMatrices(Rx, tmp);

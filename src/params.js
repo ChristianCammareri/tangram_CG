@@ -13,3 +13,5 @@ var shadersPath = {
     vs: "/src/shaders/vs.glsl",
     fs: "/src/shaders/fs.glsl"
 }
+
+var keys = [];

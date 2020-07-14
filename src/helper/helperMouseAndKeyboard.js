@@ -88,22 +88,25 @@ var keyFunctionDown = function (e) {
         break;
 
       case 70: //F
-        if (selectedItem >= 0 && selectedItem < 7) {
+        if (selectedItem >= 0 && selectedItem < 6) {
 
           assetsData[selectedItem].drawInfo.locations.worldParams[3] += 180.0;
           assetsData[selectedItem].drawInfo.locations.worldParams[4] += 180.0;
-        }
+        } else if (selectedItem == 6)
+
+          assetsData[selectedItem].drawInfo.locations.worldParams[4] -= 180.0;
         else
           elevation += 1.0;
         break;
 
       case 71: //G
-      console.log("dentro g");
-        if (selectedItem >= 0 && selectedItem < 7) {
+        if (selectedItem >= 0 && selectedItem < 6) {
 
           assetsData[selectedItem].drawInfo.locations.worldParams[3] -= 180.0;
           assetsData[selectedItem].drawInfo.locations.worldParams[4] -= 180.0;
-        }
+        } else if (selectedItem == 6)
+
+          assetsData[selectedItem].drawInfo.locations.worldParams[4] -= 180.0;
         else
           elevation -= 1.0;
         break;
@@ -115,15 +118,27 @@ var keyFunctionDown = function (e) {
       case 53:
       case 54:
       case 55:
-      case 56:
-        if (selectedItem >= 0 && selectedItem < 7)
-          assetsData[selectedItem].drawInfo.locations.worldParams[2] -= 0.1;
-        selectedItem = e.keyCode - 49;
-        if (selectedItem >= 0 && selectedItem < 7)
-          assetsData[selectedItem].drawInfo.locations.worldParams[2] += 0.1;
+        if (selectedItem == e.keyCode - 49){
 
+          assetsData[selectedItem].drawInfo.locations.worldParams[2] -= 0.1;
+          selectedItem = -1;
+        }
+        else {
+          if (selectedItem >= 0 && selectedItem < 7)
+            assetsData[selectedItem].drawInfo.locations.worldParams[2] -= 0.1;
+          selectedItem = e.keyCode - 49;
+          if (selectedItem >= 0 && selectedItem < 7)
+            assetsData[selectedItem].drawInfo.locations.worldParams[2] += 0.1;
+        }
         break;
 
+        case 67: //C
+          console.log(checkSolution);
+          break
+
+        case 80: //P
+        for (i = 0; i < assetsData.length - 1; i++)
+        console.log(i+"_" + assetsData[i].drawInfo.locations.worldParams);
 
 
 

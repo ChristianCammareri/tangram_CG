@@ -109,7 +109,7 @@ function initPosition() {
     for (i = 0; i < assetsData.length - 1; i++)
         assetsData[i].drawInfo.locations.worldParams = [setups[0].positionMatrix[i][0], setups[0].positionMatrix[i][1], 0.0, 0.0, 0.0, setups[0].positionMatrix[i][2], 1.0];
 
-    assetsData[7].drawInfo.locations.worldParams = [0.0, 0.0, -0.1, 0.0, 0.0, 0.0, 1.0];
+    assetsData[7].drawInfo.locations.worldParams = [0.0, 0.0, -0.15, 0.0, 0.0, 0.0, 1.0];
 
 }
 

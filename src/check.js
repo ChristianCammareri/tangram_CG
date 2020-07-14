@@ -43,7 +43,7 @@ function checkSolution(idSetup) {
         checkSingle(utentMatrix[4]) &&
         checkSingle(utentMatrix[5]) &&
         checkSingle(utentMatrix[6]) &&
-        (utentMatrix[6][3] == solutionMatrix.flippedParallelogram);
+        (utentMatrix[6][4] == solutionMatrix.flippedParallelogram);
 
 
 

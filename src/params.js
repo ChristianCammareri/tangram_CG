@@ -15,4 +15,4 @@ var shadersPath = {
 }
 
 var keys = [];
-var selectedItem = 7;
+var selectedItem = -1;

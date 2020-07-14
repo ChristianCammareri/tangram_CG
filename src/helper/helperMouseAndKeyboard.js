@@ -23,16 +23,11 @@ function doMouseMove(event) {
     if ((dx != 0) || (dy != 0)) {
       cx = cx + dx / 500;
       cy = cy + dy / 500;
-      /*angle += dx/2;
-      elevation += dy/2;*/
     }
   }
 }
 function doMouseWheel(event) {
-  var nLookRadius = lookRadius + event.wheelDelta / 200.0;
-  if ((nLookRadius > 2.0) && (nLookRadius < 100.0)) {
-    lookRadius = nLookRadius;
-  }
+  cz += event.wheelDelta / 1200.0;
 }
 
 var keyFunctionDown = function (e) {

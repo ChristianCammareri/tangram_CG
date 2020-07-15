@@ -53,18 +53,34 @@ function getAttributeAndUniformLocation(gl, program) {
     var matrixLocation = gl.getUniformLocation(program, "matrix");
     var normalMatrixPositionHandle = gl.getUniformLocation(program, 'nMatrix');
     var vertexMatrixPositionHandle = gl.getUniformLocation(program, 'pMatrix');
-    
-    var materialDiffColorHandle = gl.getUniformLocation(program, 'mDiffColor');
+
+    var materialColorHandle = gl.getUniformLocation(program, 'materialColor');
+    var specularColorHandle = gl.getUniformLocation(program, 'specularColor');
+
     var lightDirectionHandle = gl.getUniformLocation(program, 'lightDirection');
+    var lightPositionHandle = gl.getUniformLocation(program, 'lightPosition');
     var lightColorHandle = gl.getUniformLocation(program, 'lightColor');
+
+    var decayHandle = gl.getUniformLocation(program, 'decay');
+    var targetHandle = gl.getUniformLocation(program, 'target');
+    var specShine = gl.getUniformLocation(program, 'specShine');
 
     return {
         "positionAttributeLocation": positionAttributeLocation,
         "normalAttributeLocation": normalAttributeLocation,
         "matrixLocation": matrixLocation,
-        "materialDiffColorHandle": materialDiffColorHandle,
+
+        "materialColorHandle": materialColorHandle,
+        "specularColorHandle": specularColorHandle,
         "lightDirectionHandle": lightDirectionHandle,
         "lightColorHandle": lightColorHandle,
+        "lightPositionHandle": lightPositionHandle,
+
+        "decayHandle": decayHandle,
+        "targetHandle": targetHandle,
+        "specShine": specShine,
+
+
         "normalMatrixPositionHandle": normalMatrixPositionHandle,
         "vertexMatrixPositionHandle": vertexMatrixPositionHandle
     }
@@ -109,7 +125,7 @@ function initPosition() {
     for (i = 0; i < assetsData.length - 1; i++)
         assetsData[i].drawInfo.locations.worldParams = [setups[0].positionMatrix[i][0], setups[0].positionMatrix[i][1], 0.0, 0.0, 0.0, setups[0].positionMatrix[i][2], 1.0];
 
-    assetsData[7].drawInfo.locations.worldParams = [0.0, 0.0, -0.15, 0.0, 0.0, 0.0, 1.0];
+    assetsData[i].drawInfo.locations.worldParams = [0.0, 0.0, -0.15, 0.0, 0.0, 0.0, 1.0];
 
 }
 

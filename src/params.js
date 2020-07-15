@@ -8,6 +8,11 @@ var angle = 0.0;
 
 var lookRadius = 1.0;
 
+var perspectiveMatrix = [];
+var viewMatrix = [];
+
+
+
 
 var shadersPath = {
     vs: "/src/shaders/vs.glsl",
@@ -17,3 +22,15 @@ var shadersPath = {
 var keys = [];
 var selectedItem = -1;
 var selectedSetup = 0;
+
+
+ //define directional light
+ var dirLightAlpha = -utils.degToRad(60);
+ var dirLightBeta = -utils.degToRad(120);
+
+ var directionalLight = [Math.cos(dirLightAlpha) * Math.cos(dirLightBeta),
+ Math.sin(dirLightAlpha),
+ Math.cos(dirLightAlpha) * Math.sin(dirLightBeta)
+ ];
+ var directionalLightColor = [2.0, 2.0, 2.0];
+ var positionLight = [5.0, 5.0, 5.0];

@@ -7,7 +7,9 @@ let AssetType = {
 }
 let defaultSigma = 0;
 let defaultG = 0;
-let defaultDecay = 0;
+let defaultDecay = 1;
+
+let defaultSpecShine = 100;
 
 let assetsData = [
     {
@@ -70,8 +72,8 @@ let assetsData = [
             program: [],
             bufferLength: 0,
             vao: [],
-            ambientColor: [0.97, 0.89, 0.05, 1.0],
-            emissionColor: [0.97, 0.89, 0.05, 1.0],
+            ambientColor: [0.0, 0.0, 1.0],
+            emissionColor: [0.0, 0.0, 1.0],
             sigma: defaultSigma,
 
             lightInfo: {
@@ -167,8 +169,8 @@ let assetsData = [
             program: [],
             bufferLength: 0,
             vao: [],
-            ambientColor: [0.97, 0.89, 0.05, 1.0],
-            emissionColor: [0.97, 0.89, 0.05, 1.0],
+            ambientColor: [0.0, 1.0, 0.0],
+            emissionColor: [0.0, 1.0, 0.0],
             sigma: defaultSigma,
 
             lightInfo: {
@@ -264,8 +266,8 @@ let assetsData = [
             program: [],
             bufferLength: 0,
             vao: [],
-            ambientColor: [0.97, 0.89, 0.05, 1.0],
-            emissionColor: [0.97, 0.89, 0.05, 1.0],
+            ambientColor: [1.0, 1.0, 0.0],
+            emissionColor: [1.0, 1.0, 0.0],
             sigma: defaultSigma,
 
             lightInfo: {
@@ -361,8 +363,8 @@ let assetsData = [
             program: [],
             bufferLength: 0,
             vao: [],
-            ambientColor: [0.97, 0.89, 0.05, 1.0],
-            emissionColor: [0.97, 0.89, 0.05, 1.0],
+            ambientColor: [1.0, 192.0 / 255, 203.0 / 255],
+            emissionColor: [1.0, 192.0 / 255, 203.0 / 255],
             sigma: defaultSigma,
 
             lightInfo: {
@@ -458,8 +460,8 @@ let assetsData = [
             program: [],
             bufferLength: 0,
             vao: [],
-            ambientColor: [0.97, 0.89, 0.05, 1.0],
-            emissionColor: [0.97, 0.89, 0.05, 1.0],
+            ambientColor: [1.0, 0.0, 0.0],
+            emissionColor: [1.0, 0.0, 0.0],
             sigma: defaultSigma,
 
             lightInfo: {
@@ -572,7 +574,15 @@ let assetsData = [
             program: [],
             bufferLength: 0,
             vao: [],
+            ambientColor: [128.0 / 255, 0.0, 128.0 / 255],
+            emissionColor: [128.0 / 255, 0.0, 128.0 / 255],
             sigma: defaultSigma,
+
+            lightInfo: {
+                color: [0.9, 0.9, 0.9, 1.0],
+                g: defaultG,
+                decay: defaultDecay
+            },
 
             locations: {
                 worldParams: [],
@@ -692,7 +702,15 @@ let assetsData = [
             program: [],
             bufferLength: 0,
             vao: [],
+            ambientColor: [1.0, 165.0 / 255, 0.0],
+            emissionColor: [1.0, 165.0 / 255, 0.0],
             sigma: defaultSigma,
+
+            lightInfo: {
+                color: [0.9, 0.9, 0.9, 1.0],
+                g: defaultG,
+                decay: defaultDecay
+            },
 
             locations: {
                 worldParams: [],
@@ -728,7 +746,6 @@ let assetsData = [
                 eyePosLocation: []
             }
         },
-
     },
 
     /*{
@@ -824,13 +841,49 @@ let assetsData = [
             program: [],
             bufferLength: 0,
             vao: [],
-            ambientColor: [0.0, 0.12, 0.5, 1.0],
+            ambientColor: [0.27, 0.54, 0.15],
+            emissionColor: [0.27, 0.54, 0.15],
+            sigma: defaultSigma,
+
+            lightInfo: {
+                color: [0.9, 0.9, 0.9, 1.0],
+                g: defaultG,
+                decay: defaultDecay
+            }
+            ,
             locations: {
                 worldParams: [],
+                // Asset params
                 positionAttributeLocation: [],
+                normalsAttributeLocation: [],
+                uvAttributeLocation: [],
                 wvpMatrixLocation: [],
-                ambientColorLocation: [],
-            },
+                worldMatrix: [],
+                rotation: 0,
+                // Object params
+                textureLocation: [],
+
+                // Lights params
+                isDayLocation: [],
+                directLightDirectionLocation: [],
+                directLightColorLocation: [],
+                ambientLightLocation: [],
+                lightTargetLocation: [],
+                lightDecayLocation: [],
+                lightColorLocation: [],
+                lightPositionLocation: [],
+
+                // Raycasting params
+                electronRadiusLocation: [],
+                rayCastingLocation: [],
+
+                // BRDF
+                diffuseModeLocation: [],
+                specularModeLocation: [],
+                specShineLocation: [],
+                sigmaLocation: [],
+                eyePosLocation: []
+            }
         }
     }
 ]

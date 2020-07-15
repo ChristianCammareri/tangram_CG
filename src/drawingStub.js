@@ -1,18 +1,4 @@
-var perspectiveMatrix = [];
-var viewMatrix = [];
-
-
 function main() {
-
-  //define directional light
-  var dirLightAlpha = -utils.degToRad(60);
-  var dirLightBeta = -utils.degToRad(120);
-
-  var directionalLight = [Math.cos(dirLightAlpha) * Math.cos(dirLightBeta),
-  Math.sin(dirLightAlpha),
-  Math.cos(dirLightAlpha) * Math.sin(dirLightBeta)
-  ];
-  var directionalLightColor = [2.0, 2.0, 2.0];
 
   var canvas = getCanvas();
 
@@ -55,9 +41,16 @@ function main() {
       gl.uniformMatrix4fv(locations.normalMatrixPositionHandle, gl.FALSE, utils.transposeMatrix(cubeNormalMatrix));
       gl.uniformMatrix4fv(locations.vertexMatrixPositionHandle, gl.FALSE, utils.transposeMatrix(assetsData[i].drawInfo.locations.worldMatrix));
 
-      gl.uniform3fv(locations.materialDiffColorHandle, (colors[i]));
+      gl.uniform3fv(locations.materialColorHandle, assetsData[i].drawInfo.ambientColor);
+      gl.uniform3fv(locations.specularColorHandle, [1.0, 1.0, 1.0]);
+
+      gl.uniform3fv(locations.lightPositionHandle, positionLight);
       gl.uniform3fv(locations.lightColorHandle, directionalLightColor);
       gl.uniform3fv(locations.lightDirectionHandle, lightDirectionTransformed);
+
+      gl.uniform1f(locations.decayHandle, defaultDecay);
+      gl.uniform1f(locations.targetHandle, defaultG);
+      gl.uniform1f(locations.specShine, defaultSpecShine);
 
 
       gl.bindVertexArray(assetsData[i].drawInfo.vao);
@@ -71,9 +64,4 @@ function main() {
 
 }
 
-
-
-
-
 window.onload = main;
-

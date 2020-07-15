@@ -14,13 +14,13 @@ const setups = [
         name: "initialSetup"
     },
     {
-        positionMatrix: [[0.25, Math.sqrt(2), 135.0],
-        [0.0, 0.0, 315.0],
-        [-Math.sqrt(2) / 4, Math.sqrt(2) / 4, 225.0],
-        [-Math.sqrt(2) / 4, Math.sqrt(2) / 4, 135.0],
-        [Math.sqrt(2) / 2, 0.0, 270.0],
-        [-0.25, Math.sqrt(2), 0.0],
-        [-0.25 - Math.sqrt(2) / 8, 0.25 + Math.sqrt(2) / 2, 135.0] // non preciso
+        positionMatrix: [[0.0, -Math.sqrt(2) / 6, 315.0],
+        [0.25, Math.sqrt(2) / 6, 135.0],
+        [-5*Math.sqrt(2)/12, -Math.sqrt(2) / 4, 225.0],
+        [-Math.sqrt(2) / 4, -5*Math.sqrt(2) / 12, 135.0],
+        [Math.sqrt(2) / 3, -Math.sqrt(2) / 3, 270.0],
+        [-Math.sqrt(2) / 3 + 0.25, Math.sqrt(2) /2, 0.0],
+        [-Math.sqrt(2)/2 + 0.25, Math.sqrt(2) / 6, 135.0] // non preciso
         ],
         flippedParallelogram: 0.0,
         name: "houseSetup"

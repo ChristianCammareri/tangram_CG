@@ -64,18 +64,18 @@ var keyFunctionDown = function (e) {
         break;
 
       case 81: //Q
-        if (selectedItem == 7)
+        if (selectedItem == -1)
           cz += 0.05;
         break;
 
       case 69: //E
-        if (selectedItem == 7)
+        if (selectedItem == -1)
           cz -= 0.05;
         break;
 
       case 82: //R
         if (selectedItem >= 0 && selectedItem < 7)
-          assetsData[selectedItem].drawInfo.locations.worldParams[5] -= 45.0;
+          assetsData[selectedItem].drawInfo.locations.worldParams[5] += 45.0;
         else
           angle += 1.0;
         break;
@@ -118,7 +118,7 @@ var keyFunctionDown = function (e) {
       case 53:
       case 54:
       case 55:
-        if (selectedItem == e.keyCode - 49){
+        if (selectedItem == e.keyCode - 49) {
 
           assetsData[selectedItem].drawInfo.locations.worldParams[2] -= 0.1;
           selectedItem = -1;
@@ -132,13 +132,19 @@ var keyFunctionDown = function (e) {
         }
         break;
 
-        case 67: //C
-          console.log(checkSolution);
-          break
+      case 67: //C
+        var correct = checkSolution(selectedSetup);
+        console.log(correct);
+        break
 
-        case 80: //P
+      case 80: //P
         for (i = 0; i < assetsData.length - 1; i++)
-        console.log(i+"_" + assetsData[i].drawInfo.locations.worldParams);
+          console.log(i + "_" + assetsData[i].drawInfo.locations.worldParams);
+        break;
+
+      case 32: //space
+        initPosition();
+        break;
 
 
 

@@ -134,7 +134,10 @@ var keyFunctionDown = function (e) {
 
       case 67: //C
         var correct = checkSolution(selectedSetup);
-        console.log(correct);
+        if(correct)
+            window.alert("Incredibileeee! Rete! Che gol!");
+        else
+          window.alert("Prova il check... non va!");
         break
 
       case 80: //P

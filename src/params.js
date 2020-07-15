@@ -33,4 +33,4 @@ var selectedSetup = 0;
  Math.cos(dirLightAlpha) * Math.sin(dirLightBeta)
  ];
  var directionalLightColor = [2.0, 2.0, 2.0];
- var positionLight = [5.0, 5.0, 5.0];
+ var positionLight = [0.0, 0.0, 5.0];

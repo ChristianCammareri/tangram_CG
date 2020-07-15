@@ -47,12 +47,12 @@ void main() {
 
 	out_color = clamp(diffuse + specular + ambientLight * ambColor + emit, 0.0, 1.0);*/
 
-  vec3 diffuse = materialColor * lightColor * clamp(dot(lightDirection, nNormal),0.0, 1.0);
+  vec3 diffuse = materialColor * lightColor * clamp(dot(-lightDirection, nNormal),0.0, 1.0);
 
-  vec3 specular = specularColor * lightColor * pow(clamp(dot(nEyeDirection, -1.0* reflect(lightDirection,nNormal)), 0.0,1.0),specShine);
+  vec3 specular = specularColor * lightColor * pow(clamp(dot(nEyeDirection, reflect(-lightDirection,nNormal)), 0.0,1.0),specShine);
   
   vec3 lDir = lightDirection; 
   vec3 lambertColor = materialColor * lightColor * dot(-lDir,nNormal);
-  outColor = vec4(clamp(lambertColor, 0.0, 1.0), 1.0);
- //outColor = vec4(clamp(diffuse + specular, 0.0, 1.0), 1.0);
+  //outColor = vec4(clamp(lambertColor, 0.0, 1.0), 1.0);
+ outColor = vec4(clamp(diffuse + specular, 0.0, 1.0), 1.0);
 }

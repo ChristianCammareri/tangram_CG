@@ -6,8 +6,8 @@ let AssetType = {
     TRAY: 4
 }
 let defaultSigma = 0;
-let defaultG = 0;
-let defaultDecay = 1;
+let defaultG = 0.1;
+let defaultDecay = 2;
 
 let defaultSpecShine = 100;
 

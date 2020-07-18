@@ -1,5 +1,6 @@
 function main() {
 
+
   var canvas = getCanvas();
 
   canvas.addEventListener("mousedown", doMouseDown, false);

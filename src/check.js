@@ -91,3 +91,88 @@ function checkSolution(idSetup) {
     }
 
 }
+
+function checkNotOverlap(indexItemToCheck) {
+
+
+    var myItem = modifyVertices(indexItemToCheck)
+
+
+    for (i = 0; i < 7; i++) {
+
+        if (i != indexItemToCheck) {
+
+
+            var otherItem = modifyVertices(i);
+
+            for (j = 0; j < myItem.length; j++) {
+
+                if (inside(myItem[j], otherItem))
+                    return false;
+            }
+
+            for (j = 0; j < otherItem.length; j++) {
+
+                if (inside(otherItem[j], myItem))
+                    return false;
+            }
+
+        }
+    }
+
+    return true;
+
+
+
+
+}
+
+function inside(point, vs) {
+    // ray-casting algorithm based on
+    // http://www.ecse.rpi.edu/Homepages/wrf/Research/Short_Notes/pnpoly.html
+
+    console.log("X" + point);
+    console.log("VS" + vs);
+    var x = point[0], y = point[1];
+
+
+    var inside = false;
+    for (var i = 0, j = vs.length - 1; i < vs.length; j = i++) {
+        var xi = vs[i][0], yi = vs[i][1];
+        var xj = vs[j][0], yj = vs[j][1];
+
+        var intersect = ((yi > y) != (yj > y))
+            && (x < (xj - xi) * (y - yi) / (yj - yi) + xi);
+        if (intersect) inside = !inside;
+    }
+
+    return inside;
+};
+
+function modifyVertices(index) {
+
+    var item;
+
+    if (assetsData[index].type == AssetType.TRIANGLE)
+        item = new Array(3);
+    else
+        item = new Array(4);
+
+    var worldLocation = assetsData[index].drawInfo.locations.worldParams;
+
+
+
+    for (k = 0; k < item.length; k++) {
+
+        item[k] = [assetsData[index].structInfo.vertices[3 * k], assetsData[index].structInfo.vertices[3 * k + 1], 0.0, 1.0];
+
+        item[k] = utils.multiplyMatrixVector(
+            utils.MakeWorld(worldLocation[0], worldLocation[1], worldLocation[2], worldLocation[3],
+                worldLocation[4], worldLocation[5], worldLocation[6])
+            , item[k]);
+    }
+
+
+    return item;
+
+}

@@ -6,6 +6,8 @@ function doMouseDown(event) {
   //checkIntersectionTriangle(event, assetsData, perspectiveMatrix, viewMatrix);
   lastMouseX = event.pageX;
   lastMouseY = event.pageY;
+  console.log(lastMouseX);
+  console.log(lastMouseY);
   mouseState = true;
 }
 function doMouseUp(event) {
@@ -19,6 +21,8 @@ function doMouseMove(event) {
     var dy = lastMouseY - event.pageY;
     lastMouseX = event.pageX;
     lastMouseY = event.pageY;
+    console.log(lastMouseX);
+    console.log(lastMouseX);
 
     if ((dx != 0) || (dy != 0)) {
       cx = cx + dx / 500;
@@ -118,24 +122,39 @@ var keyFunctionDown = function (e) {
       case 53:
       case 54:
       case 55:
-        if (selectedItem == e.keyCode - 49) {
 
-          assetsData[selectedItem].drawInfo.locations.worldParams[2] -= 0.1;
-          selectedItem = -1;
-        }
-        else {
-          if (selectedItem >= 0 && selectedItem < 7)
-            assetsData[selectedItem].drawInfo.locations.worldParams[2] -= 0.1;
+        if (selectedItem == -1) {
           selectedItem = e.keyCode - 49;
-          if (selectedItem >= 0 && selectedItem < 7)
-            assetsData[selectedItem].drawInfo.locations.worldParams[2] += 0.1;
+          assetsData[selectedItem].drawInfo.locations.worldParams[2] += 0.1;
         }
+        else if (selectedItem == e.keyCode - 49) {
+          if (checkNotOverlap(selectedItem)) {
+
+            assetsData[selectedItem].drawInfo.locations.worldParams[2] -= 0.1;
+            selectedItem = -1;
+          }
+          else {
+            window.alert("Eh no");
+          }
+        } else {
+          if (checkNotOverlap(selectedItem)) {
+
+            assetsData[selectedItem].drawInfo.locations.worldParams[2] -= 0.1;
+            selectedItem = e.keyCode - 49;
+            assetsData[selectedItem].drawInfo.locations.worldParams[2] += 0.1;
+
+          }
+          else {
+            window.alert("Eh no");
+          }
+        }
+
         break;
 
       case 67: //C
         var correct = checkSolution(selectedSetup);
-        if(correct)
-            window.alert("Incredibileeee! Rete! Che gol!");
+        if (correct)
+          window.alert("Incredibileeee! Rete! Che gol!");
         else
           window.alert("Prova il check... non va!");
         break

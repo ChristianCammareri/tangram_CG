@@ -1,5 +1,18 @@
 const setups = [
 
+    /*{
+        positionMatrix: [
+            [0.0, 0.0, 0.0],
+            [0.0, 0.0, 180.0],
+            [2, 0.0, 45.0],
+            [2, -5 * Math.sqrt(2) / 12, 135.0],
+            [2, -Math.sqrt(2) / 3, 270.0],
+            [2.0, -Math.sqrt(2) / 4, 45.0],
+            [2, Math.sqrt(2) / 8, 90.0]
+        ],
+        flippedParallelogram: 0.0,
+        name: "initialSetup"
+    },*/
     {
         positionMatrix: [
             [-Math.sqrt(2) / 3, 0.0, 225.0],

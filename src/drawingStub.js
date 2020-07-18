@@ -12,7 +12,10 @@ function main() {
 
   gl = canvas.getContext("webgl2");
 
-  perspectiveMatrix = utils.MakePerspective(90, gl.canvas.width / gl.canvas.height, 0.1, 100.0);
+  width = gl.canvas.width;
+  height = gl.canvas.height;
+
+  perspectiveMatrix = utils.MakePerspective(90, width / height, 0.1, 100.0);
 
   var locations = initializeYourProgram(gl);
 

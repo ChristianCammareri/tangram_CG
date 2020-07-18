@@ -117,6 +117,20 @@ function checkNotOverlap(indexItemToCheck) {
                     return false;
             }
 
+            for (j = 0; j < otherItem.length; j++) {
+
+
+                if (inside(calculateAveragePoints(otherItem, i)[j], myItem))
+                    return false;
+            }
+
+            for (j = 0; j < myItem.length; j++) {
+
+                if (inside(calculateAveragePoints(myItem, indexItemToCheck)[j], otherItem))
+                    return false;
+            }
+
+
         }
     }
 
@@ -131,8 +145,6 @@ function inside(point, vs) {
     // ray-casting algorithm based on
     // http://www.ecse.rpi.edu/Homepages/wrf/Research/Short_Notes/pnpoly.html
 
-    console.log("X" + point);
-    console.log("VS" + vs);
     var x = point[0], y = point[1];
 
 
@@ -175,4 +187,24 @@ function modifyVertices(index) {
 
     return item;
 
+}
+
+function calculateAveragePoints(item, index) {
+
+
+    var newItem;
+
+    if (assetsData[index].type == AssetType.TRIANGLE)
+        newItem = new Array(3);
+    else
+        newItem = new Array(4);
+
+    for (k = 0; k < newItem.length; k++) {
+
+        newItem[k] = new Array(2);
+        newItem[k][0] = (item[k][0] + item[(k + 1) % newItem.length][0]) / 2;
+        newItem[k][1] = (item[k][1] + item[(k + 1) % newItem.length][1]) / 2;
+    }
+
+    return newItem;
 }

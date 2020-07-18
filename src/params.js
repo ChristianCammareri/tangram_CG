@@ -34,3 +34,7 @@ var selectedSetup = 0;
  ];
  var directionalLightColor = [2.0, 2.0, 2.0];
  var positionLight = [0.0, 0.0, 5.0];
+
+
+ var width;
+ var height;

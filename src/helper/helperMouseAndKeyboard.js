@@ -2,12 +2,13 @@ var mouseState = false;
 var lastMouseX = -100, lastMouseY = -100;
 
 function doMouseDown(event) {
+  mouseState = true;
   //console.log(assetsData[0].drawInfo.locations.worldMatrix);
   //checkIntersectionTriangle(event, assetsData, perspectiveMatrix, viewMatrix);
   lastMouseX = event.pageX;
   lastMouseY = event.pageY;
-  console.log(lastMouseX);
-  console.log(lastMouseY);
+  console.log(lastMouseX/width);
+  console.log(lastMouseY/height);
   mouseState = true;
 }
 function doMouseUp(event) {
@@ -22,7 +23,7 @@ function doMouseMove(event) {
     lastMouseX = event.pageX;
     lastMouseY = event.pageY;
     console.log(lastMouseX);
-    console.log(lastMouseX);
+    console.log(lastMouseY);
 
     if ((dx != 0) || (dy != 0)) {
       cx = cx + dx / 500;

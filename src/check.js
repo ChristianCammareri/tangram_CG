@@ -102,42 +102,18 @@ function checkNotOverlap(indexItemToCheck) {
 
         if (i != indexItemToCheck) {
 
-
             var otherItem = modifyVertices(i);
 
-            for (j = 0; j < myItem.length; j++) {
+            for (k = 0; k < myItem.length; k++) {
+                
+                if(checkIntermediatePoints(myItem[k],myItem[(k + 1) % myItem.length],otherItem))
+                    return false
 
-                if (inside(myItem[j], otherItem))
-                    return false;
             }
-
-            for (j = 0; j < otherItem.length; j++) {
-
-                if (inside(otherItem[j], myItem))
-                    return false;
-            }
-
-            for (j = 0; j < otherItem.length; j++) {
-
-
-                if (inside(calculateAveragePoints(otherItem, i)[j], myItem))
-                    return false;
-            }
-
-            for (j = 0; j < myItem.length; j++) {
-
-                if (inside(calculateAveragePoints(myItem, indexItemToCheck)[j], otherItem))
-                    return false;
-            }
-
-
         }
     }
 
     return true;
-
-
-
 
 }
 
@@ -189,22 +165,15 @@ function modifyVertices(index) {
 
 }
 
-function calculateAveragePoints(item, index) {
 
 
-    var newItem;
+function checkIntermediatePoints(p1, p2, item) {
 
-    if (assetsData[index].type == AssetType.TRIANGLE)
-        newItem = new Array(3);
-    else
-        newItem = new Array(4);
+    if (Math.sqrt(Math.pow(p1[0] - p2[0],2) + Math.pow(p1[1] - p2[1],2)) < 0.1) {
 
-    for (k = 0; k < newItem.length; k++) {
-
-        newItem[k] = new Array(2);
-        newItem[k][0] = (item[k][0] + item[(k + 1) % newItem.length][0]) / 2;
-        newItem[k][1] = (item[k][1] + item[(k + 1) % newItem.length][1]) / 2;
+        return inside(p1, item) || inside(p2, item);
     }
 
-    return newItem;
+    return checkIntermediatePoints(p1,[(p1[0] + p2[0]) / 2,(p1[1] + p2[1]) / 2],item) || checkIntermediatePoints([(p1[0] + p2[0]) / 2,(p1[1] + p2[1]) / 2],p2,item);
+
 }

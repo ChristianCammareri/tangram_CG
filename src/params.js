@@ -21,7 +21,7 @@ var shadersPath = {
 
 var keys = [];
 var selectedItem = -1;
-var selectedSetup = 0;
+var selectedSetup = 1;
 
 
  //define directional light
@@ -38,3 +38,5 @@ var selectedSetup = 0;
 
  var width;
  var height;
+
+ var perspectiveMatrix ;

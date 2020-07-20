@@ -7,8 +7,8 @@ function doMouseDown(event) {
   //checkIntersectionTriangle(event, assetsData, perspectiveMatrix, viewMatrix);
   lastMouseX = event.pageX;
   lastMouseY = event.pageY;
-  console.log(lastMouseX/width);
-  console.log(lastMouseY/height);
+
+
   mouseState = true;
 }
 function doMouseUp(event) {

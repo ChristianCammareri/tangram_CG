@@ -16,7 +16,7 @@ function checkSolution(idSetup) {
     var deltaTranX = utentMatrix[4][0] - solutionMatrix[4][0];
     var deltaTranY = utentMatrix[4][1] - solutionMatrix[4][1];
 
-    //console.log(utentMatrix);
+
     for (i = 0; i < 7; i++) {
         utentMatrix[i][0] -= deltaTranX;
         utentMatrix[i][1] -= deltaTranY;
@@ -94,19 +94,16 @@ function checkSolution(idSetup) {
 
 function checkNotOverlap(indexItemToCheck) {
 
-
     var myItem = modifyVertices(indexItemToCheck)
-
 
     for (i = 0; i < 7; i++) {
 
         if (i != indexItemToCheck) {
 
             var otherItem = modifyVertices(i);
-
             for (k = 0; k < myItem.length; k++) {
-                
-                if(checkIntermediatePoints(myItem[k],myItem[(k + 1) % myItem.length],otherItem))
+
+                if (checkIntermediatePoints(myItem[k], myItem[(k + 1) % myItem.length], otherItem))
                     return false
 
             }
@@ -114,6 +111,7 @@ function checkNotOverlap(indexItemToCheck) {
     }
 
     return true;
+
 
 }
 
@@ -160,20 +158,16 @@ function modifyVertices(index) {
             , item[k]);
     }
 
-
     return item;
 
 }
 
-
-
 function checkIntermediatePoints(p1, p2, item) {
 
-    if (Math.sqrt(Math.pow(p1[0] - p2[0],2) + Math.pow(p1[1] - p2[1],2)) < 0.1) {
-
+    if (Math.sqrt(Math.pow(p1[0] - p2[0], 2) + Math.pow(p1[1] - p2[1], 2)) < 0.1)
         return inside(p1, item) || inside(p2, item);
-    }
 
-    return checkIntermediatePoints(p1,[(p1[0] + p2[0]) / 2,(p1[1] + p2[1]) / 2],item) || checkIntermediatePoints([(p1[0] + p2[0]) / 2,(p1[1] + p2[1]) / 2],p2,item);
+    return checkIntermediatePoints(p1, [(p1[0] + p2[0]) / 2, (p1[1] + p2[1]) / 2], item) ||
+        checkIntermediatePoints([(p1[0] + p2[0]) / 2, (p1[1] + p2[1]) / 2], p2, item);
 
 }

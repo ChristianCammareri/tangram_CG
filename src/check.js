@@ -96,16 +96,19 @@ function checkNotOverlap(indexItemToCheck) {
 
     var myItem = modifyVertices(indexItemToCheck)
 
-    for (i = 0; i < 7; i++) {
+    for (var i = 0; i < 7; i++) {
 
         if (i != indexItemToCheck) {
-
+            console.log("I" + i);
             var otherItem = modifyVertices(i);
-            for (k = 0; k < myItem.length; k++) {
+            for (var k = 0; k < myItem.length; k++) {
+                console.log("K" + k);
+                if (!checkLimits(myItem[k], myItem[(k + 1) % myItem.length], otherItem)) {
+                    console.log("DD");
 
-                if (checkIntermediatePoints(myItem[k], myItem[(k + 1) % myItem.length], otherItem))
-                    return false
-
+                    if (checkIntermediatePoints(myItem[k], myItem[(k + 1) % myItem.length], otherItem))
+                        return false
+                }
             }
         }
     }
@@ -164,10 +167,86 @@ function modifyVertices(index) {
 
 function checkIntermediatePoints(p1, p2, item) {
 
-    if (Math.sqrt(Math.pow(p1[0] - p2[0], 2) + Math.pow(p1[1] - p2[1], 2)) < 0.1)
-        return inside(p1, item) || inside(p2, item);
+    var delta = 0.1;
 
+    console.log(item);
+
+    var x1 = correctNumber(p1[0]), x2 = correctNumber(p2[0]);
+    var y1 = correctNumber(p1[1]), y2 = correctNumber(p2[1]);
+
+    if (Math.sqrt(Math.pow(x1 - x2, 2) + Math.pow(y1 - y2, 2)) < delta) {
+       /* for (var k = 0; k < item.length; k++) {
+
+            var point = item[k];
+            console.log("CHECK");
+
+            console.log(x1);
+            console.log(y1);
+            console.log(x2);
+            console.log(y2);
+
+            var x = correctNumber(point[0]), y = correctNumber(point[1]);
+            console.log("POINT");
+
+            console.log(x);
+            console.log(y);
+
+
+            console.log(buildLine(y, p1, p2));
+
+            if (x == buildLine(y, p1, p2)){
+                print("BOH");
+                if (x == x1 && y == y1){
+                    print("BOH");
+                    return inside(p2, item);
+                }else
+                    return inside(p1, item);
+        }
+    }*/
+        return inside(p1, item) || inside(p2, item);
+    }
     return checkIntermediatePoints(p1, [(p1[0] + p2[0]) / 2, (p1[1] + p2[1]) / 2], item) ||
         checkIntermediatePoints([(p1[0] + p2[0]) / 2, (p1[1] + p2[1]) / 2], p2, item);
+
+}
+
+function checkLimits(myP1, myP2, item) {
+
+    var x1 = correctNumber(myP1[0]), x2 = correctNumber(myP2[0]);
+    var y1 = correctNumber(myP1[1]), y2 = correctNumber(myP2[1]);
+
+
+    for (var k = 0; k < item.length; k++) {
+
+        var p1 = item[k], p2 = item[(k + 1) % item.length];
+        var line1 = buildLine(y1, p1, p2);
+        var line2 = buildLine(y2, p1, p2);
+
+        if (correctNumber(p1[1]) != correctNumber(p2[1])) {
+            if (x1 == line1 &&
+                x2 == line2)
+                return true
+
+        } else if (y1 == correctNumber(p1[1]) &&
+            y2 == correctNumber(p1[1]))
+            return true;
+
+    }
+
+    return false;
+
+}
+
+function correctNumber(num) {
+
+    num = Number(num).toFixed(12);
+    if (Math.abs(num) == 0.000000000000)
+        num = 0.0;
+    return parseFloat(num);
+}
+
+function buildLine(y, p1, p2) {
+
+    return correctNumber((y - correctNumber(p1[1])) * (correctNumber(p2[0]) - correctNumber(p1[0])) / (correctNumber(p2[1]) - correctNumber(p1[1])) + correctNumber(p1[0]));
 
 }

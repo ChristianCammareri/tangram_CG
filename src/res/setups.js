@@ -7,7 +7,7 @@ const setups = [
             [Math.sqrt(2) / 6, 0.0, 45.0],
             [-Math.sqrt(2) / 4, -5 * Math.sqrt(2) / 12, 135.0],
             [Math.sqrt(2) / 3, -Math.sqrt(2) / 3, 270.0],
-            [1.0, 1.0, 0.0],
+            [0.0, -Math.sqrt(2) / 4, 45.0],
             [3 * Math.sqrt(2) / 8, Math.sqrt(2) / 8, 90.0]
         ],
         flippedParallelogram: 0.0,

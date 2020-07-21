@@ -28,7 +28,7 @@ function main() {
 
     var lightDirMatrix = utils.invertMatrix(utils.transposeMatrix(viewMatrix));
 
-    var lightDirectionTransformed = utils.multiplyMatrix3Vector3(utils.sub3x3from4x4(lightDirMatrix), directionalLight);
+    var lightDirectionTransformed = utils.multiplyMatrix3Vector3(utils.sub3x3from4x4(lightDirMatrix), directionalLightDir);
 
     for (i = 0; i < assetsData.length; i++) {
 
@@ -48,12 +48,18 @@ function main() {
       gl.uniform3fv(locations.materialColorHandle, assetsData[i].drawInfo.ambientColor);
       gl.uniform3fv(locations.specularColorHandle, [1.0, 1.0, 1.0]);
 
-      gl.uniform3fv(locations.lightPositionHandle, positionLight);
-      gl.uniform3fv(locations.lightColorHandle, directionalLightColor);
-      gl.uniform3fv(locations.lightDirectionHandle, lightDirectionTransformed);
+      //gl.uniform3fv(locations.lightPositionHandle, positionLight);
+      //gl.uniform3fv(locations.lightColorHandle, directionalLightColor);
+//      gl.uniform3fv(locations.lightDirectionHandle, lightDirectionTransformed);
+      gl.uniform3fv(locations.pointLightPosition, pointLightPosition);
+      gl.uniform3fv(locations.pointLightColor, pointLightColor);
+      gl.uniform3fv(locations.pointLightDir, pointLightDir)
+      //gl.uniform3fv()
+      
 
       gl.uniform1f(locations.decayHandle, defaultDecay);
-      gl.uniform1f(locations.targetHandle, defaultG);
+      gl.uniform1f(locations.targetHandle, 10.0);
+
       gl.uniform1f(locations.specShine, defaultSpecShine);
 
 

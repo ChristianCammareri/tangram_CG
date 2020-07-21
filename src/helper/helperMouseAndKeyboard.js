@@ -169,9 +169,12 @@ var keyFunctionDown = function (e) {
         initPosition();
         break;
 
-
-
-
+      case 109: // trattino (-)
+        pointLightColor = [pointLightColor[0]-0.2, pointLightColor[1]-0.2,pointLightColor[2]-0.2]; 
+        break;
+      case 107: // piu (+)
+        pointLightColor = [pointLightColor[0]+0.2, pointLightColor[1]+0.2,pointLightColor[2]+0.2];
+        break;
 
     }
     keys[e.keyCode] = false;

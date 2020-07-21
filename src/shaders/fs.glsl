@@ -9,9 +9,14 @@ out vec4 outColor;
 
 uniform vec3 materialColor;
 uniform vec3 specularColor;
-uniform vec3 lightDirection; 
-uniform vec3 lightPosition;
-uniform vec3 lightColor;
+//uniform vec3 lightDirection; 
+//uniform vec3 lightPosition;
+//uniform vec3 lightColor;
+
+uniform vec3 LBPos;
+uniform vec3 LBCol;
+
+
 
 uniform float decay;
 uniform float target;
@@ -29,15 +34,28 @@ uniform float specShine;
 
 void main() {
 
-  vec3 nNormal = normalize(fsNormal);  
-  vec3 nEyeDirection = normalize ((0.0, 0.0, 0.0) - fsPosition);
+	vec3 nNormal = normalize(fsNormal);  
+	vec3 nEyeDirection = normalize ((0.0, 0.0, 0.0) - fsPosition);
 
-  /*// Single point light with decay
-	var S4 = `
+  	// Single point light with decay
+	float LBTarget = target;
+	float LBDecay = decay;
+
+	vec3 lightDirA   = normalize(- LBPos);
+	vec3 lightColorA = LBCol*pow((LBTarget/length(LBPos - fsPosition)),LBDecay);
+	
+
+	//spotlight in the cas
+	/*
 	lightDirA   = normalize(LAPos - fs_pos);
-	lightColorA = LAlightColor*pow((LATarget/length(LAPos - fs_pos)),LADecay);*/
-
-  
+  	float Cout = cos(radians(LAConeOut / 2.0));
+	float Cin = cos(radians((LAConeOut * LAConeIn) / 2.0));
+	float CosAngle = dot(lightDirA, LADir);
+	lightColorA = LAlightColor * pow((LATarget / length(LAPos - fs_pos)), LADecay) * clamp(((CosAngle - Cout) / (Cin - Cout)), 0.0, 1.0);
+	*/
+	//setting var for reflection model
+	vec3 lightColor = lightColorA;
+	vec3 lightDirection = lightDirA;
 
   /*vec4 dLAcontr = clamp(dot(lightDirA, normalVec),0.0,1.0) * lightColorA;
 	vec4 diffuse = diffColor * (dLAcontr + dLBcontr + dLCcontr);
@@ -47,12 +65,12 @@ void main() {
 
 	out_color = clamp(diffuse + specular + ambientLight * ambColor + emit, 0.0, 1.0);*/
 
-  vec3 diffuse = materialColor * lightColor * clamp(dot(-lightDirection, nNormal),0.0, 1.0);
+	vec3 diffuse = materialColor * lightColor * clamp(dot(-lightDirection, nNormal),0.0, 1.0);
 
-  vec3 specular = specularColor * lightColor * pow(clamp(dot(nEyeDirection, reflect(-lightDirection,nNormal)), 0.0,1.0),specShine);
+  	vec3 specular = specularColor * lightColor * pow(clamp(dot(nEyeDirection, reflect(-lightDirection,nNormal)), 0.0,1.0),specShine);
   
-  vec3 lDir = lightDirection; 
-  vec3 lambertColor = materialColor * lightColor * dot(-lDir,nNormal);
-  //outColor = vec4(clamp(lambertColor, 0.0, 1.0), 1.0);
- outColor = vec4(clamp(diffuse + specular, 0.0, 1.0), 1.0);
+  	vec3 lDir = lightDirection; 
+  	vec3 lambertColor = materialColor * lightColor * dot(-lDir,nNormal);
+  	//outColor = vec4(clamp(lambertColor, 0.0, 1.0), 1.0);
+	outColor = vec4(clamp(diffuse + specular, 0.0, 1.0), 1.0);
 }

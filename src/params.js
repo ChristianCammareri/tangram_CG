@@ -28,15 +28,20 @@ var selectedSetup = 1;
  var dirLightAlpha = -utils.degToRad(60);
  var dirLightBeta = -utils.degToRad(120);
 
- var directionalLight = [Math.cos(dirLightAlpha) * Math.cos(dirLightBeta),
+ var directionalLightDir = [Math.cos(dirLightAlpha) * Math.cos(dirLightBeta),
  Math.sin(dirLightAlpha),
  Math.cos(dirLightAlpha) * Math.sin(dirLightBeta)
  ];
+
  var directionalLightColor = [2.0, 2.0, 2.0];
- var positionLight = [0.0, 0.0, 5.0];
+
+//pointlight
+ var pointLightPosition = [0.0, 0.0, 10.0];
+ var pointLightColor = [2.0, 2.0, 2.0];
+ var pointLightDir = [0.0, 0.0, -1.0];
 
 
  var width;
  var height;
 
- var perspectiveMatrix ;
+ var perspectiveMatrix;

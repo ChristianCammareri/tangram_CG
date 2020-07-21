@@ -57,9 +57,18 @@ function getAttributeAndUniformLocation(gl, program) {
     var materialColorHandle = gl.getUniformLocation(program, 'materialColor');
     var specularColorHandle = gl.getUniformLocation(program, 'specularColor');
 
+    //Directional Light
     var lightDirectionHandle = gl.getUniformLocation(program, 'lightDirection');
     var lightPositionHandle = gl.getUniformLocation(program, 'lightPosition');
     var lightColorHandle = gl.getUniformLocation(program, 'lightColor');
+
+    //Point light
+    var pointLightPosition = gl.getUniformLocation(program, 'LBPos');
+    var pointLightColor = gl.getUniformLocation(program, 'LBCol');
+
+    //Spotligh light
+    //var spotLightPosition = gl.getUniformLocation(program, 'LCPos');
+    //var spotLightColor = gl.getUniformLocation(program, 'LBCol');
 
     var decayHandle = gl.getUniformLocation(program, 'decay');
     var targetHandle = gl.getUniformLocation(program, 'target');
@@ -80,6 +89,12 @@ function getAttributeAndUniformLocation(gl, program) {
         "targetHandle": targetHandle,
         "specShine": specShine,
 
+        "pointLightPosition":pointLightPosition,
+        "pointLightColor":pointLightColor,
+
+        //"spotLightPosition":spotLightPos,
+        //"spotLightCin":spotLightCin,
+        //"spotLightCout":spotLightCout,
 
         "normalMatrixPositionHandle": normalMatrixPositionHandle,
         "vertexMatrixPositionHandle": vertexMatrixPositionHandle

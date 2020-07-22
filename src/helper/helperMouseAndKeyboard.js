@@ -99,7 +99,7 @@ var keyFunctionDown = function (e) {
           assetsData[selectedItem].drawInfo.locations.worldParams[4] += 180.0;
         } else if (selectedItem == 6)
 
-          assetsData[selectedItem].drawInfo.locations.worldParams[4] -= 180.0;
+          assetsData[selectedItem].drawInfo.locations.worldParams[4] += 180.0;
         else
           elevation += 1.0;
         break;
@@ -166,7 +166,7 @@ var keyFunctionDown = function (e) {
         break;
 
       case 32: //space
-        initPosition();
+        initPosition(0);
         break;
 
       case 109: // trattino (-)

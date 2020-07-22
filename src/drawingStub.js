@@ -19,7 +19,7 @@ function main() {
 
   var locations = initializeYourProgram(gl);
 
-  initPosition();
+  initPosition(0);
   drawScene();
 
   function drawScene() {

@@ -100,12 +100,12 @@ function checkNotOverlap(indexItemToCheck) {
     for (var i = 0; i < 7; i++) {
 
         if (i != indexItemToCheck) {
-            console.log("I" + i);
+            
             var otherItem = modifyVertices(i);
             for (var k = 0; k < myItem.length; k++) {
-                console.log("K" + k);
+                
                 if (!checkLimits(myItem[k], myItem[(k + 1) % myItem.length], otherItem)) {
-                    console.log("DD");
+                    
 
                     if (checkIntermediatePoints(myItem[k], myItem[(k + 1) % myItem.length], otherItem))
                         return false
@@ -170,7 +170,7 @@ function checkIntermediatePoints(p1, p2, item) {
 
     var delta = 0.1;
 
-    console.log(item);
+    
 
     var x1 = correctNumber(p1[0]), x2 = correctNumber(p2[0]);
     var y1 = correctNumber(p1[1]), y2 = correctNumber(p2[1]);

@@ -170,10 +170,10 @@ var keyFunctionDown = function (e) {
         break;
 
       case 109: // trattino (-)
-        pointLightColor = [pointLightColor[0]-0.2, pointLightColor[1]-0.2,pointLightColor[2]-0.2]; 
+        pointLightColor = [pointLightColor[0]-0.1, pointLightColor[1]-0.1, pointLightColor[2]-0.1]; 
         break;
       case 107: // piu (+)
-        pointLightColor = [pointLightColor[0]+0.2, pointLightColor[1]+0.2,pointLightColor[2]+0.2];
+        pointLightColor = [pointLightColor[0]+0.1, pointLightColor[1]+0.1, pointLightColor[2]+0.1];
         break;
 
     }

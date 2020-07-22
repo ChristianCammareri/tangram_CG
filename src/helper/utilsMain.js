@@ -135,11 +135,16 @@ function putAttributesOnGPU(location) {
 
 }
 
-function initPosition() {
+function initPosition(idSetup) {
 
     for (i = 0; i < assetsData.length - 1; i++){
-        assetsData[i].drawInfo.locations.worldParams = [setups[0].positionMatrix[i][0], setups[0].positionMatrix[i][1], 0.0, 0.0, 0.0, setups[0].positionMatrix[i][2], 1.0];
+        assetsData[i].drawInfo.locations.worldParams = [setups[idSetup].positionMatrix[i][0], setups[idSetup].positionMatrix[i][1], 0.0, 0.0, 0.0, setups[idSetup].positionMatrix[i][2], 1.0];
         //console.log(assetsData[i].drawInfo.locations.worldParams);
+    }
+
+    if(setups[idSetup].flippedParallelogram == 180.0){
+        assetsData[6].drawInfo.locations.worldParams = [setups[idSetup].positionMatrix[6][0], setups[idSetup].positionMatrix[6][1], 0.0, 0.0, 180.0, setups[idSetup].positionMatrix[6][2], 1.0];
+   
     }
     assetsData[i].drawInfo.locations.worldParams = [0.0, 0.0, -0.15, 0.0, 0.0, 0.0, 1.0];
 

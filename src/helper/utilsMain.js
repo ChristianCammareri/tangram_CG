@@ -22,8 +22,8 @@ function getCanvas() {
 function initializeProgram(gl) {
 
     compileAndLinkShaders(gl);
-    getAttributeAndUniformLocation(gl, 0);
-    createVAO(gl,0);
+    getAttributeAndUniformLocation(gl, ShadersType.ITEM);
+    createVAO(gl,ShadersType.ITEM);
 }
 
 function compileAndLinkShaders(gl) {

@@ -21,7 +21,7 @@ var shadersPath = {
     fsFloor: "/src/shaders/fsFloor.glsl"
 }
 
-var imagePath = "/src/res/background.png";
+var imagePath = "/src/res/floor.png";
 
 var keys = [];
 var selectedItem = -1;

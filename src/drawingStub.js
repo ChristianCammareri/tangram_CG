@@ -24,6 +24,7 @@ function main() {
 
   function drawScene() {
 
+    
     viewMatrix = utils.MakeView(cx, cy, cz, elevation, angle);
 
     var lightDirMatrix = utils.invertMatrix(utils.transposeMatrix(viewMatrix));
@@ -33,6 +34,7 @@ function main() {
     
 
     for (i = 0; i < assetsData.length; i++) {
+      gl.useProgram(programsArray[ShadersType.ITEM]);
 
       var worldLocation = assetsData[i].drawInfo.worldParams;
       assetsData[i].drawInfo.worldMatrix = utils.MakeWorld(worldLocation[0], worldLocation[1], worldLocation[2], worldLocation[3], worldLocation[4], worldLocation[5], worldLocation[6]); //TODO eliminare objects world matrix in futuro

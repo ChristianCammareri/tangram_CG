@@ -21,7 +21,7 @@ function getCanvas() {
 
 function initializeProgram(gl) {
 
-    //drawFloor(gl);
+    drawFloor(gl);
     compileAndLinkShaders(gl, shadersPath.vs, shadersPath.fs, ShadersType.ITEM);
     getAttributeAndUniformLocation(gl, ShadersType.ITEM);
     createVAO(gl, ShadersType.ITEM);
@@ -37,7 +37,6 @@ function compileAndLinkShaders(gl, vertexShaderPath, fragmentShaderPath, shaders
     });
 
     programsArray[shadersType] = program;
-    gl.useProgram(programsArray[shadersType]);
 
 
     return;
@@ -167,8 +166,8 @@ function drawFloor(gl) {
 
 function getAttributeAndUniformLocationFloor(gl) {
 
-    var positionAttributeLocation = gl.getAttribLocation(programsArray[ShadersType.FLOOR], "in_position");
-    var uvAttributeLocation = gl.getAttribLocation(programsArray[ShadersType.FLOOR], "in_uv");
+    var positionAttributeLocation = gl.getAttribLocation(programsArray[ShadersType.FLOOR], "inPosition");
+    var uvAttributeLocation = gl.getAttribLocation(programsArray[ShadersType.FLOOR], "inUv");
     var matrixLocation = gl.getUniformLocation(programsArray[ShadersType.FLOOR], "matrix");
     var textLocation = gl.getUniformLocation(programsArray[ShadersType.FLOOR], "u_texture");
 
@@ -192,25 +191,27 @@ function createVAOFloor(gl) {
 
     gl.bindBuffer(gl.ARRAY_BUFFER, gl.createBuffer());
     gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(assetsFloor.structInfo.uv), gl.STATIC_DRAW);
-    putAttributesOnGPU(locationsArray[ShadersType.FLOOR].uvAttributeLocation);
+    gl.enableVertexAttribArray(locationsArray[ShadersType.FLOOR].uvAttributeLocation);
+    gl.vertexAttribPointer(locationsArray[ShadersType.FLOOR].uvAttributeLocation, 2, gl.FLOAT, false, 0, 0);
 
     gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, gl.createBuffer());
     gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(assetsFloor.structInfo.indices), gl.STATIC_DRAW);
 
     assetsFloor.drawInfo.texture = gl.createTexture();
+    loadImage(gl,imagePath);
     gl.activeTexture(gl.TEXTURE0);
     gl.bindTexture(gl.TEXTURE_2D, assetsFloor.drawInfo.texture);
 
-    loadImage(gl,imagePath, assetsFloor.drawInfo.texture);
+    
 
 
 }
 
-function loadImage(gl, path, texture) {
+function loadImage(gl, path) {
     var image = new Image();
     image.src = path;
     image.onload = function () {
-        gl.bindTexture(gl.TEXTURE_2D, texture);
+
         gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, image);
         gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, true);
 
@@ -220,10 +221,13 @@ function loadImage(gl, path, texture) {
         gl.generateMipmap(gl.TEXTURE_2D);
 
     }
+    console.log(image);
 }
 
 function drawSceneFloor(){
 
+    
+    gl.useProgram(programsArray[ShadersType.FLOOR]);
     viewMatrix = utils.MakeView(cx, cy, cz, elevation, angle);
 
     var worldLocation = assetsFloor.drawInfo.worldParams;
@@ -234,9 +238,11 @@ function drawSceneFloor(){
     var projectionMatrix = utils.multiplyMatrices(perspectiveMatrix, viewWorldMatrix);
    
     gl.uniformMatrix4fv(locationsArray[ShadersType.FLOOR].matrixLocation, gl.FALSE, utils.transposeMatrix(projectionMatrix));
+   
     gl.activeTexture(gl.TEXTURE0);
     gl.bindTexture(gl.TEXTURE_2D, assetsFloor.drawInfo.texture);
     gl.uniform1i(locationsArray[ShadersType.FLOOR].textLocation, 0);
+
 
     gl.bindVertexArray(assetsFloor.drawInfo.vao);
     gl.drawElements(gl.TRIANGLES, assetsFloor.structInfo.indices.length, gl.UNSIGNED_SHORT, 0 );

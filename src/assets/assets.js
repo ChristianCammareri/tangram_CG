@@ -5,11 +5,25 @@ let AssetType = {
     PARALLELOGRAM: 3,
     TRAY: 4
 }
+
+let ShadersType = {
+    ITEM: 0,
+    SOLUTION: 1,
+    FLOOR: 2,
+}
+
+
 let defaultSigma = 0;
 let defaultG = 0.1;
 let defaultDecay = 2;
 
 let defaultSpecShine = 100;
+
+let programsArray = [null, null, null];
+
+let locationsArray = [null, null, null];
+
+
 
 let assetsData = [
     {
@@ -66,10 +80,23 @@ let assetsData = [
                 16, 15, 14,
                 15, 16, 17
             ],
-            textures: []
+            vertices2D: [
+                -1.0 / 3, -1.0 / 3, 0.0,
+                2.0 / 3, -1.0 / 3, 0.0,
+                -1.0 / 3, 2.0 / 3, 0.0,
+            ],
+            normals2D: [
+                0.0, 0.0, 1.0,
+                0.0, 0.0, 1.0,
+                0.0, 0.0, 1.0,
+            ],
+            indices2D: [
+                0, 2, 1,
+            ]
         },
         drawInfo: {
-            program: [],
+            worldParams: [],
+            worldMatrix: [],
             bufferLength: 0,
             vao: [],
             ambientColor: [0.0, 0.0, 1.0],
@@ -82,31 +109,7 @@ let assetsData = [
                 decay: defaultDecay
             },
 
-            locations: {
-                worldParams: [],
-                // Asset params
-                positionAttributeLocation: [],
-                normalsAttributeLocation: [],
-                wvpMatrixLocation: [],
-                worldMatrix: [],
-                rotation: 0,
-                // Object params
-                ambientColorLocation: [],
-                emissionColorLocation: [],
 
-                // Lights params
-                isDayLocation: [],
-                directLightDirectionLocation: [],
-                directLightColorLocation: [],
-                ambientLightLocation: [],
-
-                // BRDF
-                diffuseModeLocation: [],
-                specularModeLocation: [],
-                specShineLocation: [],
-                sigmaLocation: [],
-                eyePosLocation: []
-            }
         },
     },
     {
@@ -163,10 +166,24 @@ let assetsData = [
                 16, 15, 14,
                 15, 16, 17
             ],
-            textures: null
+            vertices2D: [
+                -1.0 / 3, -1.0 / 3, 0.0,
+                2.0 / 3, -1.0 / 3, 0.0,
+                -1.0 / 3, 2.0 / 3, 0.0,
+            ],
+            normals2D: [
+                0.0, 0.0, 1.0,
+                0.0, 0.0, 1.0,
+                0.0, 0.0, 1.0,
+            ],
+            indices2D: [
+                0, 2, 1,
+            ]
+
         },
         drawInfo: {
-            program: [],
+            worldParams: [],
+            worldMatrix: [],
             bufferLength: 0,
             vao: [],
             ambientColor: [0.0, 1.0, 0.0],
@@ -178,32 +195,6 @@ let assetsData = [
                 g: defaultG,
                 decay: defaultDecay
             },
-
-            locations: {
-                worldParams: [],
-                // Asset params
-                positionAttributeLocation: [],
-                normalsAttributeLocation: [],
-                wvpMatrixLocation: [],
-                worldMatrix: [],
-                rotation: 0,
-                // Object params
-                ambientColorLocation: [],
-                emissionColorLocation: [],
-
-                // Lights params
-                isDayLocation: [],
-                directLightDirectionLocation: [],
-                directLightColorLocation: [],
-                ambientLightLocation: [],
-
-                // BRDF
-                diffuseModeLocation: [],
-                specularModeLocation: [],
-                specShineLocation: [],
-                sigmaLocation: [],
-                eyePosLocation: []
-            }
         },
     },
     {
@@ -260,10 +251,24 @@ let assetsData = [
                 16, 15, 14,
                 15, 16, 17
             ],
-            textures: null
+            vertices2D: [
+                -1.0 / 6, -1.0 / 6, 0.0,
+                1.0 / 3, -1.0 / 6, 0.0,
+                -1.0 / 6, 1.0 / 3, 0.0,
+            ],
+            normals2D: [
+                0.0, 0.0, 1.0,
+                0.0, 0.0, 1.0,
+                0.0, 0.0, 1.0,
+            ],
+            indices2D: [
+                0, 2, 1,
+            ]
+
         },
         drawInfo: {
-            program: [],
+            worldParams: [],
+            worldMatrix: [],
             bufferLength: 0,
             vao: [],
             ambientColor: [1.0, 1.0, 0.0],
@@ -275,32 +280,6 @@ let assetsData = [
                 g: defaultG,
                 decay: defaultDecay
             },
-
-            locations: {
-                worldParams: [],
-                // Asset params
-                positionAttributeLocation: [],
-                normalsAttributeLocation: [],
-                wvpMatrixLocation: [],
-                worldMatrix: [],
-                rotation: 0,
-                // Object params
-                ambientColorLocation: [],
-                emissionColorLocation: [],
-
-                // Lights params
-                isDayLocation: [],
-                directLightDirectionLocation: [],
-                directLightColorLocation: [],
-                ambientLightLocation: [],
-
-                // BRDF
-                diffuseModeLocation: [],
-                specularModeLocation: [],
-                specShineLocation: [],
-                sigmaLocation: [],
-                eyePosLocation: []
-            }
         },
     },
     {
@@ -357,10 +336,33 @@ let assetsData = [
                 16, 15, 14,
                 15, 16, 17
             ],
-            textures: null
+            indices: [
+                0, 2, 1,
+                3, 4, 5,
+                8, 7, 6,
+                7, 8, 9,
+                10, 11, 12,
+                13, 12, 11,
+                16, 15, 14,
+                15, 16, 17
+            ],
+            vertices2D: [
+                -1.0 / 6, -1.0 / 6, 0.0,
+                1.0 / 3, -1.0 / 6, 0.0,
+                -1.0 / 6, 1.0 / 3, 0.0,
+            ],
+            normals2D: [
+                0.0, 0.0, 1.0,
+                0.0, 0.0, 1.0,
+                0.0, 0.0, 1.0,
+            ],
+            indices2D: [
+                0, 2, 1,
+            ]
         },
         drawInfo: {
-            program: [],
+            worldParams: [],
+            worldMatrix: [],
             bufferLength: 0,
             vao: [],
             ambientColor: [1.0, 192.0 / 255, 203.0 / 255],
@@ -373,31 +375,6 @@ let assetsData = [
                 decay: defaultDecay
             },
 
-            locations: {
-                worldParams: [],
-                // Asset params
-                positionAttributeLocation: [],
-                normalsAttributeLocation: [],
-                wvpMatrixLocation: [],
-                worldMatrix: [],
-                rotation: 0,
-                // Object params
-                ambientColorLocation: [],
-                emissionColorLocation: [],
-
-                // Lights params
-                isDayLocation: [],
-                directLightDirectionLocation: [],
-                directLightColorLocation: [],
-                ambientLightLocation: [],
-
-                // BRDF
-                diffuseModeLocation: [],
-                specularModeLocation: [],
-                specShineLocation: [],
-                sigmaLocation: [],
-                eyePosLocation: []
-            }
         },
     },
     {
@@ -454,10 +431,33 @@ let assetsData = [
                 16, 15, 14,
                 15, 16, 17
             ],
-            textures: null
+            indices: [
+                0, 2, 1,
+                3, 4, 5,
+                8, 7, 6,
+                7, 8, 9,
+                10, 11, 12,
+                13, 12, 11,
+                16, 15, 14,
+                15, 16, 17
+            ],
+            vertices2D: [
+                -Math.sqrt(2) / 6, -Math.sqrt(2) / 6, 0.0,
+                Math.sqrt(2) / 3, -Math.sqrt(2) / 6, 0.0,
+                -Math.sqrt(2) / 6, Math.sqrt(2) / 3, 0.0,
+            ],
+            normals2D: [
+                0.0, 0.0, 1.0,
+                0.0, 0.0, 1.0,
+                0.0, 0.0, 1.0,
+            ],
+            indices2D: [
+                0, 2, 1,
+            ]
         },
         drawInfo: {
-            program: [],
+            worldParams: [],
+            worldMatrix: [],
             bufferLength: 0,
             vao: [],
             ambientColor: [1.0, 0.0, 0.0],
@@ -469,32 +469,6 @@ let assetsData = [
                 g: defaultG,
                 decay: defaultDecay
             },
-
-            locations: {
-                worldParams: [],
-                // Asset params
-                positionAttributeLocation: [],
-                normalsAttributeLocation: [],
-                wvpMatrixLocation: [],
-                worldMatrix: [],
-                rotation: 0,
-                // Object params
-                ambientColorLocation: [],
-                emissionColorLocation: [],
-
-                // Lights params
-                isDayLocation: [],
-                directLightDirectionLocation: [],
-                directLightColorLocation: [],
-                ambientLightLocation: [],
-
-                // BRDF
-                diffuseModeLocation: [],
-                specularModeLocation: [],
-                specShineLocation: [],
-                sigmaLocation: [],
-                eyePosLocation: []
-            }
         },
     },
 
@@ -568,10 +542,26 @@ let assetsData = [
                 20, 21, 22,
                 22, 21, 23
             ],
-            textures: null,
+            vertices2D: [
+                -0.25, -0.25, 0.0,
+                0.25, -0.25, 0.0,
+                0.25, 0.25, 0.0,
+                -0.25, 0.25, 0.0
+            ],
+            normals2D: [
+                0.0, 0.0, 1.0,
+                0.0, 0.0, 1.0,
+                0.0, 0.0, 1.0,
+                0.0, 0.0, 1.0
+            ],
+            indices2D: [
+                0, 2, 1,
+                0, 3, 2
+            ]
         },
         drawInfo: {
-            program: [],
+            worldParams: [],
+            worldMatrix: [],
             bufferLength: 0,
             vao: [],
             ambientColor: [128.0 / 255, 0.0, 128.0 / 255],
@@ -584,39 +574,6 @@ let assetsData = [
                 decay: defaultDecay
             },
 
-            locations: {
-                worldParams: [],
-                // Asset params
-                positionAttributeLocation: [],
-                normalsAttributeLocation: [],
-                uvAttributeLocation: [],
-                wvpMatrixLocation: [],
-                worldMatrix: [],
-                rotation: 0,
-                // Object params
-                textureLocation: [],
-
-                // Lights params
-                isDayLocation: [],
-                directLightDirectionLocation: [],
-                directLightColorLocation: [],
-                ambientLightLocation: [],
-                lightTargetLocation: [],
-                lightDecayLocation: [],
-                lightColorLocation: [],
-                lightPositionLocation: [],
-
-                // Raycasting params
-                electronRadiusLocation: [],
-                rayCastingLocation: [],
-
-                // BRDF
-                diffuseModeLocation: [],
-                specularModeLocation: [],
-                specShineLocation: [],
-                sigmaLocation: [],
-                eyePosLocation: []
-            }
         },
     },
 
@@ -696,10 +653,26 @@ let assetsData = [
                 20, 21, 22,
                 22, 21, 23
             ],
-            textures: null,
+            vertices2D: [
+                -Math.sqrt(2) / 8, -Math.sqrt(2) / 8, 0.0,
+                3 * Math.sqrt(2) / 8, -Math.sqrt(2) / 8, 0.0,
+                Math.sqrt(2) / 8, Math.sqrt(2) / 8, 0.0,
+                -3 * Math.sqrt(2) / 8, Math.sqrt(2) / 8, 0.0,
+            ],
+            normals2D: [
+                0.0, 0.0, 1.0,
+                0.0, 0.0, 1.0,
+                0.0, 0.0, 1.0,
+                0.0, 0.0, 1.0
+            ],
+            indices2D: [
+                0, 2, 1,
+                0, 3, 2
+            ]
         },
         drawInfo: {
-            program: [],
+            worldParams: [],
+            worldMatrix: [],
             bufferLength: 0,
             vao: [],
             ambientColor: [1.0, 165.0 / 255, 0.0],
@@ -712,63 +685,8 @@ let assetsData = [
                 decay: defaultDecay
             },
 
-            locations: {
-                worldParams: [],
-                // Asset params
-                positionAttributeLocation: [],
-                normalsAttributeLocation: [],
-                uvAttributeLocation: [],
-                wvpMatrixLocation: [],
-                worldMatrix: [],
-                rotation: 0,
-                // Object params
-                textureLocation: [],
-
-                // Lights params
-                isDayLocation: [],
-                directLightDirectionLocation: [],
-                directLightColorLocation: [],
-                ambientLightLocation: [],
-                lightTargetLocation: [],
-                lightDecayLocation: [],
-                lightColorLocation: [],
-                lightPositionLocation: [],
-
-                // Raycasting params
-                electronRadiusLocation: [],
-                rayCastingLocation: [],
-
-                // BRDF
-                diffuseModeLocation: [],
-                specularModeLocation: [],
-                specShineLocation: [],
-                sigmaLocation: [],
-                eyePosLocation: []
-            }
         },
     },
-
-    /*{
-        name: "TRAY",
-        type: AssetType.TRAY,
-        structInfo: {
-            vertices: [],
-            normals: [],
-            indices: [],
-        },
-        drawInfo: {
-            program: [],
-            bufferLength: 0,
-            vao: [],
-            ambientColor: [0.0, 0.12, 0.5, 1.0],
-            locations: {
-                worldParams: [],
-                positionAttributeLocation: [],
-                wvpMatrixLocation: [],
-                ambientColorLocation: [],
-            },
-        }
-    },*/
     {
         type: AssetType.FLOOR,
         structInfo: {
@@ -838,7 +756,8 @@ let assetsData = [
                 22, 21, 23],
         },
         drawInfo: {
-            program: [],
+            worldParams: [],
+            worldMatrix: [],
             bufferLength: 0,
             vao: [],
             ambientColor: [0.27, 0.54, 0.15],
@@ -850,40 +769,7 @@ let assetsData = [
                 g: defaultG,
                 decay: defaultDecay
             }
-            ,
-            locations: {
-                worldParams: [],
-                // Asset params
-                positionAttributeLocation: [],
-                normalsAttributeLocation: [],
-                uvAttributeLocation: [],
-                wvpMatrixLocation: [],
-                worldMatrix: [],
-                rotation: 0,
-                // Object params
-                textureLocation: [],
 
-                // Lights params
-                isDayLocation: [],
-                directLightDirectionLocation: [],
-                directLightColorLocation: [],
-                ambientLightLocation: [],
-                lightTargetLocation: [],
-                lightDecayLocation: [],
-                lightColorLocation: [],
-                lightPositionLocation: [],
-
-                // Raycasting params
-                electronRadiusLocation: [],
-                rayCastingLocation: [],
-
-                // BRDF
-                diffuseModeLocation: [],
-                specularModeLocation: [],
-                specShineLocation: [],
-                sigmaLocation: [],
-                eyePosLocation: []
-            }
         }
     }
 ]

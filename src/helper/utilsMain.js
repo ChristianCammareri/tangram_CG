@@ -19,15 +19,11 @@ function getCanvas() {
 
 }
 
-function initializeYourProgram(gl) {
+function initializeProgram(gl) {
 
-    var program;
-
-    program = compileAndLinkShaders(gl);
-    locations = getAttributeAndUniformLocation(gl, program);
-    createVAO(gl);
-
-    return locations;
+    compileAndLinkShaders(gl);
+    getAttributeAndUniformLocation(gl, 0);
+    createVAO(gl,0);
 }
 
 function compileAndLinkShaders(gl) {
@@ -38,43 +34,47 @@ function compileAndLinkShaders(gl) {
         var fragmentShader = utils.createShader(gl, gl.FRAGMENT_SHADER, shaderText[1]);
         program = utils.createProgram(gl, vertexShader, fragmentShader);
     });
-    gl.useProgram(program);
 
-    return program;
+    programsArray[0] = program;
+    gl.useProgram(programsArray[0]);
+
+    
+    return;
 
 
 }
 
-function getAttributeAndUniformLocation(gl, program) {
+function getAttributeAndUniformLocation(gl, shadersType) {
+    
 
-    var positionAttributeLocation = gl.getAttribLocation(program, "inPosition");
-    var normalAttributeLocation = gl.getAttribLocation(program, "inNormal");
+    var positionAttributeLocation = gl.getAttribLocation(programsArray[shadersType], "inPosition");
+    var normalAttributeLocation = gl.getAttribLocation(programsArray[shadersType], "inNormal");
 
-    var matrixLocation = gl.getUniformLocation(program, "matrix");
-    var normalMatrixPositionHandle = gl.getUniformLocation(program, 'nMatrix');
-    var vertexMatrixPositionHandle = gl.getUniformLocation(program, 'pMatrix');
+    var matrixLocation = gl.getUniformLocation(programsArray[shadersType], "matrix");
+    var normalMatrixPositionHandle = gl.getUniformLocation(programsArray[shadersType], 'nMatrix');
+    var vertexMatrixPositionHandle = gl.getUniformLocation(programsArray[shadersType], 'pMatrix');
 
-    var materialColorHandle = gl.getUniformLocation(program, 'materialColor');
-    var specularColorHandle = gl.getUniformLocation(program, 'specularColor');
+    var materialColorHandle = gl.getUniformLocation(programsArray[shadersType], 'materialColor');
+    var specularColorHandle = gl.getUniformLocation(programsArray[shadersType], 'specularColor');
 
     //Directional Light
-    var lightDirectionHandle = gl.getUniformLocation(program, 'lightDirection');
-    var lightPositionHandle = gl.getUniformLocation(program, 'lightPosition');
-    var lightColorHandle = gl.getUniformLocation(program, 'lightColor');
+    var lightDirectionHandle = gl.getUniformLocation(programsArray[shadersType], 'lightDirection');
+    var lightPositionHandle = gl.getUniformLocation(programsArray[shadersType], 'lightPosition');
+    var lightColorHandle = gl.getUniformLocation(programsArray[shadersType], 'lightColor');
 
     //Point light
-    var pointLightPosition = gl.getUniformLocation(program, 'LBPos');
-    var pointLightColor = gl.getUniformLocation(program, 'LBCol');
+    var pointLightPosition = gl.getUniformLocation(programsArray[shadersType], 'LBPos');
+    var pointLightColor = gl.getUniformLocation(programsArray[shadersType], 'LBCol');
 
     //Spotligh light
-    //var spotLightPosition = gl.getUniformLocation(program, 'LCPos');
-    //var spotLightColor = gl.getUniformLocation(program, 'LBCol');
+    //var spotLightPosition = gl.getUniformLocation(programsArray[shadersType], 'LCPos');
+    //var spotLightColor = gl.getUniformLocation(programsArray[shadersType], 'LBCol');
 
-    var decayHandle = gl.getUniformLocation(program, 'decay');
-    var targetHandle = gl.getUniformLocation(program, 'target');
-    var specShine = gl.getUniformLocation(program, 'specShine');
+    var decayHandle = gl.getUniformLocation(programsArray[shadersType], 'decay');
+    var targetHandle = gl.getUniformLocation(programsArray[shadersType], 'target');
+    var specShine = gl.getUniformLocation(programsArray[shadersType], 'specShine');
 
-    return {
+    locationsArray[shadersType] =  {
         "positionAttributeLocation": positionAttributeLocation,
         "normalAttributeLocation": normalAttributeLocation,
         "matrixLocation": matrixLocation,
@@ -98,11 +98,13 @@ function getAttributeAndUniformLocation(gl, program) {
 
         "normalMatrixPositionHandle": normalMatrixPositionHandle,
         "vertexMatrixPositionHandle": vertexMatrixPositionHandle
-    }
+    };
+
+    return;
 
 }
 
-function createVAO(gl) {
+function createVAO(gl,shadersType) {
 
     for (i = 0; i < assetsData.length; i++) {
 
@@ -112,12 +114,12 @@ function createVAO(gl) {
 
         gl.bindBuffer(gl.ARRAY_BUFFER, gl.createBuffer());
         gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(assetsData[i].structInfo.vertices), gl.STATIC_DRAW);
-        putAttributesOnGPU(locations.positionAttributeLocation);
+        putAttributesOnGPU(locationsArray[shadersType].positionAttributeLocation);
 
 
         gl.bindBuffer(gl.ARRAY_BUFFER, gl.createBuffer());
         gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(assetsData[i].structInfo.normals), gl.STATIC_DRAW);
-        putAttributesOnGPU(locations.normalAttributeLocation);
+        putAttributesOnGPU(locationsArray[shadersType].normalAttributeLocation);
 
 
 
@@ -138,15 +140,15 @@ function putAttributesOnGPU(location) {
 function initPosition(idSetup) {
 
     for (i = 0; i < assetsData.length - 1; i++){
-        assetsData[i].drawInfo.locations.worldParams = [setups[idSetup].positionMatrix[i][0], setups[idSetup].positionMatrix[i][1], 0.0, 0.0, 0.0, setups[idSetup].positionMatrix[i][2], 1.0];
+        assetsData[i].drawInfo.worldParams = [setups[idSetup].positionMatrix[i][0], setups[idSetup].positionMatrix[i][1], 0.0, 0.0, 0.0, setups[idSetup].positionMatrix[i][2], 1.0];
         //console.log(assetsData[i].drawInfo.locations.worldParams);
     }
 
     if(setups[idSetup].flippedParallelogram == 180.0){
-        assetsData[6].drawInfo.locations.worldParams = [setups[idSetup].positionMatrix[6][0], setups[idSetup].positionMatrix[6][1], 0.0, 0.0, 180.0, setups[idSetup].positionMatrix[6][2], 1.0];
+        assetsData[6].drawInfo.worldParams = [setups[idSetup].positionMatrix[6][0], setups[idSetup].positionMatrix[6][1], 0.0, 0.0, 180.0, setups[idSetup].positionMatrix[6][2], 1.0];
    
     }
-    assetsData[i].drawInfo.locations.worldParams = [0.0, 0.0, -0.15, 0.0, 0.0, 0.0, 1.0];
+    assetsData[i].drawInfo.worldParams = [0.0, 0.0, -0.15, 0.0, 0.0, 0.0, 1.0];
 
 }
 

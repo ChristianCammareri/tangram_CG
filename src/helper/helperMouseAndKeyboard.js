@@ -42,28 +42,28 @@ var keyFunctionDown = function (e) {
 
       case 83: //S
         if (selectedItem >= 0 && selectedItem < 7)
-          assetsData[selectedItem].drawInfo.locations.worldParams[1] -= 0.05;
+          assetsData[selectedItem].drawInfo.worldParams[1] -= 0.05;
         else
           cy -= 0.05;
         break;
 
       case 87: //W
         if (selectedItem >= 0 && selectedItem < 7)
-          assetsData[selectedItem].drawInfo.locations.worldParams[1] += 0.05;
+          assetsData[selectedItem].drawInfo.worldParams[1] += 0.05;
         else
           cy += 0.05;
         break;
 
       case 68: //D
         if (selectedItem >= 0 && selectedItem < 7)
-          assetsData[selectedItem].drawInfo.locations.worldParams[0] += 0.05;
+          assetsData[selectedItem].drawInfo.worldParams[0] += 0.05;
         else
           cx += 0.05;
         break;
 
       case 65: //A
         if (selectedItem >= 0 && selectedItem < 7)
-          assetsData[selectedItem].drawInfo.locations.worldParams[0] -= 0.05;
+          assetsData[selectedItem].drawInfo.worldParams[0] -= 0.05;
         else
           cx -= 0.05;
         break;
@@ -80,14 +80,14 @@ var keyFunctionDown = function (e) {
 
       case 82: //R
         if (selectedItem >= 0 && selectedItem < 7)
-          assetsData[selectedItem].drawInfo.locations.worldParams[5] += 45.0;
+          assetsData[selectedItem].drawInfo.worldParams[5] += 45.0;
         else
           angle += 1.0;
         break;
 
       case 84: //T
         if (selectedItem >= 0 && selectedItem < 7)
-          assetsData[selectedItem].drawInfo.locations.worldParams[5] -= 45.0;
+          assetsData[selectedItem].drawInfo.worldParams[5] -= 45.0;
         else
           angle -= 1.0;
         break;
@@ -95,11 +95,11 @@ var keyFunctionDown = function (e) {
       case 70: //F
         if (selectedItem >= 0 && selectedItem < 6) {
 
-          assetsData[selectedItem].drawInfo.locations.worldParams[3] += 180.0;
-          assetsData[selectedItem].drawInfo.locations.worldParams[4] += 180.0;
+          assetsData[selectedItem].drawInfo.worldParams[3] += 180.0;
+          assetsData[selectedItem].drawInfo.worldParams[4] += 180.0;
         } else if (selectedItem == 6)
 
-          assetsData[selectedItem].drawInfo.locations.worldParams[4] += 180.0;
+          assetsData[selectedItem].drawInfo.worldParams[4] += 180.0;
         else
           elevation += 1.0;
         break;
@@ -107,11 +107,11 @@ var keyFunctionDown = function (e) {
       case 71: //G
         if (selectedItem >= 0 && selectedItem < 6) {
 
-          assetsData[selectedItem].drawInfo.locations.worldParams[3] -= 180.0;
-          assetsData[selectedItem].drawInfo.locations.worldParams[4] -= 180.0;
+          assetsData[selectedItem].drawInfo.worldParams[3] -= 180.0;
+          assetsData[selectedItem].drawInfo.worldParams[4] -= 180.0;
         } else if (selectedItem == 6)
 
-          assetsData[selectedItem].drawInfo.locations.worldParams[4] -= 180.0;
+          assetsData[selectedItem].drawInfo.worldParams[4] -= 180.0;
         else
           elevation -= 1.0;
         break;
@@ -126,12 +126,12 @@ var keyFunctionDown = function (e) {
 
         if (selectedItem == -1) {
           selectedItem = e.keyCode - 49;
-          assetsData[selectedItem].drawInfo.locations.worldParams[2] += 0.1;
+          assetsData[selectedItem].drawInfo.worldParams[2] += 0.1;
         }
         else if (selectedItem == e.keyCode - 49) {
           if (checkNotOverlap(selectedItem)) {
 
-            assetsData[selectedItem].drawInfo.locations.worldParams[2] -= 0.1;
+            assetsData[selectedItem].drawInfo.worldParams[2] -= 0.1;
             selectedItem = -1;
           }
           else {
@@ -140,9 +140,9 @@ var keyFunctionDown = function (e) {
         } else {
           if (checkNotOverlap(selectedItem)) {
 
-            assetsData[selectedItem].drawInfo.locations.worldParams[2] -= 0.1;
+            assetsData[selectedItem].drawInfo.worldParams[2] -= 0.1;
             selectedItem = e.keyCode - 49;
-            assetsData[selectedItem].drawInfo.locations.worldParams[2] += 0.1;
+            assetsData[selectedItem].drawInfo.worldParams[2] += 0.1;
 
           }
           else {

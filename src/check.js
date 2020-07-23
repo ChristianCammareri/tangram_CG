@@ -148,7 +148,7 @@ function modifyVertices(index) {
     else
         item = new Array(4);
 
-    var worldLocation = assetsData[index].drawInfo.locations.worldParams;
+    var worldLocation = assetsData[index].drawInfo.worldParams;
 
 
 

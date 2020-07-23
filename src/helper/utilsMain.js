@@ -21,31 +21,32 @@ function getCanvas() {
 
 function initializeProgram(gl) {
 
-    compileAndLinkShaders(gl);
+    //drawFloor(gl);
+    compileAndLinkShaders(gl, shadersPath.vs, shadersPath.fs, ShadersType.ITEM);
     getAttributeAndUniformLocation(gl, ShadersType.ITEM);
-    createVAO(gl,ShadersType.ITEM);
+    createVAO(gl, ShadersType.ITEM);
 }
 
-function compileAndLinkShaders(gl) {
+function compileAndLinkShaders(gl, vertexShaderPath, fragmentShaderPath, shadersType) {
 
     var program;
-    utils.loadFiles([shadersPath.vs, shadersPath.fs], function (shaderText) {
+    utils.loadFiles([vertexShaderPath, fragmentShaderPath], function (shaderText) {
         var vertexShader = utils.createShader(gl, gl.VERTEX_SHADER, shaderText[0]);
         var fragmentShader = utils.createShader(gl, gl.FRAGMENT_SHADER, shaderText[1]);
         program = utils.createProgram(gl, vertexShader, fragmentShader);
     });
 
-    programsArray[0] = program;
-    gl.useProgram(programsArray[0]);
+    programsArray[shadersType] = program;
+    gl.useProgram(programsArray[shadersType]);
 
-    
+
     return;
 
 
 }
 
 function getAttributeAndUniformLocation(gl, shadersType) {
-    
+
 
     var positionAttributeLocation = gl.getAttribLocation(programsArray[shadersType], "inPosition");
     var normalAttributeLocation = gl.getAttribLocation(programsArray[shadersType], "inNormal");
@@ -74,7 +75,7 @@ function getAttributeAndUniformLocation(gl, shadersType) {
     var targetHandle = gl.getUniformLocation(programsArray[shadersType], 'target');
     var specShine = gl.getUniformLocation(programsArray[shadersType], 'specShine');
 
-    locationsArray[shadersType] =  {
+    locationsArray[shadersType] = {
         "positionAttributeLocation": positionAttributeLocation,
         "normalAttributeLocation": normalAttributeLocation,
         "matrixLocation": matrixLocation,
@@ -89,8 +90,8 @@ function getAttributeAndUniformLocation(gl, shadersType) {
         "targetHandle": targetHandle,
         "specShine": specShine,
 
-        "pointLightPosition":pointLightPosition,
-        "pointLightColor":pointLightColor,
+        "pointLightPosition": pointLightPosition,
+        "pointLightColor": pointLightColor,
 
         //"spotLightPosition":spotLightPos,
         //"spotLightCin":spotLightCin,
@@ -104,7 +105,7 @@ function getAttributeAndUniformLocation(gl, shadersType) {
 
 }
 
-function createVAO(gl,shadersType) {
+function createVAO(gl, shadersType) {
 
     for (i = 0; i < assetsData.length; i++) {
 
@@ -139,16 +140,106 @@ function putAttributesOnGPU(location) {
 
 function initPosition(idSetup) {
 
-    for (i = 0; i < assetsData.length - 1; i++){
+    for (i = 0; i < assetsData.length; i++) {
         assetsData[i].drawInfo.worldParams = [setups[idSetup].positionMatrix[i][0], setups[idSetup].positionMatrix[i][1], 0.0, 0.0, 0.0, setups[idSetup].positionMatrix[i][2], 1.0];
-        //console.log(assetsData[i].drawInfo.locations.worldParams);
+
     }
 
-    if(setups[idSetup].flippedParallelogram == 180.0){
+    if (setups[idSetup].flippedParallelogram == 180.0) {
         assetsData[6].drawInfo.worldParams = [setups[idSetup].positionMatrix[6][0], setups[idSetup].positionMatrix[6][1], 0.0, 0.0, 180.0, setups[idSetup].positionMatrix[6][2], 1.0];
-   
+
     }
-    assetsData[i].drawInfo.worldParams = [0.0, 0.0, -0.15, 0.0, 0.0, 0.0, 1.0];
+    //assetsData[i].drawInfo.worldParams = [0.0, 0.0, -0.15, 0.0, 0.0, 0.0, 1.0];
 
 }
 
+function drawFloor(gl) {
+
+    compileAndLinkShaders(gl, shadersPath.vsFloor, shadersPath.fsFloor, ShadersType.FLOOR);
+    getAttributeAndUniformLocationFloor(gl);
+    createVAOFloor(gl);
+    drawSceneFloor();
+
+
+
+
+}
+
+function getAttributeAndUniformLocationFloor(gl) {
+
+    var positionAttributeLocation = gl.getAttribLocation(programsArray[ShadersType.FLOOR], "in_position");
+    var uvAttributeLocation = gl.getAttribLocation(programsArray[ShadersType.FLOOR], "in_uv");
+    var matrixLocation = gl.getUniformLocation(programsArray[ShadersType.FLOOR], "matrix");
+    var textLocation = gl.getUniformLocation(programsArray[ShadersType.FLOOR], "u_texture");
+
+    locationsArray[ShadersType.FLOOR] = {
+        "positionAttributeLocation": positionAttributeLocation,
+        "normalAttributeLocation": uvAttributeLocation,
+        "matrixLocation": matrixLocation,
+        "textLocation": textLocation
+    };
+
+}
+
+function createVAOFloor(gl) {
+
+    assetsFloor.drawInfo.vao = gl.createVertexArray();
+    gl.bindVertexArray(assetsFloor.drawInfo.vao);
+
+    gl.bindBuffer(gl.ARRAY_BUFFER, gl.createBuffer());
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(assetsFloor.structInfo.vertices), gl.STATIC_DRAW);
+    putAttributesOnGPU(locationsArray[ShadersType.FLOOR].positionAttributeLocation);
+
+    gl.bindBuffer(gl.ARRAY_BUFFER, gl.createBuffer());
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(assetsFloor.structInfo.uv), gl.STATIC_DRAW);
+    putAttributesOnGPU(locationsArray[ShadersType.FLOOR].uvAttributeLocation);
+
+    gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, gl.createBuffer());
+    gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(assetsFloor.structInfo.indices), gl.STATIC_DRAW);
+
+    assetsFloor.drawInfo.texture = gl.createTexture();
+    gl.activeTexture(gl.TEXTURE0);
+    gl.bindTexture(gl.TEXTURE_2D, assetsFloor.drawInfo.texture);
+
+    loadImage(gl,imagePath, assetsFloor.drawInfo.texture);
+
+
+}
+
+function loadImage(gl, path, texture) {
+    var image = new Image();
+    image.src = path;
+    image.onload = function () {
+        gl.bindTexture(gl.TEXTURE_2D, texture);
+        gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, image);
+        gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, true);
+
+        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+
+        gl.generateMipmap(gl.TEXTURE_2D);
+
+    }
+}
+
+function drawSceneFloor(){
+
+    viewMatrix = utils.MakeView(cx, cy, cz, elevation, angle);
+
+    var worldLocation = assetsFloor.drawInfo.worldParams;
+      assetsFloor.drawInfo.worldMatrix = utils.MakeWorld(worldLocation[0], worldLocation[1], worldLocation[2], worldLocation[3], worldLocation[4], worldLocation[5], worldLocation[6]); //TODO eliminare objects world matrix in futuro
+
+
+    var viewWorldMatrix = utils.multiplyMatrices(viewMatrix, assetsFloor.drawInfo.worldMatrix);
+    var projectionMatrix = utils.multiplyMatrices(perspectiveMatrix, viewWorldMatrix);
+   
+    gl.uniformMatrix4fv(locationsArray[ShadersType.FLOOR].matrixLocation, gl.FALSE, utils.transposeMatrix(projectionMatrix));
+    gl.activeTexture(gl.TEXTURE0);
+    gl.bindTexture(gl.TEXTURE_2D, assetsFloor.drawInfo.texture);
+    gl.uniform1i(locationsArray[ShadersType.FLOOR].textLocation, 0);
+
+    gl.bindVertexArray(assetsFloor.drawInfo.vao);
+    gl.drawElements(gl.TRIANGLES, assetsFloor.structInfo.indices.length, gl.UNSIGNED_SHORT, 0 );
+    
+    window.requestAnimationFrame(drawSceneFloor);
+}

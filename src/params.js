@@ -16,8 +16,12 @@ var viewMatrix = [];
 
 var shadersPath = {
     vs: "/src/shaders/vs.glsl",
-    fs: "/src/shaders/fs.glsl"
+    fs: "/src/shaders/fs.glsl",
+    vsFloor: "/src/shaders/vsFloor.glsl",
+    fsFloor: "/src/shaders/fsFloor.glsl"
 }
+
+var imagePath = "/src/res/background.png";
 
 var keys = [];
 var selectedItem = -1;
@@ -63,3 +67,4 @@ var spotLightColor = [1.0, 1.0, 1.0];
  var height;
 
  var perspectiveMatrix;
+ var viewMatrix;

@@ -48,7 +48,7 @@ function initializeProgram(gl, shadersType) {
     createVAO(gl, shadersType);
 }
 
-function compileAndLinkShaders(gl, vertexShaderPath, fragmentShaderPath, shadersType) {
+/*function compileAndLinkShaders(gl, vertexShaderPath, fragmentShaderPath, shadersType) {
 
     var program;
     utils.loadFiles([vertexShaderPath, fragmentShaderPath], function (shaderText) {
@@ -60,7 +60,7 @@ function compileAndLinkShaders(gl, vertexShaderPath, fragmentShaderPath, shaders
     programsArray[shadersType] = program;
     gl.useProgram(programsArray[shadersType]);
     return;
-}
+}*/
 
 function getAttributeAndUniformLocation(gl, shadersType) {
 
@@ -240,19 +240,20 @@ function createVAOFloor(gl) {
     gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(assetsFloor.structInfo.indices), gl.STATIC_DRAW);
 
     assetsFloor.drawInfo.texture = gl.createTexture();
+    loadImage(gl,imagePath);
     gl.activeTexture(gl.TEXTURE0);
     gl.bindTexture(gl.TEXTURE_2D, assetsFloor.drawInfo.texture);
 
-    loadImage(gl,imagePath, assetsFloor.drawInfo.texture);
+    
 
 
 }
 
-function loadImage(gl, path, texture) {
+function loadImage(gl, path) {
     var image = new Image();
     image.src = path;
     image.onload = function () {
-        gl.bindTexture(gl.TEXTURE_2D, texture);
+
         gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, image);
         gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, true);
 
@@ -262,10 +263,13 @@ function loadImage(gl, path, texture) {
         gl.generateMipmap(gl.TEXTURE_2D);
 
     }
+    console.log(image);
 }
 
 function drawSceneFloor(){
 
+    
+    gl.useProgram(programsArray[ShadersType.FLOOR]);
     viewMatrix = utils.MakeView(cx, cy, cz, elevation, angle);
 
     var worldLocation = assetsFloor.drawInfo.worldParams;

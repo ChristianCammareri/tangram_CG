@@ -23,7 +23,7 @@ var shadersPath = {
     ofs: "/src/shaders/ofs.glsl"
 }
 
-var imagePath = "/src/res/background.png";
+var imagePath = "/src/res/floor.png";
 
 var keys = [];
 var selectedItem = -1;

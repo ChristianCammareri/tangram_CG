@@ -37,7 +37,7 @@ function drawItems() {
     
           //LIGHTS
           glMain.uniform4fv(locationsArray[0].materialColorHandle, [assetsData[i].drawInfo.ambientColor[0], assetsData[i].drawInfo.ambientColor[1], assetsData[i].drawInfo.ambientColor[2], 1.0]);
-          glMain.uniform4fv(locationsArray[0].specularColorHandle, [1.0, 1.0, 1.0, 1.0]);
+          glMain.uniform4fv(locationsArray[0].specularColorHandle, specularColor);
           glMain.uniform4fv(locationsArray[0].lightSwitch, lightSwitch);
           glMain.uniform1f(locationsArray[0].specShine, specularShine);
     

@@ -18,10 +18,12 @@ var shadersPath = {
     vs: "/src/shaders/vs.glsl",
     fs: "/src/shaders/fs.glsl",
     vsFloor: "/src/shaders/vsFloor.glsl",
-    fsFloor: "/src/shaders/fsFloor.glsl"
+    fsFloor: "/src/shaders/fsFloor.glsl",
+    ovs: "/src/shaders/ovs.glsl",
+    ofs: "/src/shaders/ofs.glsl"
 }
 
-var imagePath = "/src/res/background.png";
+var imagePath = "/src/res/floor.png";
 
 var keys = [];
 var selectedItem = -1;

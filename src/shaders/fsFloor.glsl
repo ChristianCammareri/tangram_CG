@@ -10,6 +10,6 @@ out vec4 color;
 void main() {
 	
 
-	color = texture(u_texture, uvFS);;
+	color = texture(u_texture, uvFS);
 
 }

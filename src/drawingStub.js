@@ -1,7 +1,46 @@
+var canvas, glMain, overlay, glOverlay;
+
+async function init(){
+
+  canvas = getCanvas();
+  glMain = canvas.getContext("webgl2");
+  overlay = getCanvasOverlay();
+  glOverlay = overlay.getContext("webgl2");
+  if (!glMain || !glOverlay) {
+    document.write("GL context not opened: " + glMain + glOverlay);
+    return;
+  }
+  utils.resizeCanvasToDisplaySize(glMain.canvas);
+    
+  //MultipleShaders
+  await utils.loadFiles([shadersPath.vs, shadersPath.fs], function (shaderText) {
+      var vertexShader = utils.createShader(glMain, glMain.VERTEX_SHADER, shaderText[0]);
+      var fragmentShader = utils.createShader(glMain, glMain.FRAGMENT_SHADER, shaderText[1]);
+
+      programsArray[ShadersType.ITEM] = utils.createProgram(glMain, vertexShader, fragmentShader);
+    });
+    
+    await utils.loadFiles([shadersPath.vsFloor, shadersPath.fsFloor], function (shaderText) {
+      var vertexShader = utils.createShader(glMain, glMain.VERTEX_SHADER, shaderText[0]);
+      var fragmentShader = utils.createShader(glMain, glMain.FRAGMENT_SHADER, shaderText[1]);
+
+      programsArray[ShadersType.FLOOR] = utils.createProgram(glMain, vertexShader, fragmentShader);
+    });
+    
+      await utils.loadFiles([shadersPath.ovs, shadersPath.ofs], function (shaderText) {
+      var vertexShader = utils.createShader(glOverlay, glOverlay.VERTEX_SHADER, shaderText[0]);
+      var fragmentShader = utils.createShader(glOverlay, glOverlay.FRAGMENT_SHADER, shaderText[1]);
+
+      programsArray[ShadersType.SOLUTION] = utils.createProgram(glOverlay, vertexShader, fragmentShader);
+    });
+
+    main();
+}
+
 function main() {
 
 
-  var canvas = getCanvas();
+  //var canvas = getCanvas();
 
   canvas.addEventListener("mousedown", doMouseDown, false);
   canvas.addEventListener("mouseup", doMouseUp, false);
@@ -10,20 +49,22 @@ function main() {
 
   window.addEventListener("keydown", keyFunctionDown, false);
 
-  gl = canvas.getContext("webgl2");
+  //gl = canvas.getContext("webgl2");
 
-  width = gl.canvas.width;
-  height = gl.canvas.height;
+  width = glMain.canvas.width;
+  height = glMain.canvas.height;
 
   perspectiveMatrix = utils.MakePerspective(90, width / height, 0.1, 100.0);
 
-  initializeProgram(gl);
+  initializeProgram(glMain, ShadersType.ITEM);
 
   initPosition(0);
   drawScene();
+  //drawOverlay();
+  //drawFloor(glMain);
 
   function drawScene() {
-
+    
     viewMatrix = utils.MakeView(cx, cy, cz, elevation, angle);
 
     var lightDirMatrix = utils.invertMatrix(utils.transposeMatrix(viewMatrix));
@@ -33,6 +74,7 @@ function main() {
     
 
     for (i = 0; i < assetsData.length; i++) {
+      glMain.useProgram(programsArray[ShadersType.ITEM]);
 
       var worldLocation = assetsData[i].drawInfo.worldParams;
       assetsData[i].drawInfo.worldMatrix = utils.MakeWorld(worldLocation[0], worldLocation[1], worldLocation[2], worldLocation[3], worldLocation[4], worldLocation[5], worldLocation[6]); //TODO eliminare objects world matrix in futuro
@@ -43,29 +85,29 @@ function main() {
       var cubeNormalMatrix = utils.invertMatrix(utils.transposeMatrix(worldViewMatrix));
 
 
-      gl.uniformMatrix4fv(locationsArray[0].matrixLocation, gl.FALSE, utils.transposeMatrix(projectionMatrix));
-      gl.uniformMatrix4fv(locationsArray[0].normalMatrixPositionHandle, gl.FALSE, utils.transposeMatrix(cubeNormalMatrix));
-      gl.uniformMatrix4fv(locationsArray[0].vertexMatrixPositionHandle, gl.FALSE, utils.transposeMatrix(assetsData[i].drawInfo.worldMatrix));
+      glMain.uniformMatrix4fv(locationsArray[0].matrixLocation, glMain.FALSE, utils.transposeMatrix(projectionMatrix));
+      glMain.uniformMatrix4fv(locationsArray[0].normalMatrixPositionHandle, glMain.FALSE, utils.transposeMatrix(cubeNormalMatrix));
+      glMain.uniformMatrix4fv(locationsArray[0].vertexMatrixPositionHandle, glMain.FALSE, utils.transposeMatrix(assetsData[i].drawInfo.worldMatrix));
 
-      gl.uniform3fv(locationsArray[0].materialColorHandle, assetsData[i].drawInfo.ambientColor);
-      gl.uniform3fv(locationsArray[0].specularColorHandle, [1.0, 1.0, 1.0]);
+      glMain.uniform3fv(locationsArray[0].materialColorHandle, assetsData[i].drawInfo.ambientColor);
+      glMain.uniform3fv(locationsArray[0].specularColorHandle, [1.0, 1.0, 1.0]);
 
       //gl.uniform3fv(locationsArray.lightPositionHandle, positionLight);
       //gl.uniform3fv(locationsArray.lightColorHandle, directionalLightColor);
 //      gl.uniform3fv(locationsArray.lightDirectionHandle, lightDirectionTransformed);
-      gl.uniform3fv(locationsArray[0].pointLightPosition, pointLightPosition);
-      gl.uniform3fv(locationsArray[0].pointLightColor, pointLightColor);
+      glMain.uniform3fv(locationsArray[0].pointLightPosition, pointLightPosition);
+      glMain.uniform3fv(locationsArray[0].pointLightColor, pointLightColor);
      // gl.uniform3fv(locationsArray.pointLightDir, pointLightDir)
       //gl.uniform3fv()
       
 
-      gl.uniform1f(locationsArray[0].decayHandle, defaultDecay);
-      gl.uniform1f(locationsArray[0].targetHandle, 10.0);
+      glMain.uniform1f(locationsArray[0].decayHandle, defaultDecay);
+      glMain.uniform1f(locationsArray[0].targetHandle, 10.0);
 
-      gl.uniform1f(locationsArray[0].specShine, defaultSpecShine);
+      glMain.uniform1f(locationsArray[0].specShine, defaultSpecShine);
 
-      gl.bindVertexArray(assetsData[i].drawInfo.vao);
-      gl.drawElements(gl.TRIANGLES, assetsData[i].structInfo.indices.length, gl.UNSIGNED_SHORT, 0);
+      glMain.bindVertexArray(assetsData[i].drawInfo.vao);
+      glMain.drawElements(glMain.TRIANGLES, assetsData[i].structInfo.indices.length, glMain.UNSIGNED_SHORT, 0);
 
     }
 
@@ -75,4 +117,4 @@ function main() {
 
 }
 
-window.onload = main;
+window.onload = init;

@@ -99,7 +99,7 @@ var keyFunctionDown = function (e) {
             selectedItem = -1;
           }
           else {
-            window.alert("-Potrò posare qui il mio item?\n-Eh no, non può posare un item se sotto ce n'è già un altro.\n-Ah no, non posso?");
+            window.alert("-Potrò posare qui il mio item?\n-Eh no, se sotto ce n'è già un altro no.\n-Ah no, non posso?");
           }
         } else {
           if (checkNotOverlap(selectedItem)) {
@@ -110,7 +110,7 @@ var keyFunctionDown = function (e) {
 
           }
           else {
-            window.alert("-Potrò posare qui il mio item?\n-Eh no, non può posare un item se sotto ce n'è già un altro.\n-Ah no, non posso?");
+            window.alert("-Potrò posare qui il mio item?\n-Eh no, se sotto ce n'è già un altro no.\n-Ah no, non posso?");
 
           }
         }
@@ -118,22 +118,22 @@ var keyFunctionDown = function (e) {
 
       case 37: 	// Left arrow
         if (selectedItem >= 0 && selectedItem < 7)
-          assetsData[selectedItem].drawInfo.worldParams[0] -= 0.05;
+          assetsData[selectedItem].drawInfo.worldParams[0] -= 0.025;
         break;
 
       case 39: 	// Right arrow
         if (selectedItem >= 0 && selectedItem < 7)
-          assetsData[selectedItem].drawInfo.worldParams[0] += 0.05;
+          assetsData[selectedItem].drawInfo.worldParams[0] += 0.025;
         break;
 
       case 38:	// Up arrow
         if (selectedItem >= 0 && selectedItem < 7)
-          assetsData[selectedItem].drawInfo.worldParams[1] += 0.05;
+          assetsData[selectedItem].drawInfo.worldParams[1] += 0.025;
         break;
 
       case 40:	// Down arrow
         if (selectedItem >= 0 && selectedItem < 7)
-          assetsData[selectedItem].drawInfo.worldParams[1] -= 0.05;
+          assetsData[selectedItem].drawInfo.worldParams[1] -= 0.025;
         break;
 
       case 67: //C

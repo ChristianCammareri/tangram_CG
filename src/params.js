@@ -15,15 +15,15 @@ var viewMatrix = [];
 
 
 var shadersPath = {
-    vs: "/src/shaders/vs.glsl",
-    fs: "/src/shaders/fs.glsl",
-    vsFloor: "/src/shaders/vsFloor.glsl",
-    fsFloor: "/src/shaders/fsFloor.glsl",
-    ovs: "/src/shaders/ovs.glsl",
-    ofs: "/src/shaders/ofs.glsl"
+    vs: "/src/shaders/item/vs.glsl",
+    fs: "/src/shaders/item/fs.glsl",
+    vsFloor: "/src/shaders/floor/vs.glsl",
+    fsFloor: "/src/shaders/floor/fs.glsl",
+    ovs: "/src/shaders/overlay/vs.glsl",
+    ofs: "/src/shaders/overlay/fs.glsl"
 }
 
-var imagePath = "/src/res/floor.png";
+var imagePath = "/src/resources/floor.png";
 
 var keys = [];
 var selectedItem = -1;

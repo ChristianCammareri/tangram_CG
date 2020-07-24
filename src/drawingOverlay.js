@@ -16,7 +16,9 @@ function drawOverlay() {
     for (i = 0; i < assetsData.length; i++) {
       glOverlay.useProgram(programsArray[ShadersType.SOLUTION]);
       
-      var worldViewMatrix = utils.multiplyMatrices(viewMatrix, assetsData[i].drawInfo.worldMatrixSolution);
+      
+      var worldMatrixSolution = utils.multiplyMatrices(utils.MakeTranslateMatrix(1.0, 1.0, 0.5), assetsData[i].drawInfo.worldMatrixSolution);
+      var worldViewMatrix = utils.multiplyMatrices(viewMatrix, worldMatrixSolution);
       var projectionMatrix = utils.multiplyMatrices(perspectiveMatrix, worldViewMatrix);
 
       var cubeNormalMatrix = utils.invertMatrix(utils.transposeMatrix(worldViewMatrix));
@@ -24,7 +26,7 @@ function drawOverlay() {
 
       glOverlay.uniformMatrix4fv(locationsArray[1].matrixLocation, glOverlay.FALSE, utils.transposeMatrix(projectionMatrix));
       glOverlay.uniformMatrix4fv(locationsArray[1].normalMatrixPositionHandle, glOverlay.FALSE, utils.transposeMatrix(cubeNormalMatrix));
-      glOverlay.uniformMatrix4fv(locationsArray[1].vertexMatrixPositionHandle, glOverlay.FALSE, utils.transposeMatrix(assetsData[i].drawInfo.worldMatrixSolution));
+      glOverlay.uniformMatrix4fv(locationsArray[1].vertexMatrixPositionHandle, glOverlay.FALSE, utils.transposeMatrix(worldMatrixSolution));
 
       glOverlay.uniform3fv(locationsArray[1].materialColorHandle, assetsData[i].drawInfo.ambientColor);
 

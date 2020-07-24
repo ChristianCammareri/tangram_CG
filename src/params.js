@@ -27,7 +27,7 @@ var imagePath = "/src/resources/floor.png";
 
 var keys = [];
 var selectedItem = -1;
-var selectedSetup = 1;
+var selectedSetup = 0;
 
 
 //LIGHTS

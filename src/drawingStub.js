@@ -77,9 +77,9 @@ function main() {
       glMain.useProgram(programsArray[ShadersType.ITEM]);
 
       var worldLocation = assetsData[i].drawInfo.worldParams;
-      assetsData[i].drawInfo.worldMatrix = utils.MakeWorld(worldLocation[0], worldLocation[1], worldLocation[2], worldLocation[3], worldLocation[4], worldLocation[5], worldLocation[6]); //TODO eliminare objects world matrix in futuro
+      var worldMatrix = utils.MakeWorld(worldLocation[0], worldLocation[1], worldLocation[2], worldLocation[3], worldLocation[4], worldLocation[5], worldLocation[6]); //TODO eliminare objects world matrix in futuro
 
-      var worldViewMatrix = utils.multiplyMatrices(viewMatrix, assetsData[i].drawInfo.worldMatrix);
+      var worldViewMatrix = utils.multiplyMatrices(viewMatrix, worldMatrix);
       var projectionMatrix = utils.multiplyMatrices(perspectiveMatrix, worldViewMatrix);
 
       var cubeNormalMatrix = utils.invertMatrix(utils.transposeMatrix(worldViewMatrix));
@@ -87,7 +87,7 @@ function main() {
 
       glMain.uniformMatrix4fv(locationsArray[0].matrixLocation, glMain.FALSE, utils.transposeMatrix(projectionMatrix));
       glMain.uniformMatrix4fv(locationsArray[0].normalMatrixPositionHandle, glMain.FALSE, utils.transposeMatrix(cubeNormalMatrix));
-      glMain.uniformMatrix4fv(locationsArray[0].vertexMatrixPositionHandle, glMain.FALSE, utils.transposeMatrix(assetsData[i].drawInfo.worldMatrix));
+      glMain.uniformMatrix4fv(locationsArray[0].vertexMatrixPositionHandle, glMain.FALSE, utils.transposeMatrix(worldMatrix));
 
       //LIGHTS
       glMain.uniform4fv(locationsArray[0].materialColorHandle, [assetsData[i].drawInfo.ambientColor[0], assetsData[i].drawInfo.ambientColor[1], assetsData[i].drawInfo.ambientColor[2], 1.0]);

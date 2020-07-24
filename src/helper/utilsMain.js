@@ -214,13 +214,31 @@ function initPosition(idSetup) {
         assetsData[6].drawInfo.worldParams = [setups[idSetup].positionMatrix[6][0], setups[idSetup].positionMatrix[6][1], 0.0, 0.0, 180.0, setups[idSetup].positionMatrix[6][2], 1.0];
 
     }
-    //assetsData[i].drawInfo.worldParams = [0.0, 0.0, -0.15, 0.0, 0.0, 0.0, 1.0];
+}
 
+function initPositionSolution(idSetup) {
+
+
+
+    for (i = 0; i < assetsData.length - 1; i++) {
+        assetsData[i].drawInfo.worldMatrixSolution = utils.MakeWorld(setups[idSetup].positionMatrix[i][0], setups[idSetup].positionMatrix[i][1], 0.0, 0.0, 0.0, setups[idSetup].positionMatrix[i][2], 1.0);
+        console.log(assetsData[i].drawInfo.worldMatrixSolution);
+
+    }
+    
+
+    if (setups[idSetup].flippedParallelogram == 180.0)
+        assetsData[i].drawInfo.worldMatrixSolution = utils.MakeWorld(setups[idSetup].positionMatrix[i][0], setups[idSetup].positionMatrix[i][1], 0.0, 0.0, 180.0, setups[idSetup].positionMatrix[i][2], 1.0);
+
+
+    else
+        assetsData[i].drawInfo.worldMatrixSolution = utils.MakeWorld(setups[idSetup].positionMatrix[i][0], setups[idSetup].positionMatrix[i][1], 0.0, 0.0, 0.0, setups[idSetup].positionMatrix[i][2], 1.0);
+
+        
 }
 
 function drawFloor(gl) {
 
-   // compileAndLinkShaders(gl, shadersPath.vsFloor, shadersPath.fsFloor, ShadersType.FLOOR);
     getAttributeAndUniformLocationFloor(gl);
     createVAOFloor(gl);
     drawSceneFloor();

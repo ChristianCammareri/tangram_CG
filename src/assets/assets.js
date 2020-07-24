@@ -96,7 +96,7 @@ let assetsData = [
         },
         drawInfo: {
             worldParams: [],
-            worldMatrix: [],
+            worldMatrixSolution: [],
             bufferLength: 0,
             vao: [],
             vaoOverlay: [],
@@ -184,7 +184,7 @@ let assetsData = [
         },
         drawInfo: {
             worldParams: [],
-            worldMatrix: [],
+            worldMatrixSolution: [],
             bufferLength: 0,
             vao: [],
             vaoOverlay: [],
@@ -270,7 +270,7 @@ let assetsData = [
         },
         drawInfo: {
             worldParams: [],
-            worldMatrix: [],
+            worldMatrixSolution: [],
             bufferLength: 0,
             vao: [],
             vaoOverlay: [],
@@ -365,7 +365,7 @@ let assetsData = [
         },
         drawInfo: {
             worldParams: [],
-            worldMatrix: [],
+            worldMatrixSolution: [],
             bufferLength: 0,
             vao: [],
             vaoOverlay: [],
@@ -461,7 +461,7 @@ let assetsData = [
         },
         drawInfo: {
             worldParams: [],
-            worldMatrix: [],
+            worldMatrixSolution: [],
             bufferLength: 0,
             vao: [],
             vaoOverlay: [],
@@ -566,7 +566,7 @@ let assetsData = [
         },
         drawInfo: {
             worldParams: [],
-            worldMatrix: [],
+            worldMatrixSolution: [],
             bufferLength: 0,
             vao: [],
             vaoOverlay: [],
@@ -678,7 +678,7 @@ let assetsData = [
         },
         drawInfo: {
             worldParams: [],
-            worldMatrix: [],
+            worldMatrixSolution: [],
             bufferLength: 0,
             vao: [],
             vaoOverlay: [],

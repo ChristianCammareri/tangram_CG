@@ -6,20 +6,17 @@ function drawOverlay() {
 
   initializeProgram(glOverlay, ShadersType.SOLUTION);
 
-  initPosition(0);
-  drawScene();
+  initPositionSolution(3);
+  drawSceneOverlay();
 
-  function drawScene() {
+  function drawSceneOverlay() {
 
     viewMatrix = utils.MakeView(cx, cy, cz, elevation, angle);
 
     for (i = 0; i < assetsData.length; i++) {
       glOverlay.useProgram(programsArray[ShadersType.SOLUTION]);
-      var worldLocation = assetsData[i].drawInfo.worldParams;
-      assetsData[i].drawInfo.worldMatrix = utils.MakeWorld(worldLocation[0], worldLocation[1], worldLocation[2], worldLocation[3], worldLocation[4], worldLocation[5], worldLocation[6]); //TODO eliminare objects world matrix in futuro
       
-      assetsData[i].drawInfo.worldMatrix = utils.multiplyMatrices(utils.MakeTranslateMatrix(2, 2, 0), assetsData[i].drawInfo.worldMatrix);
-      var worldViewMatrix = utils.multiplyMatrices(viewMatrix, assetsData[i].drawInfo.worldMatrix);
+      var worldViewMatrix = utils.multiplyMatrices(viewMatrix, assetsData[i].drawInfo.worldMatrixSolution);
       var projectionMatrix = utils.multiplyMatrices(perspectiveMatrix, worldViewMatrix);
 
       var cubeNormalMatrix = utils.invertMatrix(utils.transposeMatrix(worldViewMatrix));
@@ -27,7 +24,7 @@ function drawOverlay() {
 
       glOverlay.uniformMatrix4fv(locationsArray[1].matrixLocation, glOverlay.FALSE, utils.transposeMatrix(projectionMatrix));
       glOverlay.uniformMatrix4fv(locationsArray[1].normalMatrixPositionHandle, glOverlay.FALSE, utils.transposeMatrix(cubeNormalMatrix));
-      glOverlay.uniformMatrix4fv(locationsArray[1].vertexMatrixPositionHandle, glOverlay.FALSE, utils.transposeMatrix(assetsData[i].drawInfo.worldMatrix));
+      glOverlay.uniformMatrix4fv(locationsArray[1].vertexMatrixPositionHandle, glOverlay.FALSE, utils.transposeMatrix(assetsData[i].drawInfo.worldMatrixSolution));
 
       glOverlay.uniform3fv(locationsArray[1].materialColorHandle, assetsData[i].drawInfo.ambientColor);
 
@@ -36,7 +33,7 @@ function drawOverlay() {
 
     }
 
-    window.requestAnimationFrame(drawScene);
+    window.requestAnimationFrame(drawSceneOverlay);
   }
 
 }

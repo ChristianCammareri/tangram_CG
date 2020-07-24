@@ -215,7 +215,7 @@ function getAttributeAndUniformLocationFloor(gl) {
 
     locationsArray[ShadersType.FLOOR] = {
         "positionAttributeLocation": positionAttributeLocation,
-        "normalAttributeLocation": uvAttributeLocation,
+        "uvAttributeLocation": uvAttributeLocation,
         "matrixLocation": matrixLocation,
         "textLocation": textLocation
     };
@@ -225,59 +225,59 @@ function getAttributeAndUniformLocationFloor(gl) {
 function createVAOFloor(gl) {
 
     assetsFloor.drawInfo.vao = gl.createVertexArray();
-    gl.bindVertexArray(assetsFloor.drawInfo.vao);
+  gl.bindVertexArray(assetsFloor.drawInfo.vao);
 
-    gl.bindBuffer(gl.ARRAY_BUFFER, gl.createBuffer());
-    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(assetsFloor.structInfo.vertices), gl.STATIC_DRAW);
-    putAttributesOnGPU(gl, locationsArray[ShadersType.FLOOR].positionAttributeLocation);
+  var positionBuffer = gl.createBuffer();
+  gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
+  gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(assetsFloor.structInfo.vertices), gl.STATIC_DRAW);
+  gl.enableVertexAttribArray(locationsArray[ShadersType.FLOOR].positionAttributeLocation);
+  gl.vertexAttribPointer(locationsArray[ShadersType.FLOOR].positionAttributeLocation, 3, gl.FLOAT, false, 0, 0);
 
-    gl.bindBuffer(gl.ARRAY_BUFFER, gl.createBuffer());
-    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(assetsFloor.structInfo.uv), gl.STATIC_DRAW);
-    gl.enableVertexAttribArray(locationsArray[ShadersType.FLOOR].uvAttributeLocation);
-    gl.vertexAttribPointer(locationsArray[ShadersType.FLOOR].uvAttributeLocation, 2, gl.FLOAT, false, 0, 0);
+  var uvBuffer = gl.createBuffer();
+  gl.bindBuffer(gl.ARRAY_BUFFER, uvBuffer);
+  gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(assetsFloor.structInfo.uv), gl.STATIC_DRAW);
+  gl.enableVertexAttribArray(locationsArray[ShadersType.FLOOR].uvAttributeLocation);
+  gl.vertexAttribPointer(locationsArray[ShadersType.FLOOR].uvAttributeLocation, 2, gl.FLOAT, false, 0, 0);
 
-    gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, gl.createBuffer());
-    gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(assetsFloor.structInfo.indices), gl.STATIC_DRAW);
+  var indexBuffer = gl.createBuffer();
+  gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, indexBuffer);
+  gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(assetsFloor.structInfo.indices), gl.STATIC_DRAW); 
 
-    assetsFloor.drawInfo.texture = gl.createTexture();
-    loadImage(gl,imagePath);
-    gl.activeTexture(gl.TEXTURE0);
-    gl.bindTexture(gl.TEXTURE_2D, assetsFloor.drawInfo.texture);
 
+  assetsFloor.drawInfo.texture = gl.createTexture();
+  gl.activeTexture(gl.TEXTURE0);
+  gl.bindTexture(gl.TEXTURE_2D, assetsFloor.drawInfo.texture);
     
-
+  var image = new Image();
+  image.src = imagePath;
+  image.onload = function () {
+      gl.bindTexture(gl.TEXTURE_2D, assetsFloor.drawInfo.texture);
+      gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, image);
+      gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, true);
+      
+      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+      
+      gl.generateMipmap(gl.TEXTURE_2D);
+  }
 
 }
 
-function loadImage(gl, path) {
-    var image = new Image();
-    image.src = path;
-    image.onload = function () {
-
-        gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, image);
-        gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, true);
-
-        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
-        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
-
-        gl.generateMipmap(gl.TEXTURE_2D);
-
-    }
-    console.log(image);
-}
 
 function drawSceneFloor(){
 
     
-    gl.useProgram(programsArray[ShadersType.FLOOR]);
+    glMain.useProgram(programsArray[ShadersType.FLOOR]);
     viewMatrix = utils.MakeView(cx, cy, cz, elevation, angle);
 
     var worldLocation = assetsFloor.drawInfo.worldParams;
     assetsFloor.drawInfo.worldMatrix = utils.MakeWorld(worldLocation[0], worldLocation[1], worldLocation[2], worldLocation[3], worldLocation[4], worldLocation[5], worldLocation[6]); //TODO eliminare objects world matrix in futuro
+   
+
+
     var viewWorldMatrix = utils.multiplyMatrices(viewMatrix, assetsFloor.drawInfo.worldMatrix);
     var projectionMatrix = utils.multiplyMatrices(perspectiveMatrix, viewWorldMatrix);
    
-    glMain.useProgram(programsArray[ShadersType.FLOOR]);
     glMain.uniformMatrix4fv(locationsArray[ShadersType.FLOOR].matrixLocation, glMain.FALSE, utils.transposeMatrix(projectionMatrix));
     glMain.activeTexture(glMain.TEXTURE0);
     glMain.bindTexture(glMain.TEXTURE_2D, assetsFloor.drawInfo.texture);
@@ -285,6 +285,7 @@ function drawSceneFloor(){
 
     glMain.bindVertexArray(assetsFloor.drawInfo.vao);
     glMain.drawElements(glMain.TRIANGLES, assetsFloor.structInfo.indices.length, glMain.UNSIGNED_SHORT, 0 );
+    
     
     window.requestAnimationFrame(drawSceneFloor);
 }

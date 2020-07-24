@@ -60,8 +60,8 @@ function main() {
 
   initPosition(0);
   drawScene();
-  //drawOverlay();
-  //drawFloor(glMain);
+  drawOverlay();
+  drawFloor(glMain);
 
   function drawScene() {
     

@@ -34,7 +34,7 @@ var selectedSetup = 1;
 var ambientLight = [0.1, 0.1, 0.1];
 var ambientLightTop = [0.2, 0.2, 0.2];
 var ambientLightBottom = [0.0, 0.0, 0.0];
-var specularShine = 1;
+var specularShine = 1.0;
 //light type [directional, pointlight, spotlight, boh]
 var lightSwitch = [1, 0, 0, 0];
 
@@ -47,12 +47,12 @@ var directionalLightDir = [Math.cos(dirLightAlpha) * Math.cos(dirLightBeta),
                            Math.cos(dirLightAlpha) * Math.sin(dirLightBeta)
                             ];
 
-var directionalLightColor = [1.0, 1.0, 1.0];
+var directionalLightColor = [1.0, 1.0, 1.0, 1.0];
 
 //pointlight
 var pointLightPosition = [0.0, 0.0, 10.0];
-var pointLightColor = [0.3, 0.3, 0.3];
-var pointLightDecay = 0.0;
+var pointLightColor = [0.1, 0.1, 0.1, 1.0];
+var pointLightDecay = 1.0;
 var pointLightTarget = 10.0;
 
 //spotlight
@@ -62,7 +62,7 @@ var spotLightConeIn = 4.0;
 var spotLightConeOut = 5.0;
 var spotLightDecay = 0.0;
 var spotLightTarget = 20.0;
-var spotLightColor = [1.0, 1.0, 1.0];
+var spotLightColor = [1.0, 1.0, 1.0, 1.0];
 
 ////END LIGHTS
  var width;

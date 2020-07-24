@@ -40,7 +40,7 @@ vec4 diffuseLambert(vec3 lightDir, vec4 lightCol, vec3 normalVec, vec4 diffColor
 }
 
 vec4 specularPhong(vec3 lightDir, vec4 lightCol, vec3 normalVec, vec3 eyedirVec) {
-	vec3 reflection = -reflect(-lightDir, normalVec);
+	vec3 reflection = -reflect(lightDir, normalVec);
 	vec4 spec = specularColor * lightCol * pow(clamp(dot(reflection, eyedirVec), 0.0, 1.0), SpecShine);
 	return spec;
 }
@@ -72,14 +72,10 @@ void main() {
 	vec4 lightColC = LCCol * pow((LCTarget / length(LCPos - fsPosition)), LCDecay) * clamp(((CosAngle - Cout) / (Cin - Cout)), 0.0, 1.0);
 
 	vec4 black = vec4(0.0,0.0,0.0,0.0);
-	vec4 emit = vec4(0.0,0.0,0.0,0.0);
 	vec4 LADiffuse = diffuseLambert(lightDirA, lightColA, nNormal, materialColor);
 	vec4 LBDiffuse = diffuseLambert(lightDirB, lightColB, nNormal, materialColor);
 	vec4 LCDiffuse = diffuseLambert(lightDirC, lightColC, nNormal, materialColor);
-	if(LADiffuse == black && LBDiffuse == black && LCDiffuse == black){
-		emit = vec4(0.0,1.0,0.0,0.0);
-	}
-
+	
 			
 	vec4 LASpecular = specularPhong(lightDirA, lightColA, nNormal, nEyeDirection);
 	vec4 LBSpecular = specularPhong(lightDirB, lightColB, nNormal, nEyeDirection);
@@ -96,8 +92,8 @@ void main() {
 	  				LBSpecular * lightSwitch.y +
 					LCSpecular * lightSwitch.z;
 
-	//vec4 emit = vec4(0.4,0.1,0.1,0.1);
+	vec4 emit = vec4(0.0,0.0,0.0,0.1);
 
-	vec4 out_color = clamp(diffuse + specular + emit, 0.0, 1.0);
+	vec4 out_color = clamp(diffuse + specular, 0.0, 1.0);
 	outColor = vec4(out_color.rgb, 1.0);
 }

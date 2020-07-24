@@ -212,7 +212,7 @@ function initPositionSolution(idSetup) {
 
     for (i = 0; i < assetsData.length - 1; i++) {
         assetsData[i].drawInfo.worldMatrixSolution = utils.MakeWorld(setups[idSetup].positionMatrix[i][0], setups[idSetup].positionMatrix[i][1], 0.0, 0.0, 0.0, setups[idSetup].positionMatrix[i][2], 1.0);
-        console.log(assetsData[i].drawInfo.worldMatrixSolution);
+        
 
     }
 

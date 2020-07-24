@@ -41,79 +41,43 @@ var keyFunctionDown = function (e) {
     switch (e.keyCode) {
 
       case 83: //S
-        if (selectedItem >= 0 && selectedItem < 7)
-          assetsData[selectedItem].drawInfo.worldParams[1] -= 0.05;
-        else
-          cy -= 0.05;
+        cy -= 0.05;
         break;
 
       case 87: //W
-        if (selectedItem >= 0 && selectedItem < 7)
-          assetsData[selectedItem].drawInfo.worldParams[1] += 0.05;
-        else
-          cy += 0.05;
+        cy += 0.05;
         break;
 
       case 68: //D
-        if (selectedItem >= 0 && selectedItem < 7)
-          assetsData[selectedItem].drawInfo.worldParams[0] += 0.05;
-        else
-          cx += 0.05;
+        cx += 0.05;
         break;
 
       case 65: //A
-        if (selectedItem >= 0 && selectedItem < 7)
-          assetsData[selectedItem].drawInfo.worldParams[0] -= 0.05;
-        else
-          cx -= 0.05;
+        cx -= 0.05;
         break;
 
       case 81: //Q
-        if (selectedItem == -1)
-          cz += 0.05;
+        cz += 0.05;
         break;
 
       case 69: //E
-        if (selectedItem == -1)
-          cz -= 0.05;
+        cz -= 0.05;
         break;
 
       case 82: //R
-        if (selectedItem >= 0 && selectedItem < 7)
-          assetsData[selectedItem].drawInfo.worldParams[5] += 45.0;
-        else
-          angle += 1.0;
+        angle += 1.0;
         break;
 
       case 84: //T
-        if (selectedItem >= 0 && selectedItem < 7)
-          assetsData[selectedItem].drawInfo.worldParams[5] -= 45.0;
-        else
-          angle -= 1.0;
+        angle -= 1.0;
         break;
 
       case 70: //F
-        if (selectedItem >= 0 && selectedItem < 6) {
-
-          assetsData[selectedItem].drawInfo.worldParams[3] += 180.0;
-          assetsData[selectedItem].drawInfo.worldParams[4] += 180.0;
-        } else if (selectedItem == 6)
-
-          assetsData[selectedItem].drawInfo.worldParams[4] += 180.0;
-        else
-          elevation += 1.0;
+        elevation += 1.0;
         break;
 
       case 71: //G
-        if (selectedItem >= 0 && selectedItem < 6) {
-
-          assetsData[selectedItem].drawInfo.worldParams[3] -= 180.0;
-          assetsData[selectedItem].drawInfo.worldParams[4] -= 180.0;
-        } else if (selectedItem == 6)
-
-          assetsData[selectedItem].drawInfo.worldParams[4] -= 180.0;
-        else
-          elevation -= 1.0;
+        elevation -= 1.0;
         break;
 
       case 49:
@@ -135,7 +99,7 @@ var keyFunctionDown = function (e) {
             selectedItem = -1;
           }
           else {
-            window.alert("Eh no");
+            window.alert("-Potrò posare qui il mio item?\n-Eh no, non può posare un item se sotto ce n'è già un altro.\n-Ah no, non posso?");
           }
         } else {
           if (checkNotOverlap(selectedItem)) {
@@ -146,10 +110,30 @@ var keyFunctionDown = function (e) {
 
           }
           else {
-            window.alert("Eh no");
+            window.alert("-Potrò posare qui il mio item?\n-Eh no, non può posare un item se sotto ce n'è già un altro.\n-Ah no, non posso?");
+
           }
         }
+        break;
 
+      case 37: 	// Left arrow
+        if (selectedItem >= 0 && selectedItem < 7)
+          assetsData[selectedItem].drawInfo.worldParams[0] -= 0.05;
+        break;
+
+      case 39: 	// Right arrow
+        if (selectedItem >= 0 && selectedItem < 7)
+          assetsData[selectedItem].drawInfo.worldParams[0] += 0.05;
+        break;
+
+      case 38:	// Up arrow
+        if (selectedItem >= 0 && selectedItem < 7)
+          assetsData[selectedItem].drawInfo.worldParams[1] += 0.05;
+        break;
+
+      case 40:	// Down arrow
+        if (selectedItem >= 0 && selectedItem < 7)
+          assetsData[selectedItem].drawInfo.worldParams[1] -= 0.05;
         break;
 
       case 67: //C
@@ -161,8 +145,38 @@ var keyFunctionDown = function (e) {
         break
 
       case 80: //P
-        for (i = 0; i < assetsData.length - 1; i++)
-          console.log(i + "_" + assetsData[i].drawInfo.locations.worldParams);
+        for (i = 0; i < assetsData.length; i++)
+          console.log(i + "_" + assetsData[i].drawInfo.worldParams);
+        break;
+
+      case 90: //Z
+        if (selectedItem >= 0 && selectedItem < 7)
+          assetsData[selectedItem].drawInfo.worldParams[5] -= 45.0;
+        break;
+
+      case 88: //X
+        if (selectedItem >= 0 && selectedItem < 7)
+          assetsData[selectedItem].drawInfo.worldParams[5] += 45.0;
+        break;
+
+      case 86: //V
+        if (selectedItem >= 0 && selectedItem < 6) {
+
+          assetsData[selectedItem].drawInfo.worldParams[3] -= 180.0;
+          assetsData[selectedItem].drawInfo.worldParams[4] -= 180.0;
+        } else if (selectedItem == 6)
+
+          assetsData[selectedItem].drawInfo.worldParams[4] -= 180.0;
+        break;
+
+      case 66: //B
+        if (selectedItem >= 0 && selectedItem < 6) {
+
+          assetsData[selectedItem].drawInfo.worldParams[3] += 180.0;
+          assetsData[selectedItem].drawInfo.worldParams[4] += 180.0;
+        } else if (selectedItem == 6)
+
+          assetsData[selectedItem].drawInfo.worldParams[4] += 180.0;
         break;
 
       case 32: //space
@@ -170,10 +184,10 @@ var keyFunctionDown = function (e) {
         break;
 
       case 109: // trattino (-)
-        pointLightColor = [pointLightColor[0]-0.1, pointLightColor[1]-0.1, pointLightColor[2]-0.1]; 
+        pointLightColor = [pointLightColor[0] - 0.1, pointLightColor[1] - 0.1, pointLightColor[2] - 0.1];
         break;
       case 107: // piu (+)
-        pointLightColor = [pointLightColor[0]+0.1, pointLightColor[1]+0.1, pointLightColor[2]+0.1];
+        pointLightColor = [pointLightColor[0] + 0.1, pointLightColor[1] + 0.1, pointLightColor[2] + 0.1];
         break;
 
     }

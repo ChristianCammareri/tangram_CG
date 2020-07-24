@@ -10,7 +10,6 @@ async function init(){
     document.write("GL context not opened: " + glMain + glOverlay);
     return;
   }
-  utils.resizeCanvasToDisplaySize(glMain.canvas);
     
   //MultipleShaders
   await utils.loadFiles([shadersPath.vs, shadersPath.fs], function (shaderText) {
@@ -48,7 +47,7 @@ function main() {
 
   drawItems();
   drawOverlay();
-  drawFloor(glMain);
+  drawFloor();
 
 }
 

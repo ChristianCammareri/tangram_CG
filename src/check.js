@@ -7,7 +7,7 @@ function checkSolution(idSetup) {
 
     for (i = 0; i < 7; i++) {
 
-        utentMatrix[i] = Object.assign({}, assetsData[i].drawInfo.locations.worldParams);
+        utentMatrix[i] = Object.assign({}, assetsData[i].drawInfo.worldParams);
 
 
     }

@@ -5,31 +5,27 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>TANGRAM</title>
-    <style type="text/css">
-      body {
-        margin: 0;
-        background-color: gray;
-      }
-      canvas {
-        display: block;
-        background-color: white;
-      }
-    </style>
+    <link rel="stylesheet" type="text/css" href="index.css">
 </head>
 
 
 <body>
-  <canvas id="c"></canvas>
+  <div id="container">
+    <canvas id="c"></canvas>
+    <canvas id="overlay"></canvas>
+  </div>
   
   <script type="text/javascript" src="src/helper/utils.js"></script>
-  <script type="text/javascript" src="src/assets/assets.js"></script>
   <script type="text/javascript" src="src/params.js"></script>
   <script type="text/javascript" src="src/helper/utilsMain.js"></script>
   <script type="text/javascript" src="src/helper/helperMouseAndKeyboard.js"></script>
   <script type="text/javascript" src="src/res/setups.js"></script>
+  <script type="text/javascript" src="src/assets/assets.js"></script>
   <script type="text/javascript" src="src/raycast.js"></script>
   <script type="text/javascript" src="src/check.js"></script>
+  <script type="text/javascript" src="src/drawingOverlay.js"></script>
   <script type="text/javascript" src="src/drawingStub.js"></script>
+
 </body>
 
 </html>

@@ -1,0 +1,21 @@
+body {
+  margin: 0;
+  background-color: gray;
+}
+#container{
+  position: relative;
+  
+}
+#c{
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 0;
+}
+#overlay{
+  position: absolute;
+  pointer-events: none;
+  top: 0;
+  left:0;
+  z-index: 1;
+}

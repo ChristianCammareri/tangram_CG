@@ -89,22 +89,34 @@ function main() {
       glMain.uniformMatrix4fv(locationsArray[0].normalMatrixPositionHandle, glMain.FALSE, utils.transposeMatrix(cubeNormalMatrix));
       glMain.uniformMatrix4fv(locationsArray[0].vertexMatrixPositionHandle, glMain.FALSE, utils.transposeMatrix(assetsData[i].drawInfo.worldMatrix));
 
-      glMain.uniform3fv(locationsArray[0].materialColorHandle, assetsData[i].drawInfo.ambientColor);
-      glMain.uniform3fv(locationsArray[0].specularColorHandle, [1.0, 1.0, 1.0]);
+      //LIGHTS
+      glMain.uniform4fv(locationsArray[0].materialColorHandle, [assetsData[i].drawInfo.ambientColor[0], assetsData[i].drawInfo.ambientColor[1], assetsData[i].drawInfo.ambientColor[2], 1.0]);
+      glMain.uniform4fv(locationsArray[0].specularColorHandle, [1.0, 1.0, 1.0, 1.0]);
+      glMain.uniform4fv(locationsArray[0].lightSwitch, lightSwitch);
+      glMain.uniform1f(locationsArray[0].specShine, specularShine);
 
-      //gl.uniform3fv(locationsArray.lightPositionHandle, positionLight);
-      //gl.uniform3fv(locationsArray.lightColorHandle, directionalLightColor);
-//      gl.uniform3fv(locationsArray.lightDirectionHandle, lightDirectionTransformed);
+
+      //Directional Light
+      var directionalLightDirTransform = utils.multiplyMatrix3Vector3(utils.sub3x3from4x4(lightDirMatrix), directionalLightDir);
+      glMain.uniform3fv(locationsArray[0].directionalLightDir, directionalLightDirTransform);
+      glMain.uniform4fv(locationsArray[0].directionalLightCol, directionalLightColor);
+      //Point light
       glMain.uniform3fv(locationsArray[0].pointLightPosition, pointLightPosition);
-      glMain.uniform3fv(locationsArray[0].pointLightColor, pointLightColor);
-     // gl.uniform3fv(locationsArray.pointLightDir, pointLightDir)
-      //gl.uniform3fv()
-      
+      glMain.uniform4fv(locationsArray[0].pointLightColor, pointLightColor);
+      glMain.uniform1f(locationsArray[0].pointLightDeacy, pointLightDecay);
+      glMain.uniform1f(locationsArray[0].pointLightTarget, pointLightTarget);
 
-      glMain.uniform1f(locationsArray[0].decayHandle, defaultDecay);
-      glMain.uniform1f(locationsArray[0].targetHandle, 10.0);
+      //Spot light
+      glMain.uniform3fv(locationsArray[0].spotLightPosition, spotLightPos);
+      glMain.uniform4fv(locationsArray[0].spotLightColor, spotLightColor);
+      var spotLightDirTransform = utils.multiplyMatrix3Vector3(utils.sub3x3from4x4(lightDirMatrix), spotLightDir);
+      glMain.uniform3fv(locationsArray[0].spotLightDir, spotLightDirTransform);
+      glMain.uniform1f(locationsArray[0].spotLightConeOut, spotLightConeOut);
+      glMain.uniform1f(locationsArray[0].spotLightConeIn, spotLightConeIn);
+      glMain.uniform1f(locationsArray[0].spotLightConeOut, spotLightDecay);
+      glMain.uniform1f(locationsArray[0].spotLightTarget, spotLightTarget);
 
-      glMain.uniform1f(locationsArray[0].specShine, defaultSpecShine);
+
 
       glMain.bindVertexArray(assetsData[i].drawInfo.vao);
       glMain.drawElements(glMain.TRIANGLES, assetsData[i].structInfo.indices.length, glMain.UNSIGNED_SHORT, 0);

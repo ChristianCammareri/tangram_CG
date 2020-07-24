@@ -70,13 +70,15 @@ function getAttributeAndUniformLocation(gl, shadersType) {
     var matrixLocation = gl.getUniformLocation(programsArray[shadersType], "matrix");
     var normalMatrixPositionHandle = gl.getUniformLocation(programsArray[shadersType], 'nMatrix');
     var vertexMatrixPositionHandle = gl.getUniformLocation(programsArray[shadersType], 'pMatrix');
-
+    
+    //LIGTHS
     var materialColorHandle = gl.getUniformLocation(programsArray[shadersType], 'materialColor');
-
+    var specularColorHandle = gl.getUniformLocation(programsArray[shadersType], 'specularColor');
+    var specShine = gl.getUniformLocation(programsArray[shadersType], 'SpecShine');
     //Directional Light
-    var lightDirectionHandle = gl.getUniformLocation(programsArray[shadersType], 'lightDirection');
+    var directionalLightDir = gl.getUniformLocation(programsArray[shadersType], 'LADir');
+    var directionalLightCol = gl.getUniformLocation(programsArray[shadersType], 'LACol');
 
-    var lightColorHandle = gl.getUniformLocation(programsArray[shadersType], 'lightColor');
     
     if(shadersType === ShadersType.SOLUTION) {
         locationsArray[shadersType] = {
@@ -84,9 +86,10 @@ function getAttributeAndUniformLocation(gl, shadersType) {
             "normalAttributeLocation": normalAttributeLocation,
             "matrixLocation": matrixLocation,
 
-            "materialColorHandle": materialColorHandle,
-            "lightDirectionHandle": lightDirectionHandle,
-            "lightColorHandle": lightColorHandle,
+            //LIGHTS
+            "directionalLightDir": directionalLightDir,
+            "directionalLightCol": directionalLightCol,
+            "specShine": specShine,
 
             "normalMatrixPositionHandle": normalMatrixPositionHandle,
             "vertexMatrixPositionHandle": vertexMatrixPositionHandle
@@ -94,38 +97,55 @@ function getAttributeAndUniformLocation(gl, shadersType) {
         return;
     }
 
-    var specularColorHandle = gl.getUniformLocation(programsArray[shadersType], 'specularColor');
-    var lightPositionHandle = gl.getUniformLocation(programsArray[shadersType], 'lightPosition');
+    //LIGHTS
+    var lightSwitch = gl.getUniformLocation(programsArray[shadersType], 'lightSwitch');
+
+    
     //Point light
     var pointLightPosition = gl.getUniformLocation(programsArray[shadersType], 'LBPos');
     var pointLightColor = gl.getUniformLocation(programsArray[shadersType], 'LBCol');
+    var pointLightDeacy = gl.getUniformLocation(programsArray[shadersType], 'LBDecay');
+    var pointLightTarget = gl.getUniformLocation(programsArray[shadersType], 'LBTarget');
+    
     //Spotligh light
-    //var spotLightPosition = gl.getUniformLocation(programsArray[shadersType], 'LCPos');
-    //var spotLightColor = gl.getUniformLocation(programsArray[shadersType], 'LBCol');
-    var decayHandle = gl.getUniformLocation(programsArray[shadersType], 'decay');
-    var targetHandle = gl.getUniformLocation(programsArray[shadersType], 'target');
-    var specShine = gl.getUniformLocation(programsArray[shadersType], 'specShine');
+    var spotLightPosition = gl.getUniformLocation(programsArray[shadersType], 'LCPos');
+    var spotLightColor = gl.getUniformLocation(programsArray[shadersType], 'LCCol');
+    var spotLightDir = gl.getUniformLocation(programsArray[shadersType], 'LCDir');
+    var spotLightConeIn = gl.getUniformLocation(programsArray[shadersType], 'LCConeIn');
+    var spotLightConeOut = gl.getUniformLocation(programsArray[shadersType], 'LCConeOut');
+    var spotLightDeacy = gl.getUniformLocation(programsArray[shadersType], 'LCDecay');
+    var spotLightTarget = gl.getUniformLocation(programsArray[shadersType], 'LCTarget');
+    
+
+
     locationsArray[shadersType] = {
         "positionAttributeLocation": positionAttributeLocation,
         "normalAttributeLocation": normalAttributeLocation,
         "matrixLocation": matrixLocation,
 
+        //LIGHTS
+        "lightSwitch":lightSwitch,
         "materialColorHandle": materialColorHandle,
         "specularColorHandle": specularColorHandle,
-        "lightDirectionHandle": lightDirectionHandle,
-        "lightColorHandle": lightColorHandle,
-        "lightPositionHandle": lightPositionHandle,
-
-        "decayHandle": decayHandle,
-        "targetHandle": targetHandle,
         "specShine": specShine,
+        //directional
+        "directionalLightDir":directionalLightDir,
+        "directionalLightCol":directionalLightCol,
 
+        //pointlight
         "pointLightPosition": pointLightPosition,
         "pointLightColor": pointLightColor,
+        "pointLightDeacy": pointLightDeacy,
+        "pointLightTarget": pointLightTarget,
 
-        //"spotLightPosition":spotLightPos,
-        //"spotLightCin":spotLightCin,
-        //"spotLightCout":spotLightCout,
+        //spotlight
+        "spotLightPosition": spotLightPosition,
+        "spotLightColor": spotLightColor,
+        "spotLightDir": spotLightDir, 
+        "spotLightConeIn": spotLightConeIn,
+        "spotLightConeOut": spotLightConeOut,
+        "spotLightDeacy": spotLightDeacy, 
+        "spotLightTarget": spotLightTarget,
 
         "normalMatrixPositionHandle": normalMatrixPositionHandle,
         "vertexMatrixPositionHandle": vertexMatrixPositionHandle

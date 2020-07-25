@@ -6,7 +6,7 @@ function drawOverlay() {
 
   initializeProgram(glOverlay, ShadersType.SOLUTION);
 
-  initPositionSolution(3);
+  initPositionSolution(selectedSetup);
   drawSceneOverlay();
 
   function drawSceneOverlay() {

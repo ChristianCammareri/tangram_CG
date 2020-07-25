@@ -1,4 +1,24 @@
 (function(){
+
+    var select = document.getElementById("stageSelect");
+    var optionToInsert = document.createElement("option");
+    optionToInsert.setAttribute("value", "");
+    optionToInsert.setAttribute("disabled", "");
+    optionToInsert.setAttribute("selected", "");
+    optionToInsert.setAttribute("hidden", "");
+    optionToInsert.innerText = "Select your option";
+    select.appendChild(optionToInsert);
+    for(var i = 0; i < setups.length; i++) {
+        optionToInsert = document.createElement("option");
+        optionToInsert.setAttribute("value", i);
+        optionToInsert.innerText = setups[i].name;
+        optionToInsert.addEventListener("click", (e) => {
+            isSurrendered = false;
+            initPosition(0);
+            initPositionSolution(e.target.getAttribute("value"));
+        });
+        select.appendChild(optionToInsert);
+    }
     function hexToRgb(hex) {
         var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
         return result ? {

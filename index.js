@@ -16,9 +16,12 @@
             isSurrendered = false;
             initPosition(0);
             initPositionSolution(e.target.getAttribute("value"));
+            selectedSetup = e.target.getAttribute("value");
         });
         select.appendChild(optionToInsert);
     }
+
+
     function hexToRgb(hex) {
         var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
         return result ? {

@@ -63,7 +63,7 @@
 
     document.getElementById("dirSlider1").addEventListener("input", (e) => {
         console.log("dirSlider1");
-        dirLightTheta = utils.degToRad((e.target.value * 360) % 360);
+        dirLightTheta = utils.degToRad((e.target.value * 90));
         directionalLightDir =[ Math.cos(dirLightPhi)*Math.sin(dirLightTheta),
                                Math.sin(dirLightPhi)*Math.sin(dirLightPhi),
                                Math.cos(dirLightTheta)];

@@ -2,7 +2,7 @@ function drawOverlay() {
   width = glOverlay.canvas.width;
   height = glOverlay.canvas.height;
 
-  perspectiveMatrix = utils.MakePerspective(90, width / height, 0.1, 100.0);
+  perspectiveMatrixOverlay = utils.MakePerspective(90, width / height, 0.1, 100.0);
 
   initializeProgram(glOverlay, ShadersType.SOLUTION);
 
@@ -11,24 +11,27 @@ function drawOverlay() {
 
   function drawSceneOverlay() {
 
-    viewMatrix = utils.MakeView(cx, cy, cz, elevation, angle);
+    viewMatrixOverlay = utils.MakeView(-7, 0, 3, 0, 0);
 
     for (i = 0; i < assetsData.length; i++) {
       glOverlay.useProgram(programsArray[ShadersType.SOLUTION]);
       
       
-      var worldMatrixSolution = utils.multiplyMatrices(utils.MakeTranslateMatrix(1.0, 1.0, 0.5), assetsData[i].drawInfo.worldMatrixSolution);
-      var worldViewMatrix = utils.multiplyMatrices(viewMatrix, worldMatrixSolution);
-      var projectionMatrix = utils.multiplyMatrices(perspectiveMatrix, worldViewMatrix);
-
-      var cubeNormalMatrix = utils.invertMatrix(utils.transposeMatrix(worldViewMatrix));
+      var worldMatrixSolution = assetsData[i].drawInfo.worldMatrixSolution;
+      var worldViewMatrixOverlay = utils.multiplyMatrices(viewMatrixOverlay, worldMatrixSolution);
+      var projectionMatrixOverlay = utils.multiplyMatrices(perspectiveMatrixOverlay, worldViewMatrixOverlay);
 
 
-      glOverlay.uniformMatrix4fv(locationsArray[1].matrixLocation, glOverlay.FALSE, utils.transposeMatrix(projectionMatrix));
-      glOverlay.uniformMatrix4fv(locationsArray[1].normalMatrixPositionHandle, glOverlay.FALSE, utils.transposeMatrix(cubeNormalMatrix));
-      glOverlay.uniformMatrix4fv(locationsArray[1].vertexMatrixPositionHandle, glOverlay.FALSE, utils.transposeMatrix(worldMatrixSolution));
+      glOverlay.uniformMatrix4fv(locationsArray[1].matrixLocation, glOverlay.FALSE, utils.transposeMatrix(projectionMatrixOverlay));
 
-      glOverlay.uniform3fv(locationsArray[1].materialColorHandle, assetsData[i].drawInfo.ambientColor);
+      var myColor;
+      if(isSurrendered) {
+        myColor = [assetsData[i].drawInfo.ambientColor[0], assetsData[i].drawInfo.ambientColor[1], assetsData[i].drawInfo.ambientColor[2], 1.0];
+      }
+      else {
+        myColor = [0.0, 0.0, 0.0, 1.0];
+      }
+      glOverlay.uniform4fv(locationsArray[1].materialColorHandle, myColor);
 
       glOverlay.bindVertexArray(assetsData[i].drawInfo.vaoOverlay);
       glOverlay.drawElements(glOverlay.TRIANGLES, assetsData[i].structInfo.indices2D.length, glOverlay.UNSIGNED_SHORT, 0);

@@ -124,6 +124,10 @@
     document.getElementById("resetBtn").addEventListener("click", () => {
         console.log("reset")
         isSurrendered = false;
+        if(selectedItem >= 0 && selectedItem < 7) {
+            assetsData[selectedItem].drawInfo.worldParams[2] -= 0.1;
+            selectedItem = -1;
+        }
         initPosition(0);
     });
 

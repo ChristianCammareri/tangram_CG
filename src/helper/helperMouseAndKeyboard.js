@@ -3,8 +3,6 @@ var lastMouseX = -100, lastMouseY = -100;
 
 function doMouseDown(event) {
   mouseState = true;
-  //console.log(assetsData[0].drawInfo.locations.worldMatrix);
-  //checkIntersectionTriangle(event, assetsData, perspectiveMatrix, viewMatrix);
   lastMouseX = event.pageX;
   lastMouseY = event.pageY;
 

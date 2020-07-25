@@ -2,10 +2,10 @@
 var isSurrendered = false;
 
 //Parameters for Camera
-var cx = 0.0;
-var cy = -1.0;
-var cz = 2.0;
-var elevation = 20.0;
+var cx = 0.5;
+var cy = -0.5;
+var cz = 1.5;
+var elevation = 15.0;
 var angle = 0.0;
 
 var width;

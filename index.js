@@ -1,4 +1,25 @@
 (function(){
+
+    var select = document.getElementById("stageSelect");
+    var optionToInsert = document.createElement("option");
+    optionToInsert.setAttribute("value", "");
+    optionToInsert.setAttribute("disabled", "");
+    optionToInsert.setAttribute("selected", "");
+    optionToInsert.setAttribute("hidden", "");
+    optionToInsert.innerText = "Select your option";
+    select.appendChild(optionToInsert);
+    for(var i = 0; i < setups.length; i++) {
+        optionToInsert = document.createElement("option");
+        optionToInsert.setAttribute("value", i);
+        optionToInsert.innerText = setups[i].name;
+        optionToInsert.addEventListener("click", (e) => {
+            isSurrendered = false;
+            initPosition(0);
+            initPositionSolution(e.target.getAttribute("value"));
+        });
+        select.appendChild(optionToInsert);
+    }
+
     document.getElementById("dirLightEnable").addEventListener("change", () => {
         console.log("dirLightEnable");
         if(this.checked){
@@ -30,7 +51,7 @@
     });
 
     document.getElementById("dirSlider1").addEventListener("change", (e) => {
-        console.log("dirSlider1");
+        console.log(e.target.value);
         dirLightAlpha = (e.target.value * 360) % 360;
     });
 

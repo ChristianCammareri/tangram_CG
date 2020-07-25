@@ -105,7 +105,7 @@ body {
 }
 
 .my-navbar-btn:hover {
-  background-image: url("/src/res/floor.png");
+  background-image: url("/src/resources/floor.png");
   color: white;
   text-decoration: none;
 }

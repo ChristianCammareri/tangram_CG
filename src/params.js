@@ -52,7 +52,7 @@ var ambientLightBottom = [0.0, 0.0, 0.0];
 var specularShine = 1.0;
 var specularColor = [1.0, 1.0, 1.0, 1.0];
 //light type [directional, pointlight, spotlight, boh]
-var lightSwitch = [1, 0, 0, 0];
+var lightSwitch = [0, 0, 0, 0];
 
 
 // directional light

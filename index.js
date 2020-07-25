@@ -19,74 +19,93 @@
         });
         select.appendChild(optionToInsert);
     }
+    function hexToRgb(hex) {
+        var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+        return result ? {
+          r: parseInt(result[1], 16),
+          g: parseInt(result[2], 16),
+          b: parseInt(result[3], 16)
+        } : null;
+      }
 
     document.getElementById("dirLightEnable").addEventListener("change", () => {
         console.log("dirLightEnable");
-        if(this.checked){
-            lightSwitch.x = 1;
+        if(document.getElementById("dirLightEnable").checked){
+            lightSwitch[0] = 1;
         }
         else {
-            lightSwitch.x = 0;
+            lightSwitch[0] = 0;
         }
     });
 
     document.getElementById("pointLightEnable").addEventListener("change", () => {
         console.log("pointLightEnable");
-        if(this.checked){
-            lightSwitch.y = 1;
+        if(document.getElementById("pointLightEnable").checked){
+            lightSwitch[1] = 1;
         }
         else {
-            lightSwitch.y = 0;
+            lightSwitch[1] = 0;
         }
     });
 
     document.getElementById("spotLightEnable").addEventListener("change", () => {
         console.log("spotLightEnable");
-        if(this.checked){
-            lightSwitch.z = 1;
+        if(document.getElementById("spotLightEnable").checked){
+            lightSwitch[2] = 1;
         }
         else {
-            lightSwitch.z = 0;
+            lightSwitch[2] = 0;
         }
     });
 
-    document.getElementById("dirSlider1").addEventListener("change", (e) => {
-        console.log(e.target.value);
-        dirLightAlpha = (e.target.value * 360) % 360;
+    document.getElementById("dirSlider1").addEventListener("input", (e) => {
+        console.log("dirSlider1");
+        dirLightTheta = utils.degToRad((e.target.value * 360) % 360);
+        directionalLightDir = [ Math.cos(dirLightPhi),
+            -Math.sin(dirLightPhi),
+            Math.cos(dirLightTheta),
+          ];
     });
 
-    document.getElementById("dirSlider2").addEventListener("change", (e) => {
-        dirLightBeta = (e.target.value * 360) % 360;
+    document.getElementById("dirSlider2").addEventListener("input", (e) => {
+        dirLightPhi = utils.degToRad((e.target.value * 360) % 360);
+        directionalLightDir = [ Math.cos(dirLightPhi),
+            -Math.sin(dirLightPhi),
+            Math.cos(dirLightTheta),
+          ];
     });
 
-    document.getElementById("pointSlider1").addEventListener("change", (e) => {
+    document.getElementById("pointSlider1").addEventListener("input", (e) => {
         pointLightPosition[0] = e.target.value * 40 - 20;
     });
 
-    document.getElementById("pointSlider2").addEventListener("change", (e) => {
+    document.getElementById("pointSlider2").addEventListener("input", (e) => {
         pointLightPosition[1] = e.target.value * 40 - 20;
     });
 
-    document.getElementById("spotSlider1").addEventListener("change", (e) => {
-        spotLightPosition[0] = e.target.value * 40 - 20;
+    document.getElementById("spotSlider1").addEventListener("input", (e) => {
+        spotLightPos[0] = e.target.value * 40 - 20;
     });
 
-    document.getElementById("spotSlider2").addEventListener("change", (e) => {
-        spotLightPosition[1] = e.target.value * 40 - 20;
+    document.getElementById("spotSlider2").addEventListener("input", (e) => {
+        spotLightPos[1] = e.target.value * 40 - 20;
     });
 
     document.getElementById("dirColor").addEventListener("change", (e) => {
         console.log("dirColor");
         console.log(e.target.value);
-        directionalLightColor = e.target.value;
+        var rgbcol = hexToRgb(e.target.value);
+        directionalLightColor = [rgbcol.r/255, rgbcol.g/255, rgbcol/255, 1.0];
     });
 
     document.getElementById("pointColor").addEventListener("change", (e) => {
-        pointLightColor = e.target.value;
+        var rgbcol = hexToRgb(e.target.value);
+        pointLightColor = [rgbcol.r/255, rgbcol.g/255, rgbcol/255, 1.0];
     });
 
     document.getElementById("spotColor").addEventListener("change", (e) => {
-        spotLightColor = e.target.value;
+        var rgbcol = hexToRgb(e.target.value);
+        spotLightColor = [rgbcol.r/255, rgbcol.g/255, rgbcol/255, 1.0];
     });
 
     document.getElementById("checkBtn").addEventListener("click", () => {

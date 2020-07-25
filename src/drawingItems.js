@@ -15,10 +15,6 @@ function drawItems() {
     
         var lightDirMatrix = utils.invertMatrix(utils.transposeMatrix(viewMatrix));
     
-        var lightDirectionTransformed = utils.multiplyMatrix3Vector3(utils.sub3x3from4x4(lightDirMatrix), directionalLightDir);
-    
-        
-    
         for (i = 0; i < assetsData.length; i++) {
           glMain.useProgram(programsArray[ShadersType.ITEM]);
     

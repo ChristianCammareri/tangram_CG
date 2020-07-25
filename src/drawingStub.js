@@ -42,7 +42,6 @@ function main() {
   canvas.addEventListener("mouseup", doMouseUp, false);
   canvas.addEventListener("mousemove", doMouseMove, false);
   canvas.addEventListener("mousewheel", doMouseWheel, false);
-
   window.addEventListener("keydown", keyFunctionDown, false);
 
   drawItems();

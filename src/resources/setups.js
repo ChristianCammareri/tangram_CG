@@ -11,7 +11,7 @@ const setups = [
             [3 * Math.sqrt(2) / 8, Math.sqrt(2) / 8, 90.0]
         ],
         flippedParallelogram: 0.0,
-        name: "initialSetup"
+        name: "Initial setup"
     },
     {
         positionMatrix: [[0.0, -Math.sqrt(2) / 6, 315.0],

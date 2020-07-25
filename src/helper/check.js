@@ -1,23 +1,22 @@
-
+//Funzione che controlla se la soluzione proposta dall'utente è giusta
 function checkSolution(idSetup) {
 
     var error = 0.1;
     var utentMatrix = new Array(7);
     var solutionMatrix = setups[idSetup].positionMatrix;
 
+    //Copio i parametri della worldMatrix degli items.
     for (i = 0; i < 7; i++) {
-
         utentMatrix[i] = Object.assign({}, assetsData[i].drawInfo.worldParams);
-
-
     }
 
-
-    console.log(setups[idSetup].name);
+    //Calcolo la traslazione dell'assetto proposto dall'utente rispetto a quello esatto .
     var deltaTranX = utentMatrix[4][0] - solutionMatrix[4][0];
     var deltaTranY = utentMatrix[4][1] - solutionMatrix[4][1];
 
-
+    //Sottraggo quindi prima la traslazione e poi faccio la differenza tra le matrici:
+    //nel caso migliore avrò una matrice di zeri.
+    //Setto inoltre tutte le rotazioni nel range [0,360].
     for (i = 0; i < 7; i++) {
         utentMatrix[i][0] -= deltaTranX;
         utentMatrix[i][1] -= deltaTranY;
@@ -39,14 +38,15 @@ function checkSolution(idSetup) {
         }
     }
 
+    //Setto la rotazione del quadrato nel range [0,90] e quella del parallelogramma nel range [0,180].
     utentMatrix[5][5] %= 90;
     solutionMatrix[5][2] %= 90;
 
     utentMatrix[6][5] %= 180;
     solutionMatrix[6][2] %= 180;
 
-    console.log(utentMatrix);
-
+    //Controllo quindi le coppie di triangoli uguali, gli items singoli e che il parallelogramma sia girato 
+    //nel verso giusto (per gli altri items il ribaltamento è considerato come una rotazione di 180 gradi). 
     return checkTwoTriangles(utentMatrix[0], utentMatrix[1], 0) &&
         checkTwoTriangles(utentMatrix[2], utentMatrix[3], 2) &&
         checkSingle(utentMatrix[4], 4) &&
@@ -54,8 +54,9 @@ function checkSolution(idSetup) {
         checkSingle(utentMatrix[6], 6) &&
         (utentMatrix[6][4] == setups[idSetup].flippedParallelogram);
 
-
-
+    //Controllo se la differenza tra le matrici calcolata precedentemente sia minore di un certo errore e
+    //se l'item abbia la giusta rotazione. Inoltre per le coppie di triangoli il controllo viene fatto anche
+    //sostituendo un triangolo all'altro e viceversa. 
     function checkTwoTriangles(t1, t2, firstIndex) {
 
         if (Math.abs(t1[0]) < error &&
@@ -73,11 +74,7 @@ function checkSolution(idSetup) {
             t2[5] == solutionMatrix[firstIndex][2])
             return true;
 
-
-
         return false;
-
-
     }
 
     function checkSingle(t1, index) {
@@ -93,38 +90,38 @@ function checkSolution(idSetup) {
 
 }
 
+//Funziona che controlla se sia possibile rilasciare un item in quanto potrebbe essercene un altro sotto
+//return true se posso rilasciare l'item, altrimenti false.
 function checkNotOverlap(indexItemToCheck) {
 
+    //Con la relativa wordlMatrix calcolo le traslazioni dei vertici dell'item.
     var myItem = modifyVertices(indexItemToCheck)
 
     for (var i = 0; i < 7; i++) {
 
         if (i != indexItemToCheck) {
-            
             var otherItem = modifyVertices(i);
+            //Controllo un lato dell'item alla volta.
             for (var k = 0; k < myItem.length; k++) {
-                
-                if (!checkLimits(myItem[k], myItem[(k + 1) % myItem.length], otherItem)) {
-                    
 
+                //Controllo se il lato appartiene ad una retta passante anche per un lato dell'alto item:
+                //in questo caso sicuramente non si sovrappongono.
+                if (!checkLimits(myItem[k], myItem[(k + 1) % myItem.length], otherItem)) {
+
+                    //Controllo se i punti appartenenti al lato cadono dentro l'item.
                     if (checkIntermediatePoints(myItem[k], myItem[(k + 1) % myItem.length], otherItem))
                         return false
                 }
             }
         }
     }
-
     return true;
-
 
 }
 
 function inside(point, vs) {
-    // ray-casting algorithm based on
-    // http://www.ecse.rpi.edu/Homepages/wrf/Research/Short_Notes/pnpoly.html
 
     var x = point[0], y = point[1];
-
 
     var inside = false;
     for (var i = 0, j = vs.length - 1; i < vs.length; j = i++) {
@@ -150,72 +147,40 @@ function modifyVertices(index) {
 
     var worldLocation = assetsData[index].drawInfo.worldParams;
 
-
-
     for (k = 0; k < item.length; k++) {
 
         item[k] = [assetsData[index].structInfo.vertices[3 * k], assetsData[index].structInfo.vertices[3 * k + 1], 0.0, 1.0];
-
         item[k] = utils.multiplyMatrixVector(
             utils.MakeWorld(worldLocation[0], worldLocation[1], worldLocation[2], worldLocation[3],
-                worldLocation[4], worldLocation[5], worldLocation[6])
-            , item[k]);
+                worldLocation[4], worldLocation[5], worldLocation[6]), item[k]);
     }
 
     return item;
 
 }
 
+//Funzione ricorsiva che divide in due il segmento fino a quando questo è maggiore del delta.
+//A questo punto controlla se le due estremità cadano dentro l'item.
 function checkIntermediatePoints(p1, p2, item) {
 
     var delta = 0.1;
-
-    
-
     var x1 = correctNumber(p1[0]), x2 = correctNumber(p2[0]);
     var y1 = correctNumber(p1[1]), y2 = correctNumber(p2[1]);
 
-    if (Math.sqrt(Math.pow(x1 - x2, 2) + Math.pow(y1 - y2, 2)) < delta) {
-       /* for (var k = 0; k < item.length; k++) {
-
-            var point = item[k];
-            console.log("CHECK");
-
-            console.log(x1);
-            console.log(y1);
-            console.log(x2);
-            console.log(y2);
-
-            var x = correctNumber(point[0]), y = correctNumber(point[1]);
-            console.log("POINT");
-
-            console.log(x);
-            console.log(y);
-
-
-            console.log(buildLine(y, p1, p2));
-
-            if (x == buildLine(y, p1, p2)){
-                print("BOH");
-                if (x == x1 && y == y1){
-                    print("BOH");
-                    return inside(p2, item);
-                }else
-                    return inside(p1, item);
-        }
-    }*/
+    if (Math.sqrt(Math.pow(x1 - x2, 2) + Math.pow(y1 - y2, 2)) < delta)
         return inside(p1, item) || inside(p2, item);
-    }
+
     return checkIntermediatePoints(p1, [(p1[0] + p2[0]) / 2, (p1[1] + p2[1]) / 2], item) ||
         checkIntermediatePoints([(p1[0] + p2[0]) / 2, (p1[1] + p2[1]) / 2], p2, item);
 
 }
 
+//Funziona che calcola la retta passante per myP1 e myP2 e poi controlla se i lati dell'altro item
+//appartengano ad essa.
 function checkLimits(myP1, myP2, item) {
 
     var x1 = correctNumber(myP1[0]), x2 = correctNumber(myP2[0]);
     var y1 = correctNumber(myP1[1]), y2 = correctNumber(myP2[1]);
-
 
     for (var k = 0; k < item.length; k++) {
 

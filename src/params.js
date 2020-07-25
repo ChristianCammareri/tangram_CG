@@ -6,13 +6,26 @@ var cz = 2.0;
 var elevation = 20.0;
 var angle = 0.0;
 
-var lookRadius = 1.0;
+var width;
+var height;
 
 var perspectiveMatrix = [];
 var viewMatrix = [];
 
+let AssetType = {
+    QUADRILATERAL: 0,
+    TRIANGLE: 1,
+    
+}
 
+let ShadersType = {
+    ITEM: 0,
+    SOLUTION: 1,
+    FLOOR: 2,
+}
 
+let programsArray = [null, null, null];
+let locationsArray = [null, null, null];
 
 var shadersPath = {
     vs: "/src/shaders/item/vs.glsl",
@@ -67,8 +80,4 @@ var spotLightTarget = 10.0;
 var spotLightColor = [1.0, 1.0, 1.0, 1.0];
 
 ////END LIGHTS
- var width;
- var height;
-
- var perspectiveMatrix;
- var viewMatrix;
+ 

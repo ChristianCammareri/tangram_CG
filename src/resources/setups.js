@@ -23,7 +23,7 @@ const setups = [
         [-Math.sqrt(2)/2 + 0.25, Math.sqrt(2) / 6, 135.0]
         ],
         flippedParallelogram: 0.0,
-        name: "houseSetup"
+        name: "House"
     },
     {
         positionMatrix: [
@@ -36,7 +36,7 @@ const setups = [
             [-0.30, 1.40, 90.0]
         ],
         flippedParallelogram: 180.0,
-        name: "gooseSetup"
+        name: "Goose"
     },
     {
         positionMatrix: [
@@ -49,7 +49,7 @@ const setups = [
             [0.8650, -0.1550, 0.0]
         ],
         flippedParallelogram: 180.0,
-        name: "catSetup"
+        name: "Cat"
     },
 
     {
@@ -63,7 +63,7 @@ const setups = [
             [1.235, -0.25, 315.0]
         ],
         flippedParallelogram: 180.0,
-        name: "bearSetup"
+        name: "Bear"
     },
     {
         positionMatrix: [
@@ -76,6 +76,6 @@ const setups = [
             [-0.83, 0.085, 315.0]
         ],
         flippedParallelogram: 180.0,
-        name: "manOnHorseSetup"
+        name: "Man on horse"
     }
 ];

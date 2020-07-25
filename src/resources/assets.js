@@ -1,29 +1,3 @@
-let AssetType = {
-    FLOOR: 0,
-    TRIANGLE: 1,
-    SQUARE: 2,
-    PARALLELOGRAM: 3,
-    TRAY: 4
-}
-
-let ShadersType = {
-    ITEM: 0,
-    SOLUTION: 1,
-    FLOOR: 2,
-}
-
-
-let defaultSigma = 0;
-let defaultG = 0.1;
-let defaultDecay = 2;
-
-let defaultSpecShine = 100;
-
-let programsArray = [null, null, null];
-
-let locationsArray = [null, null, null];
-
-
 
 let assetsData = [
     {
@@ -95,22 +69,11 @@ let assetsData = [
             ]
         },
         drawInfo: {
-            worldParams: [],
-            worldMatrixSolution: [],
-            bufferLength: 0,
+            worldParams: [], //si
+            worldMatrixSolution: [], //si
             vao: [],
             vaoOverlay: [],
             ambientColor: [0.0, 0.0, 1.0],
-            emissionColor: [0.0, 0.0, 1.0],
-            sigma: defaultSigma,
-
-            lightInfo: {
-                color: [0.9, 0.9, 0.9, 1.0],
-                g: defaultG,
-                decay: defaultDecay
-            },
-
-
         },
     },
     {
@@ -184,19 +147,11 @@ let assetsData = [
         },
         drawInfo: {
             worldParams: [],
-            worldMatrixSolution: [],
-            bufferLength: 0,
+            worldMatrixSolution: [],       
             vao: [],
             vaoOverlay: [],
             ambientColor: [0.0, 1.0, 0.0],
-            emissionColor: [0.0, 1.0, 0.0],
-            sigma: defaultSigma,
-
-            lightInfo: {
-                color: [0.9, 0.9, 0.9, 1.0],
-                g: defaultG,
-                decay: defaultDecay
-            },
+            
         },
     },
     {
@@ -271,18 +226,10 @@ let assetsData = [
         drawInfo: {
             worldParams: [],
             worldMatrixSolution: [],
-            bufferLength: 0,
-            vao: [],
+                    vao: [],
             vaoOverlay: [],
             ambientColor: [1.0, 1.0, 0.0],
-            emissionColor: [1.0, 1.0, 0.0],
-            sigma: defaultSigma,
-
-            lightInfo: {
-                color: [0.9, 0.9, 0.9, 1.0],
-                g: defaultG,
-                decay: defaultDecay
-            },
+            
         },
     },
     {
@@ -366,18 +313,10 @@ let assetsData = [
         drawInfo: {
             worldParams: [],
             worldMatrixSolution: [],
-            bufferLength: 0,
             vao: [],
             vaoOverlay: [],
             ambientColor: [1.0, 192.0 / 255, 203.0 / 255],
-            emissionColor: [1.0, 192.0 / 255, 203.0 / 255],
-            sigma: defaultSigma,
-
-            lightInfo: {
-                color: [0.9, 0.9, 0.9, 1.0],
-                g: defaultG,
-                decay: defaultDecay
-            },
+            
 
         },
     },
@@ -462,24 +401,16 @@ let assetsData = [
         drawInfo: {
             worldParams: [],
             worldMatrixSolution: [],
-            bufferLength: 0,
             vao: [],
             vaoOverlay: [],
             ambientColor: [1.0, 0.0, 0.0],
-            emissionColor: [1.0, 0.0, 0.0],
-            sigma: defaultSigma,
-
-            lightInfo: {
-                color: [0.9, 0.9, 0.9, 1.0],
-                g: defaultG,
-                decay: defaultDecay
-            },
+            
         },
     },
 
     {
         name: "S",
-        type: AssetType.SQUARE,
+        type: AssetType.QUADRILATERAL,
         structInfo: {
             vertices: [
                 -0.25, -0.25, -0.05,
@@ -567,18 +498,10 @@ let assetsData = [
         drawInfo: {
             worldParams: [],
             worldMatrixSolution: [],
-            bufferLength: 0,
             vao: [],
             vaoOverlay: [],
-            ambientColor: [128.0 / 255, 0.0, 128.0 / 255],
-            emissionColor: [128.0 / 255, 0.0, 128.0 / 255],
-            sigma: defaultSigma,
-
-            lightInfo: {
-                color: [0.9, 0.9, 0.9, 1.0],
-                g: defaultG,
-                decay: defaultDecay
-            },
+            ambientColor: [128.0 / 255, 0.0, 128.0 / 255]
+            
 
         },
     },
@@ -586,7 +509,7 @@ let assetsData = [
 
     {
         name: "P",
-        type: AssetType.PARALLELOGRAM,
+        type: AssetType.QUADRILATERAL,
         structInfo: {
             vertices: [
                 -Math.sqrt(2) / 8, -Math.sqrt(2) / 8, -0.05,
@@ -679,18 +602,10 @@ let assetsData = [
         drawInfo: {
             worldParams: [],
             worldMatrixSolution: [],
-            bufferLength: 0,
             vao: [],
             vaoOverlay: [],
             ambientColor: [1.0, 165.0 / 255, 0.0],
-            emissionColor: [1.0, 165.0 / 255, 0.0],
-            sigma: defaultSigma,
-
-            lightInfo: {
-                color: [0.9, 0.9, 0.9, 1.0],
-                g: defaultG,
-                decay: defaultDecay
-            },
+            
 
         },
     },
@@ -701,33 +616,32 @@ let assetsFloor = {
 
     structInfo: {
         vertices:
-            [ // X, Y, Z          
-                //Top
+            [ 
                 -10.0, 10.0, - 0.15,
                 -10.0, 10.0, -0.05,
                 10.0, 10.0, -0.05,
                 10.0, 10.0, -0.15,
-                //
+            
                 -10.0, 10.0, -0.05,
                 -10.0, -10.0, -0.05,
                 -10.0, -10.0, -0.15,
                 -10.0, 10.0, -0.15,
-                // 
+                
                 10.0, 10.0, -0.05,
                 10.0, -10.0, -0.05,
                 10.0, -10.0, - 0.15,
                 10.0, 10.0, -0.15,
-                // 
+                
                 10.0, 10.0, - 0.05,
                 10.0, -10.0, - 0.05,
                 -10.0, -10.0, -0.05,
                 -10.0, 10.0, -0.05,
-                //
+                
                 10.0, 10.0, -0.15,
                 10.0, -10.0, -0.15,
                 -10.0, -10.0, -0.15,
                 -10.0, 10.0, -0.15,
-                // B
+                
                 -10.0, -10.0, -0.15,
                 -10.0, -10.0, -0.05,
                 10.0, -10.0, -0.05,
@@ -797,14 +711,7 @@ let assetsFloor = {
         worldParams: [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0],
         worldMatrix: [],
         texture: null,
-        bufferLength: 0,
         vao: [],
-
-        lightInfo: {
-            color: [0.9, 0.9, 0.9, 1.0],
-            g: defaultG,
-            decay: defaultDecay
-        }
 
     }
 }

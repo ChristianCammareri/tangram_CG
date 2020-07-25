@@ -11,7 +11,7 @@ function drawOverlay() {
 
   function drawSceneOverlay() {
 
-    viewMatrixOverlay = utils.MakeView(-7, 0, 3, 0, 0);
+    viewMatrixOverlay = utils.MakeView(-6, 0, 3, 0, 0);
 
     for (i = 0; i < assetsData.length; i++) {
       glOverlay.useProgram(programsArray[ShadersType.SOLUTION]);

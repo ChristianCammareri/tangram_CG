@@ -46,10 +46,10 @@ var selectedSetup = 3;
 
 
 //LIGHTS
-var ambientLight = [0.1, 0.1, 0.1];
-var ambientLightTop = [0.2, 0.2, 0.2];
-var ambientLightBottom = [0.0, 0.0, 0.0];
-var specularShine = 1.0;
+var ambientLight = [0.1, 0.1, 0.1, 1.0];
+var ambientLightTop = [0.2, 0.2, 0.2, 1.0];
+var ambientLightBottom = [0.0, 0.0, 0.0, 1.0];
+var specularShine = 0.5;
 var specularColor = [1.0, 1.0, 1.0, 1.0];
 //light type [directional, pointlight, spotlight, boh]
 var lightSwitch = [0, 0, 0, 0];

@@ -9,13 +9,12 @@
     optionToInsert.innerText = "Select your option";
     select.appendChild(optionToInsert);
     for(var i = 0; i < setups.length; i++) {
-        var optionToInsert = document.createElement("option");
+        optionToInsert = document.createElement("option");
         optionToInsert.setAttribute("value", i);
         optionToInsert.innerText = setups[i].name;
         optionToInsert.addEventListener("click", (e) => {
             isSurrendered = false;
             initPosition(0);
-            console.log("CIAO")
             initPositionSolution(e.target.getAttribute("value"));
             selectedSetup = e.target.getAttribute("value");
         });

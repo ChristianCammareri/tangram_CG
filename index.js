@@ -64,18 +64,16 @@
     document.getElementById("dirSlider1").addEventListener("input", (e) => {
         console.log("dirSlider1");
         dirLightTheta = utils.degToRad((e.target.value * 360) % 360);
-        directionalLightDir = [Math.cos(dirLightPhi),
-        -Math.sin(dirLightPhi),
-        Math.cos(dirLightTheta),
-        ];
+        directionalLightDir =[ Math.cos(dirLightPhi)*Math.sin(dirLightTheta),
+                               Math.sin(dirLightPhi)*Math.sin(dirLightPhi),
+                               Math.cos(dirLightTheta)];
     });
 
     document.getElementById("dirSlider2").addEventListener("input", (e) => {
         dirLightPhi = utils.degToRad((e.target.value * 360) % 360);
-        directionalLightDir = [Math.cos(dirLightPhi),
-        -Math.sin(dirLightPhi),
-        Math.cos(dirLightTheta),
-        ];
+        directionalLightDir =[ Math.cos(dirLightPhi)*Math.sin(dirLightTheta),
+            Math.sin(dirLightPhi)*Math.sin(dirLightPhi),
+            Math.cos(dirLightTheta)];
     });
 
     document.getElementById("pointSlider1").addEventListener("input", (e) => {

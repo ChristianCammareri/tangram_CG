@@ -49,20 +49,19 @@ var selectedSetup = 3;
 var ambientLight = [0.1, 0.1, 0.1, 1.0];
 var ambientLightTop = [0.2, 0.2, 0.2, 1.0];
 var ambientLightBottom = [0.0, 0.0, 0.0, 1.0];
-var specularShine = 0.5;
+var specularShine = 160;
 var specularColor = [1.0, 1.0, 1.0, 1.0];
 //light type [directional, pointlight, spotlight, boh]
 var lightSwitch = [0, 0, 0, 0];
 
 
 // directional light
-var dirLightTheta = utils.degToRad(200);
-var dirLightPhi = utils.degToRad(120);
+var dirLightTheta = utils.degToRad(45);
+var dirLightPhi = utils.degToRad(0);
 
-var directionalLightDir = [ Math.cos(dirLightPhi),
-                            -Math.sin(dirLightPhi),
-                            Math.cos(dirLightTheta),
-                          ];
+var directionalLightDir =[ Math.cos(dirLightPhi)*Math.sin(dirLightTheta),
+    Math.sin(dirLightPhi)*Math.sin(dirLightPhi),
+    Math.cos(dirLightTheta)];
 
 var directionalLightColor = [1.0, 1.0, 1.0, 1.0];
 

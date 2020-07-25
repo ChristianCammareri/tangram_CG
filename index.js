@@ -92,6 +92,18 @@
         spotLightPos[1] = e.target.value * 40 - 20;
     });
 
+    document.getElementById("spotSlider3").addEventListener("input", (e) => {
+        //NON SO COSA CI VADA
+    });
+
+    document.getElementById("spotSlider4").addEventListener("input", (e) => {
+        //NON SO COSA CI VADA
+    });
+
+    document.getElementById("spotSlider5").addEventListener("input", (e) => {
+        //NON SO COSA CI VADA
+    });
+
     document.getElementById("dirColor").addEventListener("change", (e) => {
         console.log("dirColor");
         console.log(e.target.value);

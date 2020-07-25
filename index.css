@@ -39,12 +39,10 @@ body {
 }
 
 .my-navbar-option {
-  margin-top: 0;
   float: left;
   display: block;
   color: rgb(221, 221, 221);
   text-align: center;
-  padding: 12px 14px;
   text-decoration: none;
   border-radius: 10px;
   font-size: 16px;
@@ -112,4 +110,16 @@ body {
 
 .my-navbar li {
   list-style: none;
+}
+
+@media screen and (max-width: 1000px) {
+  .my-navbar {
+    display: none;
+  }
+  #c{
+    margin-top: 0;
+  }
+  #overlay{
+    margin-top: 0;
+  }
 }

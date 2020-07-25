@@ -4,18 +4,112 @@ body {
 }
 #container{
   position: relative;
-  
 }
 #c{
   position: absolute;
-  top: 0;
   left: 0;
+  margin-top: 155px;
   z-index: 0;
 }
 #overlay{
   position: absolute;
   pointer-events: none;
-  top: 0;
-  left:0;
+  left: 0;
+  margin-top: 155px;
   z-index: 1;
+}
+
+.my-navbar {
+  border-radius: 0;
+  margin: 0px;
+  letter-spacing: 1px;
+  height: 155px;
+  padding-left: 12px;
+  padding-right: 12px;
+  padding-top: 0px;
+  padding-bottom: 0px;
+  background-color: rgb(36, 36, 36);
+  overflow: hidden;
+  position: fixed; 
+  top: 0; 
+  width: 100%; 
+  font-size: 16px;
+  font-weight: 550;
+  z-index: 9999;
+}
+
+.my-navbar-option {
+  margin-top: 0;
+  float: left;
+  display: block;
+  color: rgb(221, 221, 221);
+  text-align: center;
+  padding: 12px 14px;
+  text-decoration: none;
+  border-radius: 10px;
+  font-size: 16px;
+  font-weight: bold;
+  font-family: sans-serif;
+  text-shadow: 1px 1px black;
+}
+
+.my-navbar-btn {
+  display: block;
+  color: rgb(221, 221, 221);
+  padding: 4px 5px;
+  text-decoration: none;
+  border-radius: 10px;
+  font-size: 16px;
+  font-weight: bold;
+  font-family: sans-serif;
+  text-shadow: 1px 1px black;
+  margin-top: 3px;
+  margin-bottom: 3px;
+}
+
+#checkBtn {
+  margin-top: 15px;
+}
+
+#stageSelect {
+  color: rgb(36, 36, 36);
+  text-shadow: 1px 1px whitesmoke;
+}
+
+#stageSelect:hover {
+  color: white;
+  text-shadow: 1px 1px black;
+}
+
+.my-navbar-buttons-box{
+  width: 30%;
+}
+
+.my-navbar-section {
+  float: left;
+  width: 14vw;
+  height: auto;
+  margin-top: 0;
+  display: block;
+  color: rgb(221, 221, 221);
+  margin-left: 10px;
+  margin-right: 10px;
+  text-align: left;
+  text-decoration: none;
+  border-radius: 10px;
+  font-size: 16px;
+  font-weight: bold;
+  font-family: sans-serif;
+  text-shadow: 1px 1px black;
+  font-size: 16px;
+}
+
+.my-navbar-btn:hover {
+  background-image: url("/src/res/floor.png");
+  color: white;
+  text-decoration: none;
+}
+
+.my-navbar li {
+  list-style: none;
 }

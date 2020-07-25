@@ -58,34 +58,31 @@ function getAttributeAndUniformLocation(gl, shadersType) {
     var normalAttributeLocation = gl.getAttribLocation(programsArray[shadersType], "inNormal");
 
     var matrixLocation = gl.getUniformLocation(programsArray[shadersType], "matrix");
+    
+    //LIGTHS
+    var materialColorHandle = gl.getUniformLocation(programsArray[shadersType], 'materialColor');
+    
+    if(shadersType === ShadersType.SOLUTION) {
+        locationsArray[shadersType] = {
+            "positionAttributeLocation": positionAttributeLocation,
+            "normalAttributeLocation": normalAttributeLocation,
+            "matrixLocation": matrixLocation,
+
+            "materialColorHandle": materialColorHandle,
+        };
+        return;
+    }
+
     var normalMatrixPositionHandle = gl.getUniformLocation(programsArray[shadersType], 'nMatrix');
     var vertexMatrixPositionHandle = gl.getUniformLocation(programsArray[shadersType], 'pMatrix');
 
     //LIGTHS
-    var materialColorHandle = gl.getUniformLocation(programsArray[shadersType], 'materialColor');
     var specularColorHandle = gl.getUniformLocation(programsArray[shadersType], 'specularColor');
     var specShine = gl.getUniformLocation(programsArray[shadersType], 'SpecShine');
     //Directional Light
     var directionalLightDir = gl.getUniformLocation(programsArray[shadersType], 'LADir');
     var directionalLightCol = gl.getUniformLocation(programsArray[shadersType], 'LACol');
 
-
-    if (shadersType === ShadersType.SOLUTION) {
-        locationsArray[shadersType] = {
-            "positionAttributeLocation": positionAttributeLocation,
-            "normalAttributeLocation": normalAttributeLocation,
-            "matrixLocation": matrixLocation,
-
-            //LIGHTS
-            "directionalLightDir": directionalLightDir,
-            "directionalLightCol": directionalLightCol,
-            "specShine": specShine,
-
-            "normalMatrixPositionHandle": normalMatrixPositionHandle,
-            "vertexMatrixPositionHandle": vertexMatrixPositionHandle
-        };
-        return;
-    }
 
     //LIGHTS
     var lightSwitch = gl.getUniformLocation(programsArray[shadersType], 'lightSwitch');
@@ -174,10 +171,6 @@ function createVAO(gl, shadersType) {
             gl.bindBuffer(gl.ARRAY_BUFFER, gl.createBuffer());
             gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(assetsData[i].structInfo.vertices2D), gl.STATIC_DRAW);
             putAttributesOnGPU(gl, locationsArray[shadersType].positionAttributeLocation);
-
-            gl.bindBuffer(gl.ARRAY_BUFFER, gl.createBuffer());
-            gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(assetsData[i].structInfo.normals2D), gl.STATIC_DRAW);
-            putAttributesOnGPU(gl, locationsArray[shadersType].normalAttributeLocation);
 
             gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, gl.createBuffer());
             gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(assetsData[i].structInfo.indices2D), gl.STATIC_DRAW);

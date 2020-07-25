@@ -1,3 +1,5 @@
+//GUI controlled variables
+var isSurrendered = false;
 
 //Parameters for Camera
 var cx = 0.0;

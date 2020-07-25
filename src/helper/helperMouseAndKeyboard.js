@@ -136,14 +136,6 @@ var keyFunctionDown = function (e) {
           assetsData[selectedItem].drawInfo.worldParams[1] -= 0.025;
         break;
 
-      case 67: //C
-        var correct = checkSolution(selectedSetup);
-        if (correct)
-          window.alert("Incredibileeee! Rete! Che gol!");
-        else
-          window.alert("Prova il check... non va!");
-        break
-
       case 80: //P
         for (i = 0; i < assetsData.length; i++)
           console.log(i + "_" + assetsData[i].drawInfo.worldParams);
@@ -159,35 +151,14 @@ var keyFunctionDown = function (e) {
           assetsData[selectedItem].drawInfo.worldParams[5] += 45.0;
         break;
 
-      case 86: //V
-        if (selectedItem >= 0 && selectedItem < 6) {
-
-          assetsData[selectedItem].drawInfo.worldParams[3] -= 180.0;
-          assetsData[selectedItem].drawInfo.worldParams[4] -= 180.0;
-        } else if (selectedItem == 6)
-
-          assetsData[selectedItem].drawInfo.worldParams[4] -= 180.0;
-        break;
-
-      case 66: //B
-        if (selectedItem >= 0 && selectedItem < 6) {
-
-          assetsData[selectedItem].drawInfo.worldParams[3] += 180.0;
-          assetsData[selectedItem].drawInfo.worldParams[4] += 180.0;
-        } else if (selectedItem == 6)
-
-          assetsData[selectedItem].drawInfo.worldParams[4] += 180.0;
-        break;
-
       case 32: //space
-        initPosition(0);
-        break;
+      if (selectedItem >= 0 && selectedItem < 6) {
 
-      case 109: // trattino (-)
-        pointLightColor = [pointLightColor[0] - 0.1, pointLightColor[1] - 0.1, pointLightColor[2] - 0.1];
-        break;
-      case 107: // piu (+)
-        pointLightColor = [pointLightColor[0] + 0.1, pointLightColor[1] + 0.1, pointLightColor[2] + 0.1];
+        assetsData[selectedItem].drawInfo.worldParams[3] += 180.0;
+        assetsData[selectedItem].drawInfo.worldParams[4] += 180.0;
+      } else if (selectedItem == 6)
+
+        assetsData[selectedItem].drawInfo.worldParams[4] += 180.0;
         break;
 
     }

@@ -40,7 +40,9 @@ function drawItems() {
           glMain.uniform4fv(locationsArray[0].specularColorHandle, specularColor);
           glMain.uniform4fv(locationsArray[0].lightSwitch, lightSwitch);
           glMain.uniform1f(locationsArray[0].specShine, specularShine);
-    
+          glMain.uniform4fv(locationsArray[0].ambientLight, ambientLight);
+          glMain.uniform4fv(locationsArray[0].ambientLightLowColor, ambientLightBottom);
+          glMain.uniform4fv(locationsArray[0].ambientLightHighColor, ambientLightTop);
     
           //Directional Light
           var directionalLightDirTransform = utils.multiplyMatrix3Vector3(utils.sub3x3from4x4(lightDirMatrix), directionalLightDir);

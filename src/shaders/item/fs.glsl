@@ -11,7 +11,9 @@ uniform vec4 lightSwitch;
 
 uniform vec4 materialColor;
 uniform vec4 specularColor;
-
+uniform vec4 ambientLight;
+uniform vec4 ambientLightHighColor;
+uniform vec4 ambientLightLowColor;
 //Directional
 uniform vec3 LADir;
 uniform vec4 LACol;
@@ -83,6 +85,12 @@ void main() {
 	/*if(LASpecular == black && LBSpecular == black && LCSpecular == black){
 		emit = vec4(0.0,0.0,1.0,0.0);
 	}*/
+	vec3 ADir = vec3(0.0, 0.0, 1.0); 
+	float amBlend = (dot(nNormal, ADir) + 1.0) / 2.0;
+	vec4 ambientHemi = (ambientLightHighColor * amBlend +
+					 ambientLightLowColor * (1.0 - amBlend))
+					  * ambientLight;
+	vec4 ambient = ambientHemi;
 
 	vec4 diffuse = LADiffuse * lightSwitch.x +
 				   LBDiffuse * lightSwitch.y +

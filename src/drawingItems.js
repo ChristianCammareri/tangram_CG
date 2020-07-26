@@ -14,7 +14,8 @@ function drawItems() {
       viewMatrix = utils.MakeView(cx, cy, cz, elevation, angle);
   
       var lightDirMatrix = utils.invertMatrix(utils.transposeMatrix(viewMatrix));
-  
+      var lightPosMatrix = utils.invertMatrix(utils.transposeMatrix(viewMatrix));
+
       for (i = 0; i < assetsData.length; i++) {
         glMain.useProgram(programsArray[ShadersType.ITEM]);
   
@@ -36,12 +37,11 @@ function drawItems() {
         glMain.uniform4fv(locationsArray[0].specularColorHandle, specularColor);
         glMain.uniform4fv(locationsArray[0].lightSwitch, lightSwitch);
         glMain.uniform1f(locationsArray[0].specShine, specularShine);
-        glMain.uniform4fv(locationsArray[0].ambientLight, ambientLight);
-        glMain.uniform4fv(locationsArray[0].ambientLightLowColor, ambientLightBottom);
-        glMain.uniform4fv(locationsArray[0].ambientLightHighColor, ambientLightTop);
-  
+        glMain.uniformMatrix4fv(locationsArray[0].lightDirMatrix, glMain.FALSE, utils.transposeMatrix(lightDirMatrix));
+        glMain.uniformMatrix4fv(locationsArray[0].lightPosMatrix, glMain.FALSE, utils.transposeMatrix(lightPosMatrix));
+        
         //Directional Light
-        var directionalLightDirTransform = utils.multiplyMatrix3Vector3(utils.sub3x3from4x4(lightDirMatrix), directionalLightDir);
+        var directionalLightDirTransform = directionalLightDir;//utils.multiplyMatrix3Vector3(utils.sub3x3from4x4(lightDirMatrix), directionalLightDir);
         glMain.uniform3fv(locationsArray[0].directionalLightDir, directionalLightDirTransform);
         glMain.uniform4fv(locationsArray[0].directionalLightCol, directionalLightColor);
         //Point light
@@ -53,7 +53,7 @@ function drawItems() {
         //Spot light
         glMain.uniform3fv(locationsArray[0].spotLightPosition, spotLightPos);
         glMain.uniform4fv(locationsArray[0].spotLightColor, spotLightColor);
-        var spotLightDirTransform = utils.multiplyMatrix3Vector3(utils.sub3x3from4x4(lightDirMatrix), spotLightDir);
+        var spotLightDirTransform = spotLightDir;//utils.multiplyMatrix3Vector3(utils.sub3x3from4x4(lightDirMatrix), spotLightDir);
         glMain.uniform3fv(locationsArray[0].spotLightDir, spotLightDirTransform);
         glMain.uniform1f(locationsArray[0].spotLightConeOut, spotLightConeOut);
         glMain.uniform1f(locationsArray[0].spotLightConeIn, spotLightConeIn);

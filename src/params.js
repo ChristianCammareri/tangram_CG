@@ -60,7 +60,7 @@ var dirLightTheta = utils.degToRad(45);
 var dirLightPhi = utils.degToRad(0);
 
 var directionalLightDir =[ Math.cos(dirLightPhi)*Math.sin(dirLightTheta),
-    Math.sin(dirLightPhi)*Math.sin(dirLightPhi),
+    Math.sin(dirLightPhi)*Math.sin(dirLightTheta),
     Math.cos(dirLightTheta)];
 
 var directionalLightColor = [1.0, 1.0, 1.0, 1.0];
@@ -72,13 +72,12 @@ var pointLightDecay = 3.0;
 var pointLightTarget = 10.0;
 
 //spotlight
-var spotLightPos = [0.0, 0.0, 5.5];
-var spotLightTheta = utils.degToRad(0);
+var spotLightPos = [0.0, 0.0, 0.5];
+var spotLightTheta = utils.degToRad(180);
 var spotLightPhi = utils.degToRad(0);
 var spotLightDir = [Math.cos(spotLightPhi)*Math.sin(spotLightTheta),
-    Math.sin(spotLightPhi)*Math.sin(spotLightPhi),
-    Math.cos(spotLightTheta)];
-
+                    Math.sin(spotLightPhi)*Math.sin(spotLightTheta),
+                    Math.cos(spotLightTheta)];
 var spotLightConeIn = 1.1;
 var spotLightConeOut = 1.2;
 var spotLightDecay = 2.0;

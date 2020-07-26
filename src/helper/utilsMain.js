@@ -88,10 +88,8 @@ function getAttributeAndUniformLocation(gl, shadersType) {
 
     //LIGHTS
     var lightSwitch = gl.getUniformLocation(programsArray[shadersType], 'lightSwitch');
-    /* IN REALTà NON DOVREBBERO SERVIRCI
-    var ambientLightColor = gl.getUniformLocation(programsArray[shadersType], 'ambientLight')
-    var ambientLightLowColor = gl.getUniformLocation(programsArray[shadersType], 'ambientLightLowColor')
-    var ambientLightHighColor = gl.getUniformLocation(programsArray[shadersType], 'ambientLightHighColor')*/
+    var lightDirMatrix = gl.getUniformLocation(programsArray[shadersType], 'lightDirMatrix');
+    var lightPosMatrix = gl.getUniformLocation(programsArray[shadersType], 'lightPosMatrix');
 
     //Point light
     var pointLightPosition = gl.getUniformLocation(programsArray[shadersType], 'LBPos');
@@ -116,10 +114,9 @@ function getAttributeAndUniformLocation(gl, shadersType) {
             "matrixLocation": matrixLocation,
 
             //LIGHTS
-            /*
-            "ambientLight": ambientLightColor,
-            "ambientLightLowColor":ambientLightLowColor,
-            "ambientLightHighColor":ambientLightHighColor,*/
+
+            "lightPosMatrix": lightPosMatrix,
+            "lightDirMatrix": lightDirMatrix,
 
             "lightSwitch": lightSwitch,
             "materialColorHandle": materialColorHandle,
@@ -160,10 +157,8 @@ function getAttributeAndUniformLocation(gl, shadersType) {
         "matrixLocation": matrixLocation,
 
         //LIGHTS
-        /*
-        "ambientLight": ambientLightColor,
-        "ambientLightLowColor":ambientLightLowColor,
-        "ambientLightHighColor":ambientLightHighColor,*/
+        "lightPosMatrix": lightPosMatrix,
+        "lightDirMatrix": lightDirMatrix,
 
         "lightSwitch": lightSwitch,
         "specularColorHandle": specularColorHandle,

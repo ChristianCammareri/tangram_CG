@@ -14,7 +14,7 @@ function drawFloor() {
         assetsFloor.drawInfo.worldMatrix = utils.MakeWorld(worldLocation[0], worldLocation[1], worldLocation[2], worldLocation[3], worldLocation[4], worldLocation[5], worldLocation[6]); //TODO eliminare objects world matrix in futuro
        
         var lightDirMatrix = utils.invertMatrix(utils.transposeMatrix(viewMatrix));
-
+        var lightPosMatrix = utils.invertMatrix(utils.transposeMatrix(viewMatrix));
     
         var viewWorldMatrix = utils.multiplyMatrices(viewMatrix, assetsFloor.drawInfo.worldMatrix);
         var projectionMatrix = utils.multiplyMatrices(perspectiveMatrix, viewWorldMatrix);
@@ -30,10 +30,10 @@ function drawFloor() {
         glMain.uniform4fv(locationsArray[ShadersType.FLOOR].specularColorHandle, specularColor);
         glMain.uniform4fv(locationsArray[ShadersType.FLOOR].lightSwitch, lightSwitch);
         glMain.uniform1f(locationsArray[ShadersType.FLOOR].specShine, specularShine);
-  
+        glMain.uniformMatrix4fv(locationsArray[ShadersType.FLOOR].lightDirMatrix, glMain.FALSE, utils.transposeMatrix(lightDirMatrix));
+        glMain.uniformMatrix4fv(locationsArray[ShadersType.FLOOR].lightPosMatrix, glMain.FALSE, utils.transposeMatrix(lightPosMatrix));
         //Directional Light
-        var directionalLightDirTransform = utils.multiplyMatrix3Vector3(utils.sub3x3from4x4(lightDirMatrix), directionalLightDir);
-        glMain.uniform3fv(locationsArray[ShadersType.FLOOR].directionalLightDir, directionalLightDirTransform);
+        glMain.uniform3fv(locationsArray[ShadersType.FLOOR].directionalLightDir, directionalLightDir);
         glMain.uniform4fv(locationsArray[ShadersType.FLOOR].directionalLightCol, directionalLightColor);
         //Point light
         glMain.uniform3fv(locationsArray[ShadersType.FLOOR].pointLightPosition, pointLightPosition);
@@ -44,8 +44,7 @@ function drawFloor() {
         //Spot light
         glMain.uniform3fv(locationsArray[ShadersType.FLOOR].spotLightPosition, spotLightPos);
         glMain.uniform4fv(locationsArray[ShadersType.FLOOR].spotLightColor, spotLightColor);
-        var spotLightDirTransform = utils.multiplyMatrix3Vector3(utils.sub3x3from4x4(lightDirMatrix), spotLightDir);
-        glMain.uniform3fv(locationsArray[ShadersType.FLOOR].spotLightDir, spotLightDirTransform);
+        glMain.uniform3fv(locationsArray[ShadersType.FLOOR].spotLightDir, spotLightDir);
         glMain.uniform1f(locationsArray[ShadersType.FLOOR].spotLightConeOut, spotLightConeOut);
         glMain.uniform1f(locationsArray[ShadersType.FLOOR].spotLightConeIn, spotLightConeIn);
         glMain.uniform1f(locationsArray[ShadersType.FLOOR].spotLightTarget, spotLightTarget);

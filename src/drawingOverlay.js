@@ -9,13 +9,7 @@ function drawOverlay() {
 
   function drawSceneOverlay() {
 
-<<<<<<< HEAD
-
-    var x = - width / 220;
-    var viewMatrixOverlay = utils.MakeView(-5, 0, 3, 0, 0);
-=======
     var viewMatrixOverlay = utils.MakeView(0, 0, 3, 0, 0);
->>>>>>> 122a5e5aa7202b71dc15722ca5b979cdb701c0ef
 
     for (i = 0; i < assetsData.length; i++) {
       glOverlay.useProgram(programsArray[ShadersType.SOLUTION]);

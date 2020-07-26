@@ -95,15 +95,16 @@
     });
 
     document.getElementById("spotSlider3").addEventListener("input", (e) => {
-        spotLightConeIn = e.target.value * 10 + 1.1;
+        spotLightConeIn = e.target.value * spotLightConeOut;
     });
 
     document.getElementById("spotSlider4").addEventListener("input", (e) => {
-        spotLightConeOut = e.target.value * 10 + 1.1;
+        spotLightConeOut = e.target.value * 180;
     });
 
     document.getElementById("spotSlider5").addEventListener("input", (e) => {
-        spotLightDecay = e.target.value * 30 + 1 ;
+        spotLightDecay = e.target.value * 2 ;
+        console.log(spotLightDecay);
     });
 
     document.getElementById("dirColor").addEventListener("change", (e) => {

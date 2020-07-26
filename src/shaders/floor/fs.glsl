@@ -68,16 +68,19 @@ void main() {
   	// Single point light with decay
 	vec3 lightPosB = mat3(lightPosMatrix) * LBPos;
 	vec3 lightDirB   = normalize(lightPosB - fsPosition);
-	vec4 lightColB = LBCol * pow((LBTarget/length(lightPosB - fsPosition)), LBDecay);
+	vec4 lightColB = LBCol * pow((LBTarget/length(lightPosB - fsPosition)), LCDecay);
 
 	// Spotlight
 	vec3 lightPosC = mat3(lightPosMatrix) * LCPos;
 	vec3 lightDirC = normalize(lightPosC - fsPosition);
 	lightDirC = mat3(lightDirMatrix) * lightDirC;
-  	float Cout = cos(radians(LCConeOut / 2.0));
-	float Cin = cos(radians((LCConeOut * LCConeIn) / 2.0));
-	float CosAngle = dot(lightDirC, LCDir);
-	vec4 lightColC = LCCol * pow((LCTarget / length(lightPosC - fsPosition)), LCDecay) * clamp(((CosAngle - Cout) / (Cin - Cout)), 0.0, 1.0);
+	
+	vec4 lightColC = LCCol*pow((LCTarget/length(lightPosC - fsPosition)),LCDecay)
+				
+				*clamp(
+					( dot( normalize(lightPosC - fsPosition), LCDir) - cos(radians(LCConeOut/2.0)) )
+						/ (cos(radians(LCConeIn/2.0)) - cos(radians(LCConeOut/2.0)) ), 0.0, 1.0);
+
 
 	//Diffuse
 	vec4 LADiffuse = diffuseLambert(lightDirA, lightColA, nNormal, textCol);

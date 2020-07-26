@@ -14,9 +14,6 @@ var angle = 0.0;
 var width;
 var height;
 
-var perspectiveMatrix = [];
-var viewMatrix = [];
-
 let AssetType = {
     QUADRILATERAL: 0,
     TRIANGLE: 1,

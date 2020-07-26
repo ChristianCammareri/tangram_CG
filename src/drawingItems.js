@@ -2,7 +2,7 @@ function drawItems() {
   width = glOverlay.canvas.width;
   height = glOverlay.canvas.height;
 
-  perspectiveMatrix = utils.MakePerspective(90, width / height, 0.1, 100.0);
+  var perspectiveMatrix = utils.MakePerspective(90, width / height, 0.1, 100.0);
 
   initializeProgram(glMain, ShadersType.ITEM);
 
@@ -12,7 +12,7 @@ function drawItems() {
   function drawSceneItems() {
 
     //Camera
-      viewMatrix = utils.MakeView(cx, cy, cz, elevation, angle);
+      var viewMatrix = utils.MakeView(cx, cy, cz, elevation, angle);
   
       var lightDirMatrix = utils.invertMatrix(utils.transposeMatrix(viewMatrix));
       var lightPosMatrix = utils.invertMatrix(utils.transposeMatrix(viewMatrix));

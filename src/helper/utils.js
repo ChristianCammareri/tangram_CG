@@ -40,7 +40,7 @@ createProgram:function(gl, vertexShader, fragmentShader) {
     const expandFullScreen = () => {
 	  canvas.width = window.innerWidth;
 	  if(window.innerWidth > 1000) {
-	 	 canvas.height = window.innerHeight * 75.3 / 100;
+	 	 canvas.height = window.innerHeight - 155;
 	  }
 	  else{
 		  canvas.height = window.innerHeight;

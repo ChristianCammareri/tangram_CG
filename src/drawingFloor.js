@@ -8,7 +8,8 @@ function drawFloor() {
 
     
         glMain.useProgram(programsArray[ShadersType.FLOOR]);
-        viewMatrix = utils.MakeView(cx, cy, cz, elevation, angle);
+        var viewMatrix = utils.MakeView(cx, cy, cz, elevation, angle);
+        var perspectiveMatrix = utils.MakePerspective(90, width / height, 0.1, 100.0);
     
         var worldLocation = assetsFloor.drawInfo.worldParams;
         assetsFloor.drawInfo.worldMatrix = utils.MakeWorld(worldLocation[0], worldLocation[1], worldLocation[2], worldLocation[3], worldLocation[4], worldLocation[5], worldLocation[6]); //TODO eliminare objects world matrix in futuro
@@ -38,7 +39,7 @@ function drawFloor() {
         //Point light
         glMain.uniform3fv(locationsArray[ShadersType.FLOOR].pointLightPosition, pointLightPosition);
         glMain.uniform4fv(locationsArray[ShadersType.FLOOR].pointLightColor, pointLightColor);
-        glMain.uniform1f(locationsArray[ShadersType.FLOOR].pointLightDeacy, pointLightDecay);
+        glMain.uniform1f(locationsArray[ShadersType.FLOOR].pointLightDecay, pointLightDecay);
         glMain.uniform1f(locationsArray[ShadersType.FLOOR].pointLightTarget, pointLightTarget);
   
         //Spot light

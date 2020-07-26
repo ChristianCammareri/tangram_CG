@@ -1,6 +1,9 @@
 //GUI controlled variables
 var isSurrendered = false;
 
+//Canvas e contexts
+var canvas, glMain, overlay, glOverlay;
+
 //Parameters for Camera
 var cx = 0.5;
 var cy = -0.5;

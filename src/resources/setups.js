@@ -1,3 +1,6 @@
+//positionMatrix contiene per ogni item le traslazioni su x e y e la rotazione rispetto a z
+//flippedParallelogram indica se il parallelogramma è ribaltato o meno
+//name contiene il nome del setup
 const setups = [
     
     {

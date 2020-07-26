@@ -92,7 +92,7 @@ function getAttributeAndUniformLocation(gl, shadersType) {
     //Point light
     var pointLightPosition = gl.getUniformLocation(programsArray[shadersType], 'LBPos');
     var pointLightColor = gl.getUniformLocation(programsArray[shadersType], 'LBCol');
-    var pointLightDeacy = gl.getUniformLocation(programsArray[shadersType], 'LBDecay');
+    var pointLightDecay = gl.getUniformLocation(programsArray[shadersType], 'LBDecay');
     var pointLightTarget = gl.getUniformLocation(programsArray[shadersType], 'LBTarget');
 
     //Spotligh light
@@ -127,7 +127,7 @@ function getAttributeAndUniformLocation(gl, shadersType) {
             //pointlight
             "pointLightPosition": pointLightPosition,
             "pointLightColor": pointLightColor,
-            "pointLightDeacy": pointLightDeacy,
+            "pointLightDecay": pointLightDecay,
             "pointLightTarget": pointLightTarget,
 
             //spotlight
@@ -136,7 +136,7 @@ function getAttributeAndUniformLocation(gl, shadersType) {
             "spotLightDir": spotLightDir,
             "spotLightConeIn": spotLightConeIn,
             "spotLightConeOut": spotLightConeOut,
-            "spotLightDeacy": spotLightDecay,
+            "spotLightDecay": spotLightDecay,
             "spotLightTarget": spotLightTarget,
 
             "normalMatrixPositionHandle": normalMatrixPositionHandle,
@@ -168,7 +168,7 @@ function getAttributeAndUniformLocation(gl, shadersType) {
         //pointlight
         "pointLightPosition": pointLightPosition,
         "pointLightColor": pointLightColor,
-        "pointLightDeacy": pointLightDeacy,
+        "pointLightDecay": pointLightDecay,
         "pointLightTarget": pointLightTarget,
 
         //spotlight
@@ -247,8 +247,8 @@ function putAttributesOnGPU(gl, location, data, length) {
 
 }
 
-function initPosition(idSetup) {
-
+function initPosition() {
+    const idSetup = 0;
     for (i = 0; i < assetsData.length; i++) {
         assetsData[i].drawInfo.worldParams = [setups[idSetup].positionMatrix[i][0], setups[idSetup].positionMatrix[i][1], 0.0, 0.0, 0.0, setups[idSetup].positionMatrix[i][2], 1.0];
     }

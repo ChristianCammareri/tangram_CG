@@ -6,11 +6,12 @@ function drawItems() {
 
   initializeProgram(glMain, ShadersType.ITEM);
 
-  initPosition(0);
+  initPosition();
   drawSceneItems();
 
   function drawSceneItems() {
-  
+
+    //Camera
       viewMatrix = utils.MakeView(cx, cy, cz, elevation, angle);
   
       var lightDirMatrix = utils.invertMatrix(utils.transposeMatrix(viewMatrix));
@@ -25,44 +26,41 @@ function drawItems() {
         var worldViewMatrix = utils.multiplyMatrices(viewMatrix, worldMatrix);
         var projectionMatrix = utils.multiplyMatrices(perspectiveMatrix, worldViewMatrix);
   
-        var cubeNormalMatrix = utils.invertMatrix(utils.transposeMatrix(worldViewMatrix));
+        var normalMatrix = utils.invertMatrix(utils.transposeMatrix(worldViewMatrix));
   
   
-        glMain.uniformMatrix4fv(locationsArray[0].matrixLocation, glMain.FALSE, utils.transposeMatrix(projectionMatrix));
-        glMain.uniformMatrix4fv(locationsArray[0].normalMatrixPositionHandle, glMain.FALSE, utils.transposeMatrix(cubeNormalMatrix));
-        glMain.uniformMatrix4fv(locationsArray[0].vertexMatrixPositionHandle, glMain.FALSE, utils.transposeMatrix(worldMatrix));
+        glMain.uniformMatrix4fv(locationsArray[ShadersType.ITEM].matrixLocation, glMain.FALSE, utils.transposeMatrix(projectionMatrix));
+        glMain.uniformMatrix4fv(locationsArray[ShadersType.ITEM].normalMatrixPositionHandle, glMain.FALSE, utils.transposeMatrix(normalMatrix));
+        glMain.uniformMatrix4fv(locationsArray[ShadersType.ITEM].vertexMatrixPositionHandle, glMain.FALSE, utils.transposeMatrix(worldMatrix));
         
         //LIGHTS
-        glMain.uniform4fv(locationsArray[0].materialColorHandle, [assetsData[i].drawInfo.ambientColor[0], assetsData[i].drawInfo.ambientColor[1], assetsData[i].drawInfo.ambientColor[2], 1.0]);
-        glMain.uniform4fv(locationsArray[0].specularColorHandle, specularColor);
-        glMain.uniform4fv(locationsArray[0].lightSwitch, lightSwitch);
-        glMain.uniform1f(locationsArray[0].specShine, specularShine);
-        glMain.uniformMatrix4fv(locationsArray[0].lightDirMatrix, glMain.FALSE, utils.transposeMatrix(lightDirMatrix));
-        glMain.uniformMatrix4fv(locationsArray[0].lightPosMatrix, glMain.FALSE, utils.transposeMatrix(lightPosMatrix));
+        glMain.uniform4fv(locationsArray[ShadersType.ITEM].materialColorHandle, [assetsData[i].drawInfo.ambientColor[0], assetsData[i].drawInfo.ambientColor[1], assetsData[i].drawInfo.ambientColor[2], 1.0]);
+        glMain.uniform4fv(locationsArray[ShadersType.ITEM].specularColorHandle, specularColor);
+        glMain.uniform4fv(locationsArray[ShadersType.ITEM].lightSwitch, lightSwitch);
+        glMain.uniform1f(locationsArray[ShadersType.ITEM].specShine, specularShine);
+        glMain.uniformMatrix4fv(locationsArray[ShadersType.ITEM].lightDirMatrix, glMain.FALSE, utils.transposeMatrix(lightDirMatrix));
+        glMain.uniformMatrix4fv(locationsArray[ShadersType.ITEM].lightPosMatrix, glMain.FALSE, utils.transposeMatrix(lightPosMatrix));
         
         //Directional Light
         var directionalLightDirTransform = directionalLightDir;//utils.multiplyMatrix3Vector3(utils.sub3x3from4x4(lightDirMatrix), directionalLightDir);
-        glMain.uniform3fv(locationsArray[0].directionalLightDir, directionalLightDirTransform);
-        glMain.uniform4fv(locationsArray[0].directionalLightCol, directionalLightColor);
+        glMain.uniform3fv(locationsArray[ShadersType.ITEM].directionalLightDir, directionalLightDirTransform);
+        glMain.uniform4fv(locationsArray[ShadersType.ITEM].directionalLightCol, directionalLightColor);
         //Point light
-        glMain.uniform3fv(locationsArray[0].pointLightPosition, pointLightPosition);
-        glMain.uniform4fv(locationsArray[0].pointLightColor, pointLightColor);
-        glMain.uniform1f(locationsArray[0].pointLightDeacy, pointLightDecay);
-        glMain.uniform1f(locationsArray[0].pointLightTarget, pointLightTarget);
+        glMain.uniform3fv(locationsArray[ShadersType.ITEM].pointLightPosition, pointLightPosition);
+        glMain.uniform4fv(locationsArray[ShadersType.ITEM].pointLightColor, pointLightColor);
+        glMain.uniform1f(locationsArray[ShadersType.ITEM].pointLightDecay, pointLightDecay);
+        glMain.uniform1f(locationsArray[ShadersType.ITEM].pointLightTarget, pointLightTarget);
   
         //Spot light
-        glMain.uniform3fv(locationsArray[0].spotLightPosition, spotLightPos);
-        glMain.uniform4fv(locationsArray[0].spotLightColor, spotLightColor);
+        glMain.uniform3fv(locationsArray[ShadersType.ITEM].spotLightPosition, spotLightPos);
+        glMain.uniform4fv(locationsArray[ShadersType.ITEM].spotLightColor, spotLightColor);
         var spotLightDirTransform = spotLightDir;//utils.multiplyMatrix3Vector3(utils.sub3x3from4x4(lightDirMatrix), spotLightDir);
-        glMain.uniform3fv(locationsArray[0].spotLightDir, spotLightDirTransform);
-        glMain.uniform1f(locationsArray[0].spotLightConeOut, spotLightConeOut);
-        glMain.uniform1f(locationsArray[0].spotLightConeIn, spotLightConeIn);
-        glMain.uniform1f(locationsArray[0].spotLightTarget, spotLightTarget);
-        glMain.uniform1f(locationsArray[0].spotLightDecay, spotLightDecay);
+        glMain.uniform3fv(locationsArray[ShadersType.ITEM].spotLightDir, spotLightDirTransform);
+        glMain.uniform1f(locationsArray[ShadersType.ITEM].spotLightConeOut, spotLightConeOut);
+        glMain.uniform1f(locationsArray[ShadersType.ITEM].spotLightConeIn, spotLightConeIn);
+        glMain.uniform1f(locationsArray[ShadersType.ITEM].spotLightTarget, spotLightTarget);
+        glMain.uniform1f(locationsArray[ShadersType.ITEM].spotLightDecay, spotLightDecay);
 
-  
-  
-  
         glMain.bindVertexArray(assetsData[i].drawInfo.vao);
         glMain.drawElements(glMain.TRIANGLES, assetsData[i].structInfo.indices.length, glMain.UNSIGNED_SHORT, 0);
   

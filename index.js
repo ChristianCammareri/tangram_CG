@@ -14,7 +14,7 @@
         optionToInsert.innerText = setups[i].name;
         optionToInsert.addEventListener("click", (e) => {
             isSurrendered = false;
-            initPosition(0);
+            initPosition();
             initPositionSolution(e.target.getAttribute("value"));
             selectedSetup = e.target.getAttribute("value");
         });
@@ -141,7 +141,7 @@
             assetsData[selectedItem].drawInfo.worldParams[2] -= 0.1;
             selectedItem = -1;
         }
-        initPosition(0);
+        initPosition();
     });
 
     document.getElementById("surrenderBtn").addEventListener("click", () => {

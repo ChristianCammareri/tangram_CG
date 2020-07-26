@@ -1,4 +1,20 @@
-
+/*      name: //Rappresenta il nome del pezzo
+        type: //Indica se è un triangolo o un quadrilatero
+        structInfo: {
+            vertices: [],
+            normals: [],
+            indices: [],
+            vertices2D: [],
+            indices2D: []
+        },
+        drawInfo: {
+            worldParams: [], //Array di 7 elementi che contiene le traslazioni, rotazioni e scaling del pezzo
+            worldMatrixSolution: [], //Matrice world del pezzo nella soluzione (overlay)
+            vao: [],
+            vaoOverlay: [],
+            ambientColor: [], //Vettore tridimensionale contenente il colore rgb
+        }
+*/
 let assetsData = [
     {
         name: "T1",
@@ -64,8 +80,8 @@ let assetsData = [
             ]
         },
         drawInfo: {
-            worldParams: [], //si
-            worldMatrixSolution: [], //si
+            worldParams: [],
+            worldMatrixSolution: [],
             vao: [],
             vaoOverlay: [],
             ambientColor: [0.0, 0.0, 1.0],

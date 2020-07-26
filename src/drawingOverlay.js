@@ -2,7 +2,7 @@ function drawOverlay() {
   width = glOverlay.canvas.width;
   height = glOverlay.canvas.height;
 
-  perspectiveMatrixOverlay = utils.MakePerspective(90, width / height, 0.1, 100.0);
+  var perspectiveMatrixOverlay = utils.MakePerspective(90, width / height, 0.1, 100.0);
 
   initializeProgram(glOverlay, ShadersType.SOLUTION);
 
@@ -12,7 +12,7 @@ function drawOverlay() {
   function drawSceneOverlay() {
 
     var x = - width / 220;
-    viewMatrixOverlay = utils.MakeView(x, 0, 3, 0, 0);
+    var viewMatrixOverlay = utils.MakeView(x, 0, 3, 0, 0);
 
     for (i = 0; i < assetsData.length; i++) {
       glOverlay.useProgram(programsArray[ShadersType.SOLUTION]);
@@ -23,7 +23,7 @@ function drawOverlay() {
       var projectionMatrixOverlay = utils.multiplyMatrices(perspectiveMatrixOverlay, worldViewMatrixOverlay);
 
 
-      glOverlay.uniformMatrix4fv(locationsArray[1].matrixLocation, glOverlay.FALSE, utils.transposeMatrix(projectionMatrixOverlay));
+      glOverlay.uniformMatrix4fv(locationsArray[ShadersType.SOLUTION].matrixLocation, glOverlay.FALSE, utils.transposeMatrix(projectionMatrixOverlay));
 
       var myColor;
       if(isSurrendered) {
@@ -32,7 +32,7 @@ function drawOverlay() {
       else {
         myColor = [0.0, 0.0, 0.0, 1.0];
       }
-      glOverlay.uniform4fv(locationsArray[1].materialColorHandle, myColor);
+      glOverlay.uniform4fv(locationsArray[ShadersType.SOLUTION].materialColorHandle, myColor);
 
       glOverlay.bindVertexArray(assetsData[i].drawInfo.vaoOverlay);
       glOverlay.drawElements(glOverlay.TRIANGLES, assetsData[i].structInfo.indices2D.length, glOverlay.UNSIGNED_SHORT, 0);

@@ -1,5 +1,4 @@
-var canvas, glMain, overlay, glOverlay;
-
+//Questa funzione è async perché necessitiamo di iniziallizare i programs utilizzando await
 async function init(){
 
   canvas = getCanvas();
@@ -7,7 +6,7 @@ async function init(){
   overlay = getCanvasOverlay();
   glOverlay = overlay.getContext("webgl2");
   if (!glMain || !glOverlay) {
-    document.write("GL context not opened: " + glMain + glOverlay);
+    document.write("GL context not opened: ");
     return;
   }
     

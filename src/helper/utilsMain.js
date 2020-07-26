@@ -42,12 +42,12 @@ function getCanvasOverlay() {
 
 function initializeProgram(gl, shadersType) {
 
+    getAttributeAndUniformLocation(gl, shadersType);
+
     if (shadersType == ShadersType.FLOOR) {
-        getAttributeAndUniformLocationFloor(glMain);
-        createVAOFloor(glMain);
+        createVAOFloor(gl);
     }
     else {
-        getAttributeAndUniformLocation(gl, shadersType);
         createVAO(gl, shadersType);
     }
 }
@@ -58,9 +58,11 @@ function getAttributeAndUniformLocation(gl, shadersType) {
     var normalAttributeLocation = gl.getAttribLocation(programsArray[shadersType], "inNormal");
 
     var matrixLocation = gl.getUniformLocation(programsArray[shadersType], "matrix");
-    
+    var materialColorHandle;
     //LIGTHS
-    var materialColorHandle = gl.getUniformLocation(programsArray[shadersType], 'materialColor');
+    //LUI NON CI DEVE ESSERE NEL FS DI FLOOR
+    if(shadersType !== ShadersType.FLOOR) 
+        materialColorHandle = gl.getUniformLocation(programsArray[shadersType], 'materialColor');
     
     if(shadersType === ShadersType.SOLUTION) {
         locationsArray[shadersType] = {
@@ -76,7 +78,7 @@ function getAttributeAndUniformLocation(gl, shadersType) {
     var normalMatrixPositionHandle = gl.getUniformLocation(programsArray[shadersType], 'nMatrix');
     var vertexMatrixPositionHandle = gl.getUniformLocation(programsArray[shadersType], 'pMatrix');
 
-    //LIGTHS
+    //LIGHTS
     var specularColorHandle = gl.getUniformLocation(programsArray[shadersType], 'specularColor');
     var specShine = gl.getUniformLocation(programsArray[shadersType], 'SpecShine');
     //Directional Light
@@ -86,9 +88,10 @@ function getAttributeAndUniformLocation(gl, shadersType) {
 
     //LIGHTS
     var lightSwitch = gl.getUniformLocation(programsArray[shadersType], 'lightSwitch');
+    /* IN REALTà NON DOVREBBERO SERVIRCI
     var ambientLightColor = gl.getUniformLocation(programsArray[shadersType], 'ambientLight')
     var ambientLightLowColor = gl.getUniformLocation(programsArray[shadersType], 'ambientLightLowColor')
-    var ambientLightHighColor = gl.getUniformLocation(programsArray[shadersType], 'ambientLightHighColor')
+    var ambientLightHighColor = gl.getUniformLocation(programsArray[shadersType], 'ambientLightHighColor')*/
 
     //Point light
     var pointLightPosition = gl.getUniformLocation(programsArray[shadersType], 'LBPos');
@@ -102,10 +105,54 @@ function getAttributeAndUniformLocation(gl, shadersType) {
     var spotLightDir = gl.getUniformLocation(programsArray[shadersType], 'LCDir');
     var spotLightConeIn = gl.getUniformLocation(programsArray[shadersType], 'LCConeIn');
     var spotLightConeOut = gl.getUniformLocation(programsArray[shadersType], 'LCConeOut');
-    var spotLightDeacy = gl.getUniformLocation(programsArray[shadersType], 'LCDecay');
+    var spotLightDecay = gl.getUniformLocation(programsArray[shadersType], 'LCDecay');
     var spotLightTarget = gl.getUniformLocation(programsArray[shadersType], 'LCTarget');
 
 
+    if(shadersType === ShadersType.ITEM) {
+        locationsArray[shadersType] = {
+            "positionAttributeLocation": positionAttributeLocation,
+            "normalAttributeLocation": normalAttributeLocation,
+            "matrixLocation": matrixLocation,
+
+            //LIGHTS
+            /*
+            "ambientLight": ambientLightColor,
+            "ambientLightLowColor":ambientLightLowColor,
+            "ambientLightHighColor":ambientLightHighColor,*/
+
+            "lightSwitch": lightSwitch,
+            "materialColorHandle": materialColorHandle,
+            "specularColorHandle": specularColorHandle,
+            "specShine": specShine,
+            //directional
+            "directionalLightDir": directionalLightDir,
+            "directionalLightCol": directionalLightCol,
+
+            //pointlight
+            "pointLightPosition": pointLightPosition,
+            "pointLightColor": pointLightColor,
+            "pointLightDeacy": pointLightDeacy,
+            "pointLightTarget": pointLightTarget,
+
+            //spotlight
+            "spotLightPosition": spotLightPosition,
+            "spotLightColor": spotLightColor,
+            "spotLightDir": spotLightDir,
+            "spotLightConeIn": spotLightConeIn,
+            "spotLightConeOut": spotLightConeOut,
+            "spotLightDeacy": spotLightDecay,
+            "spotLightTarget": spotLightTarget,
+
+            "normalMatrixPositionHandle": normalMatrixPositionHandle,
+            "vertexMatrixPositionHandle": vertexMatrixPositionHandle
+        };
+
+        return;
+    }
+
+    var textLocation = gl.getUniformLocation(programsArray[ShadersType.FLOOR], "u_texture");
+    var uvAttributeLocation = gl.getAttribLocation(programsArray[ShadersType.FLOOR], "in_uv");
 
     locationsArray[shadersType] = {
         "positionAttributeLocation": positionAttributeLocation,
@@ -113,12 +160,12 @@ function getAttributeAndUniformLocation(gl, shadersType) {
         "matrixLocation": matrixLocation,
 
         //LIGHTS
+        /*
         "ambientLight": ambientLightColor,
         "ambientLightLowColor":ambientLightLowColor,
-        "ambientLightHighColor":ambientLightHighColor,
+        "ambientLightHighColor":ambientLightHighColor,*/
 
         "lightSwitch": lightSwitch,
-        "materialColorHandle": materialColorHandle,
         "specularColorHandle": specularColorHandle,
         "specShine": specShine,
         //directional
@@ -137,14 +184,15 @@ function getAttributeAndUniformLocation(gl, shadersType) {
         "spotLightDir": spotLightDir,
         "spotLightConeIn": spotLightConeIn,
         "spotLightConeOut": spotLightConeOut,
-        "spotLightDeacy": spotLightDeacy,
+        "spotLightDecay": spotLightDecay,
         "spotLightTarget": spotLightTarget,
 
         "normalMatrixPositionHandle": normalMatrixPositionHandle,
-        "vertexMatrixPositionHandle": vertexMatrixPositionHandle
-    };
+        "vertexMatrixPositionHandle": vertexMatrixPositionHandle,
 
-    return;
+        "uvAttributeLocation": uvAttributeLocation,
+        "textLocation": textLocation
+    };
 
 }
 
@@ -163,6 +211,8 @@ function createVAO(gl, shadersType) {
             gl.bindBuffer(gl.ARRAY_BUFFER, gl.createBuffer());
             gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(assetsData[i].structInfo.normals), gl.STATIC_DRAW);
             putAttributesOnGPU(gl, locationsArray[shadersType].normalAttributeLocation);
+
+            
 
             gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, gl.createBuffer());
             gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(assetsData[i].structInfo.indices), gl.STATIC_DRAW);
@@ -228,21 +278,25 @@ function initPositionSolution(idSetup) {
 
 
 
-function getAttributeAndUniformLocationFloor(gl) {
+/*function getAttributeAndUniformLocationFloor(gl) {
 
     var positionAttributeLocation = gl.getAttribLocation(programsArray[ShadersType.FLOOR], "inPosition");
+    var normalAttributeLocation = gl.getAttribLocation(programsArray[ShadersType.FLOOR], "inNormal")
     var uvAttributeLocation = gl.getAttribLocation(programsArray[ShadersType.FLOOR], "in_uv");
     var matrixLocation = gl.getUniformLocation(programsArray[ShadersType.FLOOR], "matrix");
     var textLocation = gl.getUniformLocation(programsArray[ShadersType.FLOOR], "u_texture");
+    var perspectiveLocation = gl.getUniformLocation(programsArray[ShadersType.FLOOR], "pmatrix");
 
     locationsArray[ShadersType.FLOOR] = {
         "positionAttributeLocation": positionAttributeLocation,
         "uvAttributeLocation": uvAttributeLocation,
         "matrixLocation": matrixLocation,
-        "textLocation": textLocation
+        "textLocation": textLocation,
+        "normalAttributeLocation":normalAttributeLocation,
+        "perspectiveLocation": perspectiveLocation
     };
 
-}
+}*/
 
 function createVAOFloor(gl) {
 
@@ -264,7 +318,12 @@ function createVAOFloor(gl) {
     var indexBuffer = gl.createBuffer();
     gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, indexBuffer);
     gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(assetsFloor.structInfo.indices), gl.STATIC_DRAW);
+    //putAttributesOnGPU(gl, locationsArray[ShadersType.FLOOR].positionAttributeLocation);
 
+    var normalsBuffer = gl.createBuffer();
+    gl.bindBuffer(gl.ARRAY_BUFFER, normalsBuffer);
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(assetsFloor.structInfo.normals), gl.STATIC_DRAW);
+    putAttributesOnGPU(gl, locationsArray[ShadersType.FLOOR].normalAttributeLocation);
 
     assetsFloor.drawInfo.texture = gl.createTexture();
     gl.activeTexture(gl.TEXTURE0);
@@ -284,5 +343,6 @@ function createVAOFloor(gl) {
     }
 
 }
+
 
 

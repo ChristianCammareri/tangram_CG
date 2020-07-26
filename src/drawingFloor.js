@@ -12,10 +12,10 @@ function drawFloor() {
         var perspectiveMatrix = utils.MakePerspective(90, width / height, 0.1, 100.0);
     
         var worldLocation = assetsFloor.drawInfo.worldParams;
-        assetsFloor.drawInfo.worldMatrix = utils.MakeWorld(worldLocation[0], worldLocation[1], worldLocation[2], worldLocation[3], worldLocation[4], worldLocation[5], worldLocation[6]); //TODO eliminare objects world matrix in futuro
+        assetsFloor.drawInfo.worldMatrix = utils.MakeWorld(worldLocation[0], worldLocation[1], worldLocation[2], worldLocation[3], worldLocation[4], worldLocation[5], worldLocation[6]); 
        
-        var lightDirMatrix = utils.invertMatrix(utils.transposeMatrix(viewMatrix));
-        var lightPosMatrix = utils.invertMatrix(utils.transposeMatrix(viewMatrix));
+        var lightDirMatrix = viewMatrix;
+        var lightPosMatrix = viewMatrix;
     
         var viewWorldMatrix = utils.multiplyMatrices(viewMatrix, assetsFloor.drawInfo.worldMatrix);
         var projectionMatrix = utils.multiplyMatrices(perspectiveMatrix, viewWorldMatrix);
@@ -23,6 +23,8 @@ function drawFloor() {
        
         glMain.uniformMatrix4fv(locationsArray[ShadersType.FLOOR].matrixLocation, glMain.FALSE, utils.transposeMatrix(projectionMatrix));
         glMain.uniformMatrix4fv(locationsArray[ShadersType.FLOOR].normalMatrixPositionHandle, glMain.FALSE, utils.transposeMatrix(floorNormalMatrix));
+        glMain.uniformMatrix4fv(locationsArray[ShadersType.FLOOR].vertexMatrixPositionHandle, glMain.FALSE, utils.transposeMatrix(viewWorldMatrix));
+        
         glMain.activeTexture(glMain.TEXTURE0);
         glMain.bindTexture(glMain.TEXTURE_2D, assetsFloor.drawInfo.texture);
         glMain.uniform1i(locationsArray[ShadersType.FLOOR].textLocation, 0);

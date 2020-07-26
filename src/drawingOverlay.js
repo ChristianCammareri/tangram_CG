@@ -11,8 +11,9 @@ function drawOverlay() {
 
   function drawSceneOverlay() {
 
+
     var x = - width / 220;
-    var viewMatrixOverlay = utils.MakeView(x, 0, 3, 0, 0);
+    var viewMatrixOverlay = utils.MakeView(-5, 0, 3, 0, 0);
 
     for (i = 0; i < assetsData.length; i++) {
       glOverlay.useProgram(programsArray[ShadersType.SOLUTION]);
@@ -21,7 +22,6 @@ function drawOverlay() {
       var worldMatrixSolution = assetsData[i].drawInfo.worldMatrixSolution;
       var worldViewMatrixOverlay = utils.multiplyMatrices(viewMatrixOverlay, worldMatrixSolution);
       var projectionMatrixOverlay = utils.multiplyMatrices(perspectiveMatrixOverlay, worldViewMatrixOverlay);
-
 
       glOverlay.uniformMatrix4fv(locationsArray[ShadersType.SOLUTION].matrixLocation, glOverlay.FALSE, utils.transposeMatrix(projectionMatrixOverlay));
 

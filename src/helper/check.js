@@ -10,7 +10,9 @@ function checkSolution(idSetup) {
         utentMatrix[i] = Object.assign({}, assetsData[i].drawInfo.worldParams);
     }
 
-    //Calcolo la traslazione dell'assetto proposto dall'utente rispetto a quello esatto .
+    //Calcolo la traslazione dell'assetto proposto dall'utente rispetto a quello esatto.
+    //Utilizziamo il triangolo diverso dagli altri per calcolare la distanza della soluzione proposta
+    //da quella non traslata.
     var deltaTranX = utentMatrix[4][0] - solutionMatrix[4][0];
     var deltaTranY = utentMatrix[4][1] - solutionMatrix[4][1];
 
@@ -24,6 +26,7 @@ function checkSolution(idSetup) {
         utentMatrix[i][0] -= solutionMatrix[i][0];
         utentMatrix[i][1] -= solutionMatrix[i][1];
 
+        //Da 3 a 5 parametri di rotazione
         for (j = 3; j < 6; j++) {
             while (utentMatrix[i][j] < 0)
                 utentMatrix[i][j] += 360
@@ -31,6 +34,9 @@ function checkSolution(idSetup) {
             utentMatrix[i][j] %= 360;
         }
 
+        // i < 6 ==> Stiamo analizzando i triangoli, e vediamo se sono ribaltati:
+        // nel caso in cui lo siano, somma 180 gradi alla rotazione rispetto all'asse z
+        // (tenendo conto del modulo 360)
         if (i < 6 && utentMatrix[i][3] == 180 && utentMatrix[i][4] == 180) {
 
             utentMatrix[i][5] += 180;
@@ -94,7 +100,7 @@ function checkSolution(idSetup) {
 //return true se posso rilasciare l'item, altrimenti false.
 function checkNotOverlap(indexItemToCheck) {
 
-    //Con la relativa wordlMatrix calcolo le traslazioni dei vertici dell'item.
+    //Con la relativa worldMatrix calcolo le traslazioni dei vertici dell'item.
     var myItem = modifyVertices(indexItemToCheck)
 
     for (var i = 0; i < 7; i++) {

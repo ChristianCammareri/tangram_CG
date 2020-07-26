@@ -134,11 +134,6 @@ var keyFunctionDown = function (e) {
           assetsData[selectedItem].drawInfo.worldParams[1] -= 0.025;
         break;
 
-      case 80: //P
-        for (i = 0; i < assetsData.length; i++)
-          console.log(i + "_" + assetsData[i].drawInfo.worldParams);
-        break;
-
       case 90: //Z
         if (selectedItem >= 0 && selectedItem < 7)
           assetsData[selectedItem].drawInfo.worldParams[5] -= 45.0;

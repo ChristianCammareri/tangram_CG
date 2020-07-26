@@ -60,16 +60,16 @@
 
     document.getElementById("dirSlider1").addEventListener("input", (e) => {
         dirLightTheta = utils.degToRad((e.target.value * 90));
-        directionalLightDir =[ Math.cos(dirLightPhi)*Math.sin(dirLightTheta),
-                               Math.sin(dirLightPhi)*Math.sin(dirLightTheta),
-                               Math.cos(dirLightTheta)];
+        directionalLightDir = [Math.cos(dirLightPhi) * Math.sin(dirLightTheta),
+        Math.sin(dirLightPhi) * Math.sin(dirLightTheta),
+        Math.cos(dirLightTheta)];
     });
 
     document.getElementById("dirSlider2").addEventListener("input", (e) => {
         dirLightPhi = utils.degToRad((e.target.value * 360));
-        directionalLightDir =[ Math.cos(dirLightPhi)*Math.sin(dirLightTheta),
-            Math.sin(dirLightPhi)*Math.sin(dirLightTheta),
-            Math.cos(dirLightTheta)];
+        directionalLightDir = [Math.cos(dirLightPhi) * Math.sin(dirLightTheta),
+        Math.sin(dirLightPhi) * Math.sin(dirLightTheta),
+        Math.cos(dirLightTheta)];
     });
 
     document.getElementById("pointSlider1").addEventListener("input", (e) => {
@@ -82,16 +82,16 @@
 
     document.getElementById("spotSlider1").addEventListener("input", (e) => {
         spotLightTheta = utils.degToRad(e.target.value * 90);
-        spotLightDir = [Math.cos(spotLightPhi)*Math.sin(spotLightTheta),
-                        Math.sin(spotLightPhi)*Math.sin(spotLightTheta),
-                        Math.cos(spotLightTheta)];
+        spotLightDir = [Math.cos(spotLightPhi) * Math.sin(spotLightTheta),
+        Math.sin(spotLightPhi) * Math.sin(spotLightTheta),
+        Math.cos(spotLightTheta)];
     });
 
     document.getElementById("spotSlider2").addEventListener("input", (e) => {
         spotLightPhi = utils.degToRad(e.target.value * 360);
-        spotLightDir = [Math.cos(spotLightPhi)*Math.sin(spotLightTheta),
-                        Math.sin(spotLightPhi)*Math.sin(spotLightTheta),
-                        Math.cos(spotLightTheta)];
+        spotLightDir = [Math.cos(spotLightPhi) * Math.sin(spotLightTheta),
+        Math.sin(spotLightPhi) * Math.sin(spotLightTheta),
+        Math.cos(spotLightTheta)];
     });
 
     document.getElementById("spotSlider3").addEventListener("input", (e) => {
@@ -99,12 +99,15 @@
     });
 
     document.getElementById("spotSlider4").addEventListener("input", (e) => {
+
         spotLightConeOut = e.target.value * 180;
+
+        if (spotLightConeOut <= spotLightConeIn)
+            spotLightConeIn = spotLightConeOut;
     });
 
     document.getElementById("spotSlider5").addEventListener("input", (e) => {
-        spotLightDecay = e.target.value * 2 ;
-        console.log(spotLightDecay);
+        spotLightDecay = e.target.value * 2;
     });
 
     document.getElementById("dirColor").addEventListener("change", (e) => {

@@ -20,8 +20,6 @@ function doMouseMove(event) {
     var dy = lastMouseY - event.pageY;
     lastMouseX = event.pageX;
     lastMouseY = event.pageY;
-    console.log(lastMouseX);
-    console.log(lastMouseY);
 
     if ((dx != 0) || (dy != 0)) {
       cx = cx + dx / 500;

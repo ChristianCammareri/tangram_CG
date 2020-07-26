@@ -32,7 +32,6 @@
     }
 
     document.getElementById("dirLightEnable").addEventListener("change", () => {
-        console.log("dirLightEnable");
         if (document.getElementById("dirLightEnable").checked) {
             lightSwitch[0] = 1;
         }
@@ -42,7 +41,6 @@
     });
 
     document.getElementById("pointLightEnable").addEventListener("change", () => {
-        console.log("pointLightEnable");
         if (document.getElementById("pointLightEnable").checked) {
             lightSwitch[1] = 1;
         }
@@ -52,7 +50,6 @@
     });
 
     document.getElementById("spotLightEnable").addEventListener("change", () => {
-        console.log("spotLightEnable");
         if (document.getElementById("spotLightEnable").checked) {
             lightSwitch[2] = 1;
         }
@@ -62,7 +59,6 @@
     });
 
     document.getElementById("dirSlider1").addEventListener("input", (e) => {
-        console.log("dirSlider1");
         dirLightTheta = utils.degToRad((e.target.value * 90));
         directionalLightDir =[ Math.cos(dirLightPhi)*Math.sin(dirLightTheta),
                                Math.sin(dirLightPhi)*Math.sin(dirLightTheta),
@@ -126,7 +122,6 @@
     });
 
     document.getElementById("checkBtn").addEventListener("click", () => {
-        console.log("check");
         var correct = checkSolution(selectedSetup);
         if (correct)
             window.alert("Incredibileeee! Rete! Che gol!");
@@ -135,7 +130,6 @@
     });
 
     document.getElementById("resetBtn").addEventListener("click", () => {
-        console.log("reset")
         isSurrendered = false;
         if (selectedItem >= 0 && selectedItem < 7) {
             assetsData[selectedItem].drawInfo.worldParams[2] -= 0.1;
@@ -145,8 +139,6 @@
     });
 
     document.getElementById("surrenderBtn").addEventListener("click", () => {
-        console.log("surr")
-        console.log(isSurrendered);
         if (!isSurrendered) {
             isSurrendered = true;
         }

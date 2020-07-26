@@ -13,7 +13,7 @@ createShader:function(gl, type, source) {
   if (success) {    
     return shader;
   }else{
-    console.log(gl.getShaderInfoLog(shader));  // eslint-disable-line
+    //console.log(gl.getShaderInfoLog(shader));  // eslint-disable-line
     gl.deleteShader(shader);
     throw "could not compile shader:" + gl.getShaderInfoLog(shader);
   }
@@ -30,7 +30,7 @@ createProgram:function(gl, vertexShader, fragmentShader) {
     return program;
   }else{
      throw ("program filed to link:" + gl.getProgramInfoLog (program));
-    console.log(gl.getProgramInfoLog(program));  // eslint-disable-line
+    //console.log(gl.getProgramInfoLog(program));  // eslint-disable-line
     gl.deleteProgram(program);
     return undefined;
   }

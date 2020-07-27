@@ -81,7 +81,7 @@ var spotLightDir = [Math.cos(spotLightPhi)*Math.sin(spotLightTheta),
 var spotLightConeIn = 1.1;
 var spotLightConeOut = 85.5;
 var spotLightDecay = 0.7;
-var spotLightTarget = 5.5;
+var spotLightTarget = 1.0;
 var spotLightColor = [1.0, 1.0, 1.0, 1.0];
 
 ////END LIGHTS
